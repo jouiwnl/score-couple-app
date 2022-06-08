@@ -10,7 +10,7 @@ export default function() {
         <Avatar>
           <OnlineStatus />
         </Avatar>
-        <Username>Bichas</Username>
+        <Username>User</Username>
       </UserInfo>
       
       <RightSide>

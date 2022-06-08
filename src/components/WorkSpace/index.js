@@ -1,16 +1,58 @@
 import React from 'react'
-import { WorkSpaceRows, WorkSpaceTitle, WorkSpaceWrapper } from './styles'
-import { Text } from 'react-native'
+import { WorkSpaceRows, WorkSpaceTitle, WorkSpaceWrapper, HeaderWrapper, AddColumnButton, ButtonLabel } from './styles'
 import Row from '../Row'
+import { Octicons } from '@expo/vector-icons'; 
 
-export default function() {
+import { RefreshControl } from 'react-native'
+
+export default function({ rows, openModalMovie, openModalColumn, handleSelectedMovie, handleSelectedColumn, onRefresh, navigation, navigate }) {
+
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  function handleRefresh() {
+    setIsRefreshing(true);
+    setTimeout(() => {
+      setIsRefreshing(false)
+    }, 1000)
+    onRefresh();
+  }
+
   return (
     <WorkSpaceWrapper>
-      <WorkSpaceTitle>Bichas's WorkSpace</WorkSpaceTitle>
+      <HeaderWrapper>
+        <WorkSpaceTitle>My WorkSpace</WorkSpaceTitle>
+
+        <AddColumnButton onPress={openModalColumn}>
+          <ButtonLabel>+ Colummn</ButtonLabel>
+        </AddColumnButton>
+      </HeaderWrapper>
+
+      <WorkSpaceRows 
+        data={rows}
+        renderItem={(row) => (
+          <Row 
+            handleSelectedMovie={handleSelectedMovie}
+            handleSelectedColumn={handleSelectedColumn}
+            openModalMovie={openModalMovie} 
+            openModalColumn={openModalColumn}
+            row={row.item} 
+            key={row.item.id} 
+            movies={row.item.movies}
+            navigation={navigation}
+            navigate={navigate}
+          />
+        )}
+        keyExtractor={(row) => row.index}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+            tintColor="#fff"
+            progressViewOffset={1}
+          />
+        }
+      />
       
-      <WorkSpaceRows>
-          <Row />
-      </WorkSpaceRows>
     </WorkSpaceWrapper>
   )
 }
