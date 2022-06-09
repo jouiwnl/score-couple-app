@@ -1,7 +1,8 @@
 import React from 'react'
 import { FooterWrapper, SaveButton, DeleteButton, ButtonLabel } from './styles'
-import axios from 'axios';
 import { ActivityIndicator } from 'react-native';
+
+import { apiURL } from '../../utils/api';
 
 import _ from 'lodash'
 
@@ -13,13 +14,13 @@ export default function({ column, handleCloseColumn }) {
   async function save() {
     setIsSaving(true);
     if (column.id) {
-      let promise = axios.put(`https://score-couple.herokuapp.com/columns/${column.id}`, column);
+      let promise = apiURL.put(`/columns/${column.id}`, column);
       promise.then((response) => {
         handleCloseColumn(column);
         return false;
       }).finally(setIsSaving);
     } else {
-      let promise = axios.post(`https://score-couple.herokuapp.com/columns`, column);
+      let promise = apiURL.post(`/columns`, column);
       promise.then((response) => {
         handleCloseColumn(column);
         return false;
@@ -29,7 +30,7 @@ export default function({ column, handleCloseColumn }) {
 
   async function remove() {
     setIsDeleting(true);
-    let promise = axios.delete(`https://score-couple.herokuapp.com/columns/${column.id}`);
+    let promise = apiURL.delete(`/columns/${column.id}`);
     promise.then(() => {
       handleCloseColumn(column);
       return false;

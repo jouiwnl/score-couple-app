@@ -3,9 +3,14 @@ import React from 'react'
 import { Wrapper, Header, Form, Footer, TitleColumn, Input } from './styles';
 import ModalColumnFooter from '../ModalColumnFooter'
 
+import { auth } from '../../../firebase';
+
+import { apiURL } from '../../utils/api';
+
 export default function({ column, handleCloseColumn }) {
 
   const [selectedColumn, setSelectedColumn] = React.useState({ title: "" });
+  const [workspace, setWorkspace] = React.useState(null);
 
   React.useEffect(() => {
     if (column) {
@@ -13,11 +18,22 @@ export default function({ column, handleCloseColumn }) {
     }
   }, [column])
 
+  React.useEffect(() => {
+    getWorkSpace();
+  }, [])
+
+  function getWorkSpace() {
+    let promise = apiURL.get(`/users/${auth.currentUser.email}`);
+    promise.then(response => {
+      setWorkspace(response.data.workspace)
+    });
+  }
+
   function handleInputChange(value) {
     setSelectedColumn({
       ...selectedColumn, 
       title: value,
-      workspace: { id: 10 }
+      workspace: { id: workspace.id }
     });
   }
 

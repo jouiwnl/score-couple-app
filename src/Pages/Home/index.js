@@ -7,11 +7,15 @@ import Loading from '../../components/Loading';
 import { Container, Wrapper } from './styles'
 
 import axios from 'axios'
+import { apiURL } from '../../utils/api';
+
+import { auth } from '../../../firebase';
 
 export default function({ openModalMovie, openModalColumn, handleSelectedMovie, handleSelectedColumn, hasAlterItem, navigation, navigate }) {
 
   const [workspace, setWorkspace] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [user, setUser] = React.useState({});
 
   React.useEffect(() => {
     getWorkSpace(false);
@@ -28,8 +32,9 @@ export default function({ openModalMovie, openModalColumn, handleSelectedMovie, 
       setIsLoading(true);
     }
 
-    let promise = axios.get("https://score-couple.herokuapp.com/users/joao.hlm@hotmail.com");
+    let promise = apiURL.get(`/users/${auth.currentUser.email}`);
     promise.then(response => {
+      setUser(response.data)
       setWorkspace(response.data.workspace)
     }).finally(() => {
       setIsLoading(false);
@@ -43,7 +48,7 @@ export default function({ openModalMovie, openModalColumn, handleSelectedMovie, 
   return (
     <Wrapper>
       <Container>
-        <Header />
+        <Header user={user}/>
 
         {isLoading && (<Loading />)}
 
@@ -56,6 +61,7 @@ export default function({ openModalMovie, openModalColumn, handleSelectedMovie, 
             openModalColumn={openModalColumn}
             handleSelectedColumn={handleSelectedColumn}
             rows={workspace.colunas}
+            user={user}
             navigate={navigate}
           />
         )}

@@ -4,9 +4,13 @@ import { Wrapper, ModalHeader, MovieInformation, Footer, MovieTitle, MovieDescri
 import { ActivityIndicator, View } from 'react-native'
 
 import axios from 'axios';
+import { API_KEY, apiURL } from '../../utils/api'
 
-export default function({ movie, handleCloseModalAdd, columnid, navigateTo }) {
+import { useNavigation } from '@react-navigation/native';
 
+export default function({ movie, handleCloseModalAdd, columnid }) {
+
+  const navigate = useNavigation();
   const [isSaving, setIsSaving] = React.useState(false);
   const [selectedMovie, setSelectedMovie] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -14,7 +18,6 @@ export default function({ movie, handleCloseModalAdd, columnid, navigateTo }) {
   React.useEffect(() => {
     if (movie) {
       setIsLoading(true)
-      const API_KEY = 'c192d55728dabd6400055341d5b90bf9';
       const API_URL_ID = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&query=`;
       axios.get(API_URL_ID).then((response) => {
         setSelectedMovie(response.data)
@@ -26,10 +29,10 @@ export default function({ movie, handleCloseModalAdd, columnid, navigateTo }) {
   async function save() {
     setIsSaving(true);
     const movie = mountMovie();
-    let promise = axios.post(`https://score-couple.herokuapp.com/movies?columnid=${columnid}`, movie);
+    let promise = apiURL.post(`/movies?columnid=${columnid}`, movie);
     promise.then((response) => {
       handleCloseModalAdd(movie);
-      navigateTo('Workspace');
+      navigate.navigate('Workspace');
       return false;
     }).finally(setIsSaving);
   }

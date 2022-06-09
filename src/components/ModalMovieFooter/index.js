@@ -1,7 +1,8 @@
 import React from 'react'
 import { FooterWrapper, SaveButton, DeleteButton, ButtonLabel } from './styles'
-import axios from 'axios';
 import { ActivityIndicator } from 'react-native';
+
+import { apiURL } from '../../utils/api';
 
 export default function({ movie, handleCloseMovie }) {
 
@@ -10,7 +11,7 @@ export default function({ movie, handleCloseMovie }) {
 
   async function save() {
     setIsSaving(true);
-    let promise = axios.put(`https://score-couple.herokuapp.com/movies/${movie.id}`, movie);
+    let promise = apiURL.put(`/movies/${movie.id}`, movie);
     promise.then((response) => {
       handleCloseMovie(movie);
       return false;
@@ -19,7 +20,7 @@ export default function({ movie, handleCloseMovie }) {
 
   async function remove() {
     setIsDeleting(true);
-    let promise = axios.delete(`https://score-couple.herokuapp.com/movies/${movie.id}`);
+    let promise = apiURL.delete(`/movies/${movie.id}`);
     promise.then(() => {
       handleCloseMovie(movie);
       return false;

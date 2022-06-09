@@ -25,13 +25,18 @@ import { status } from '../../utils/status'
 import Loading from '../../components/Loading'
 import ConfettiCannon from 'react-native-confetti-cannon'
 import { ActivityIndicator } from 'react-native'
-import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient'
 import { Modalize } from 'react-native-modalize'
 
-export default function({ navigateTo, handleAlterItem }) {
+import { useNavigation } from '@react-navigation/native'
 
-  const API_IMAGE = `https://image.tmdb.org/t/p/w400`;
+import { auth } from '../../../firebase'
+import { apiURL, API_IMAGE } from '../../utils/api' 
+
+export default function({ handleAlterItem }) {
+
+  const navigate = useNavigation();
+
   let movie = {
     posterUrl: "",
     name: "",
@@ -42,22 +47,33 @@ export default function({ navigateTo, handleAlterItem }) {
   let insideStatus = { color: "", description: "" };
 
   const movieRef = React.useRef(null)
+  const explosionRef = React.useRef(null)
 
   const [selectedMovie, setSelectedMovie] = React.useState(movie)
   const [isLoading, setIsLoading] = React.useState(false)
   const [isSaving, setIsSaving] = React.useState(false)
   const [thisStatus, setThisStatus] = React.useState(insideStatus)
   const [isLoadingButton, setIsLoadingButton] = React.useState(false)
+  const [showConffeti, setShowConffeti] = React.useState(true)
+  const [user, setUser] = React.useState({});
   
   React.useEffect(() => {
+    getUser();
     load();
   }, [])
 
+  function getUser() {
+    apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
+      console.log(response)
+      setUser(response.data)
+    })
+  }
+
   async function save() {
     setIsSaving(true);
-    let promise = axios.put(`https://score-couple.herokuapp.com/movies/${selectedMovie.id}`, selectedMovie);
+    let promise = apiURL.put(`/movies/${selectedMovie.id}`, selectedMovie);
     promise.then((response) => {
-      navigateTo('Workspace');
+      navigate.navigate('Workspace');
       handleAlterItem(response.data);
       return false;
     }).finally(setIsSaving);
@@ -70,7 +86,7 @@ export default function({ navigateTo, handleAlterItem }) {
       setIsLoading(true)
     }
     
-    axios.get(`https://score-couple.herokuapp.com/workspaces/10/shuffle`).then(response => {
+    apiURL.get(`/workspaces/${user.workspace.id}/shuffle`).then(response => {
 			setSelectedMovie(response.data)
       setThisStatus(status.find(e => e.value === response.data.status));
 			return false;
@@ -88,7 +104,6 @@ export default function({ navigateTo, handleAlterItem }) {
     setThisStatus(item);
     handleCloseInsideModal();
   }
-  
 
   function openModalMovie() {
     movieRef.current?.open();
@@ -98,6 +113,12 @@ export default function({ navigateTo, handleAlterItem }) {
     movieRef.current?.close();
   }
 
+  function stopExplosion() {
+    setTimeout(() => {
+      setShowConffeti(false)
+    }, 1100)
+  }
+
   return(
     <>
       <Wrapper>
@@ -105,13 +126,18 @@ export default function({ navigateTo, handleAlterItem }) {
 
         {!isLoading && (
           <>
-            <ConfettiCannon
-              count={200}
-              origin={{x: -20, y: -10}}
-              autoStart={true}
-              fadeOut={true}
-              explosionSpeed={750}
-            />
+            {showConffeti && (
+              <ConfettiCannon
+                count={200}
+                origin={{x: -20, y: -10}}
+                autoStart={true}
+                fadeOut={true}
+                explosionSpeed={750}
+                ref={explosionRef}
+                onAnimationEnd={stopExplosion}
+              />
+            )}
+            
 
             <MovieImage source={{ uri: `${API_IMAGE.concat(selectedMovie.posterUrl)}` }}>
               <LinearGradient colors={['#00000000', '#000014']} style={{height : '100%', width : '100%'}} />
@@ -128,7 +154,7 @@ export default function({ navigateTo, handleAlterItem }) {
               
               <SetStatusButtonWrapper>
                 <SetStatusButton color={thisStatus.color} onPress={openModalMovie}>
-                  <StatusLabel color={thisStatus.color}>
+                  <StatusLabel color={`${thisStatus.color}`}>
                     {thisStatus.description}
                   </StatusLabel>
                 </SetStatusButton>

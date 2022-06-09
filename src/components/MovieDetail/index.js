@@ -5,6 +5,8 @@ import ModalHeader from '../ModalMovieHeader';
 
 import { status } from '../../utils/status';
 
+import { Platform } from 'react-native'; 
+
 import { 
   Wrapper, 
   Main, 
@@ -89,7 +91,7 @@ export default function({ movie, handleCloseMovie }) {
       </Wrapper>
 
       <Modalize 
-        snapPoint={650} 
+        snapPoint={Platform.OS === 'android' ? 375 : 650} 
         modalStyle={{ backgroundColor: '#000014', flex: 1 }}
         ref={movieRef}
       >

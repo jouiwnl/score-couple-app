@@ -1,17 +1,14 @@
 import React from 'react';
-import axios from 'axios'
+import { apiMovieURL } from '../../utils/api'
 
 import { Input, Wrapper, ListMovies, AlertWrapper, Message } from './styles'
 import MovieSearchCard from '../../components/MovieSearchCard';
 import Loading from '../../components/Loading'
-import { TouchableOpacity } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
-
 import _ from 'lodash';
 
-const API_KEY = 'c192d55728dabd6400055341d5b90bf9';
-const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
+import axios from 'axios'
 
 export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId, navigation }) {
 
@@ -32,7 +29,7 @@ export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId,
     setInputValue(text);
 
     if (text && text != "") {
-      await axios.get(API_URL.concat(text)).then(response => {
+      await axios.get(apiMovieURL.concat(text)).then(response => {
         setMovies(response.data.results);
       }).finally(() => {
         setIsLoading(false);

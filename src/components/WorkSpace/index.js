@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons';
 
 import { RefreshControl } from 'react-native'
 
-export default function({ rows, openModalMovie, openModalColumn, handleSelectedMovie, handleSelectedColumn, onRefresh, navigation, navigate }) {
+export default function({ rows, openModalMovie, openModalColumn, handleSelectedMovie, handleSelectedColumn, onRefresh, navigation, navigate, user }) {
 
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -20,10 +20,10 @@ export default function({ rows, openModalMovie, openModalColumn, handleSelectedM
   return (
     <WorkSpaceWrapper>
       <HeaderWrapper>
-        <WorkSpaceTitle>My WorkSpace</WorkSpaceTitle>
+        <WorkSpaceTitle>{user.username}'s WorkSpace</WorkSpaceTitle>
 
         <AddColumnButton onPress={openModalColumn}>
-          <ButtonLabel>+ Colummn</ButtonLabel>
+          <ButtonLabel>+</ButtonLabel>
         </AddColumnButton>
       </HeaderWrapper>
 
@@ -42,7 +42,7 @@ export default function({ rows, openModalMovie, openModalColumn, handleSelectedM
             navigate={navigate}
           />
         )}
-        keyExtractor={(row) => row.index}
+        keyExtractor={() => String(Math.random())}
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}

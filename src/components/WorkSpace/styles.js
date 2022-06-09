@@ -6,12 +6,12 @@ export const WorkSpaceWrapper = styled.View`
 
 export const WorkSpaceTitle = styled.Text`
   color: #fff;
-  font-size: 27px;
+  font-size: 23px;
 `
 
 export const WorkSpaceRows = styled.FlatList`
   margin-top: 30px;
-  height: 84.5%;
+  height: 82%;
 `
 
 export const HeaderWrapper = styled.View`
@@ -23,16 +23,15 @@ export const HeaderWrapper = styled.View`
 `
 
 export const AddColumnButton = styled.TouchableOpacity`
-  width: 90px;
-  height: 37px;
-  background-color: #9D2208;
-  border-radius: 4px;
+  width: 30px;
+  height: 30px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 `
 
 export const ButtonLabel = styled.Text`
   color: #fff;
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 30px;
+  font-weight: 600;
 `

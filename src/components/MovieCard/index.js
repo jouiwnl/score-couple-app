@@ -2,6 +2,8 @@ import React from 'react'
 import { MovieImage, MovieRating, MovieTitle, MovieWrapper, MovieStatus } from './styles'
 import { AirbnbRating } from 'react-native-ratings';
 
+import { Platform } from 'react-native'
+
 export default function({ movie, openModalMovie, handleSelectedMovie }) {
 
   const API_IMAGE = `https://image.tmdb.org/t/p/w400`;
@@ -22,11 +24,14 @@ export default function({ movie, openModalMovie, handleSelectedMovie }) {
           <MovieTitle numberOfLines={1}>{movie.name}</MovieTitle>
 
           <MovieRating>
-            {movie.score && movie.score > 0 && (
+            {movie.score && 
+            movie.score > 0 && 
+            movie.status != 'NOTSTARTED' && 
+            movie.status != 'DOING' && (
               <AirbnbRating 
                 isDisabled={true} 
                 reviews={[""]}
-                ratingContainerStyle={{ marginTop: -15 }} 
+                ratingContainerStyle={{ marginTop: Platform.OS === 'android' ? -40 : -20 }} 
                 defaultRating={movie.score} 
                 size={12}
               />
