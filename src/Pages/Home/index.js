@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../../components/Header'
 import WorkSpace from '../../components/WorkSpace';
 import Loading from '../../components/Loading';
+import { View } from 'react-native'
 
 import { Container, Wrapper } from './styles'
 
@@ -57,7 +58,11 @@ export default function({
       <Container>
         <Header user={user}/>
 
-        {isLoading && (<Loading size={'large'} />)}
+        {isLoading && (
+          <View style={{ height: '80%', alignItems: 'center', justifyContent: 'center' }}>
+            <Loading size={'large'} />
+          </View>
+        )}
 
         {!isLoading && workspace && (
           <WorkSpace 
