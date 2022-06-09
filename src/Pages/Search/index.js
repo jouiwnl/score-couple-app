@@ -48,7 +48,7 @@ export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId,
         placeholderTextColor="#767676" 
       />
 
-      {isLoading && ( <Loading size={'large'} /> )}
+      {isLoading && ( <Loading size={'large'} fullwidth={true} /> )}
 
       {movies.length > 0 && !isLoading && (
         <ListMovies>

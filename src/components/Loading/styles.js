@@ -1,9 +1,12 @@
+import { css } from 'styled-components'
 import styled from 'styled-components/native'
 
 export const LoadingWrapper = styled.View`
   align-items: center;
   justify-content: center;
 
-  width: 100%;
-  height: 80%;
+  ${props => props.fullwidth && css`
+    width: 100%;
+    height: 80%;
+  `}
 `

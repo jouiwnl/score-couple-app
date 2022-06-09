@@ -120,7 +120,7 @@ export default function({ handleAlterItem }) {
   return(
     <>
       <Wrapper>
-        {isLoading && ( <Loading size={'large'} /> )}
+        {isLoading && ( <Loading size={'large'} fullwidth={true} /> )}
 
         {!isLoading && (
           <>

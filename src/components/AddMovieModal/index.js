@@ -21,6 +21,7 @@ import { auth } from '../../../firebase';
 
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../Loading';
+import { View } from 'react-native';
 
 export default function({ movie, handleCloseModalAdd, columnid }) {
 
