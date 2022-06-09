@@ -55,17 +55,14 @@ export default function({ handleAlterItem }) {
   const [thisStatus, setThisStatus] = React.useState(insideStatus)
   const [isLoadingButton, setIsLoadingButton] = React.useState(false)
   const [showConffeti, setShowConffeti] = React.useState(true)
-  const [user, setUser] = React.useState({});
   
   React.useEffect(() => {
-    getUser();
     load();
   }, [])
 
-  function getUser() {
-    apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
-      console.log(response)
-      setUser(response.data)
+  async function getUser() {
+    return apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
+      return response.data;
     })
   }
 
@@ -79,14 +76,16 @@ export default function({ handleAlterItem }) {
     }).finally(setIsSaving);
   }
 
-  function load(tryAgain) {
+  async function load(tryAgain) {
     if (tryAgain) {
       setIsLoadingButton(true)
     } else {
       setIsLoading(true)
     }
     
-    apiURL.get(`/workspaces/${user.workspace.id}/shuffle`).then(response => {
+    const usuario = await getUser();
+    
+    apiURL.get(`/workspaces/${usuario.workspace.id}/shuffle`).then(response => {
 			setSelectedMovie(response.data)
       setThisStatus(status.find(e => e.value === response.data.status));
 			return false;
@@ -154,7 +153,7 @@ export default function({ handleAlterItem }) {
               
               <SetStatusButtonWrapper>
                 <SetStatusButton color={thisStatus.color} onPress={openModalMovie}>
-                  <StatusLabel color={`${thisStatus.color}`}>
+                  <StatusLabel color={String(thisStatus.color)}>
                     {thisStatus.description}
                   </StatusLabel>
                 </SetStatusButton>
