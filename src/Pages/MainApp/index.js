@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'; 
 import { MaterialIcons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons'; 
 
@@ -19,7 +18,7 @@ import { Platform } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-export default function App() {
+export default function() {
   const movieRef = React.useRef(null);
   const columnRef = React.useRef(null);
   const movieToAddRef = React.useRef(null);
@@ -183,6 +182,25 @@ export default function App() {
                   name="compass-outline" 
                   size={25} 
                   color={focused ? '#FFF' : '#464646'} 
+                />
+              );
+            },
+            unmountOnBlur: true,
+          }}
+        />
+
+        <Screen
+          name="Configs"
+          children={() => (
+            <CommingSoon />
+          )}
+          options={{
+            tabBarIcon: ({ size, focused }) => {
+              return (
+                <MaterialIcons 
+                  name="settings" 
+                  size={24} 
+                  color={focused ? '#fff' : '#464646'} 
                 />
               );
             },

@@ -6,12 +6,19 @@ import Loading from '../../components/Loading';
 
 import { Container, Wrapper } from './styles'
 
-import axios from 'axios'
 import { apiURL } from '../../utils/api';
 
 import { auth } from '../../../firebase';
 
-export default function({ openModalMovie, openModalColumn, handleSelectedMovie, handleSelectedColumn, hasAlterItem, navigation, navigate }) {
+export default function({ 
+  openModalMovie, 
+  openModalColumn,
+  handleSelectedMovie, 
+  handleSelectedColumn, 
+  hasAlterItem, 
+  navigation, 
+  navigate 
+}) {
 
   const [workspace, setWorkspace] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -50,7 +57,7 @@ export default function({ openModalMovie, openModalColumn, handleSelectedMovie, 
       <Container>
         <Header user={user}/>
 
-        {isLoading && (<Loading />)}
+        {isLoading && (<Loading size={'large'} />)}
 
         {!isLoading && workspace && (
           <WorkSpace 

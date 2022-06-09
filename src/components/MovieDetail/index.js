@@ -98,7 +98,11 @@ export default function({ movie, handleCloseMovie }) {
         <ModalWrapper>
           <ModalStatusHeader>{defineStatus().description}</ModalStatusHeader>
           {status.map((item) => (
-            <ModalItemWrapper onPress={() => handleSelectStatus(item)} key={String(Math.random())}>
+            <ModalItemWrapper 
+              onPress={() => 
+              handleSelectStatus(item)} 
+              key={String(Math.random())}
+            >
               <ModalItemIcon>
                 <item.icon />
               </ModalItemIcon>

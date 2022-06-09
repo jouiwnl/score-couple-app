@@ -1,10 +1,10 @@
 import React from 'react'
 import { FooterWrapper, SaveButton, DeleteButton, ButtonLabel } from './styles'
-import { ActivityIndicator } from 'react-native';
 
 import { apiURL } from '../../utils/api';
 
 import _ from 'lodash'
+import Loading from '../Loading';
 
 export default function({ column, handleCloseColumn }) {
 
@@ -41,7 +41,7 @@ export default function({ column, handleCloseColumn }) {
     <FooterWrapper>
       <SaveButton onPress={save}>
         {isSaving && (
-          <ActivityIndicator size="small" color="white" />
+          <Loading size={"small"}   />
         )}
 
         {!isSaving && (
@@ -52,7 +52,7 @@ export default function({ column, handleCloseColumn }) {
       {column && column.id && (
         <DeleteButton onPress={remove}>
           {isDeleting && (
-            <ActivityIndicator size="small" color="white" />
+            <Loading size={"small"}   />
           )}
 
           {!isDeleting && (

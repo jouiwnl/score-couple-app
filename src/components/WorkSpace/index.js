@@ -1,11 +1,20 @@
 import React from 'react'
 import { WorkSpaceRows, WorkSpaceTitle, WorkSpaceWrapper, HeaderWrapper, AddColumnButton, ButtonLabel } from './styles'
 import Row from '../Row'
-import { Octicons } from '@expo/vector-icons'; 
 
 import { RefreshControl } from 'react-native'
 
-export default function({ rows, openModalMovie, openModalColumn, handleSelectedMovie, handleSelectedColumn, onRefresh, navigation, navigate, user }) {
+export default function({ 
+  rows, 
+  openModalMovie, 
+  openModalColumn, 
+  handleSelectedMovie, 
+  handleSelectedColumn, 
+  onRefresh, 
+  navigation, 
+  navigate, 
+  user 
+}) {
 
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 

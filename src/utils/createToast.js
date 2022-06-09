@@ -7,6 +7,7 @@ export default function(type, text1, text2) {
     type: type,
     text1: text1,
     text2: text2,
-    topOffset: 50
+    topOffset: 50,
+    visibilityTime: 2500
   })
 }

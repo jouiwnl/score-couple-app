@@ -1,8 +1,8 @@
 import React from 'react'
 import { FooterWrapper, SaveButton, DeleteButton, ButtonLabel } from './styles'
-import { ActivityIndicator } from 'react-native';
 
 import { apiURL } from '../../utils/api';
+import Loading from '../Loading';
 
 export default function({ movie, handleCloseMovie }) {
 
@@ -31,7 +31,7 @@ export default function({ movie, handleCloseMovie }) {
     <FooterWrapper>
       <SaveButton onPress={save}>
         {isSaving && (
-          <ActivityIndicator size="small" color="white" />
+          <Loading size={"small"}   />
         )}
 
         {!isSaving && (
@@ -41,7 +41,7 @@ export default function({ movie, handleCloseMovie }) {
 
       <DeleteButton onPress={remove}>
         {isDeleting && (
-          <ActivityIndicator size="small" color="white" />
+          <Loading size={"small"}   />
         )}
 
         {!isDeleting && (

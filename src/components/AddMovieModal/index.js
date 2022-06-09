@@ -1,30 +1,69 @@
 import React from 'react'
 
-import { Wrapper, ModalHeader, MovieInformation, Footer, MovieTitle, MovieDescription, SaveButton, CancelButton, ButtonLabel } from './styles'
-import { ActivityIndicator, View } from 'react-native'
+import { 
+  Wrapper, 
+  ModalHeader, 
+  MovieInformation, 
+  Footer, 
+  MovieExistIndicatorWrapper,
+  MovieExistIndicator,
+  MovieExistIndicatorLabel,
+  MovieDescription, 
+  SaveButton, 
+  CancelButton, 
+  ButtonLabel 
+} from './styles'
 
 import axios from 'axios';
 import { API_KEY, apiURL } from '../../utils/api'
 
+import { auth } from '../../../firebase';
+
 import { useNavigation } from '@react-navigation/native';
+import Loading from '../Loading';
 
 export default function({ movie, handleCloseModalAdd, columnid }) {
 
   const navigate = useNavigation();
   const [isSaving, setIsSaving] = React.useState(false);
+  const [hasMovie, setHasMovie] = React.useState(false);
   const [selectedMovie, setSelectedMovie] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [user, setUser] = React.useState(auth.currentUser.email);
 
   React.useEffect(() => {
+    getUser();
+  }, [])
+
+  React.useEffect(() => {
+    setIsLoading(true)
     if (movie) {
-      setIsLoading(true)
-      const API_URL_ID = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&query=`;
-      axios.get(API_URL_ID).then((response) => {
-        setSelectedMovie(response.data)
-        return false
-      }).finally(setIsLoading);
+      const API_URL_MOVIE_ID = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&query=`;
+      apiURL.get(`/users/${user}`).then(({ data }) => {
+        setUser(data)
+        return data.workspace.colunas;
+      }).then((colunas) => {
+        hasAnyMovie(colunas);
+        
+        axios.get(API_URL_MOVIE_ID).then(async (response) => {
+          setSelectedMovie(response.data)
+          return false
+        }).finally(setIsLoading);
+      })
     }
   }, [movie])
+
+  async function getUser() {
+    await apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
+      setUser(response.data)
+    });
+  }
+
+  function hasAnyMovie(colunas) {
+    let allMovies = [];
+    colunas.forEach(coluna => coluna.movies.forEach(insideMovie => allMovies.push(insideMovie)));
+    setHasMovie(allMovies.some(insideMovie => insideMovie.name === movie.title));
+  }
 
   async function save() {
     setIsSaving(true);
@@ -54,7 +93,7 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
     <Wrapper>
       {isLoading && (
         <View style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
-          <ActivityIndicator size="large" color="white" />
+          <Loading size={"large"}   />
         </View>
       )}
 
@@ -62,18 +101,26 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
         <>
           <ModalHeader>{movie.title}</ModalHeader>
 
+          {hasMovie && (
+            <MovieExistIndicatorWrapper>
+              <MovieExistIndicator>
+                <MovieExistIndicatorLabel>Já adicionado</MovieExistIndicatorLabel>
+              </MovieExistIndicator>
+            </MovieExistIndicatorWrapper>
+          )}
+
           <MovieInformation>
             <MovieDescription>{movie.overview}</MovieDescription>
           </MovieInformation>
     
           <Footer>
-            <SaveButton onPress={save}>
+            <SaveButton disabled={hasMovie} isDisabled={hasMovie} onPress={save}>
               {isSaving && (
-                <ActivityIndicator size="small" color="white" />
+                <Loading size={"small"}   />
               )}
     
               {!isSaving && (
-                <ButtonLabel>Adicionar</ButtonLabel>
+                <ButtonLabel >Adicionar</ButtonLabel>
               )}
             </SaveButton>
             

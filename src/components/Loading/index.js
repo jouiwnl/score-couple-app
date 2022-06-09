@@ -3,12 +3,10 @@ import { ActivityIndicator } from 'react-native';
 
 import { LoadingWrapper } from './styles';
 
-
-
-export default function() {
+export default function({ size }) {
   return (
     <LoadingWrapper>
-      <ActivityIndicator size="large" color="white" />
+      <ActivityIndicator size={size} color="white" />
     </LoadingWrapper>
   )
 }

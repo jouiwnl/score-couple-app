@@ -14,7 +14,7 @@ import {
 } from './styles'
 
 import { MaterialIcons } from '@expo/vector-icons'; 
-import { ActivityIndicator, Keyboard, TouchableWithoutFeedback, Text } from 'react-native'
+import { Keyboard, TouchableWithoutFeedback, Text } from 'react-native'
 
 import logo from './assets/logo.png';
 import createToast from '../../utils/createToast';
@@ -26,6 +26,7 @@ import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useFocusEffect } from '@react-navigation/native';
+import Loading from '../../components/Loading';
 
 export default function() {
   const navigate = useNavigation();
@@ -79,73 +80,75 @@ export default function() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <Wrapper>
-          {isHaveUserAuthenticated && (
-            <>
-              <ActivityIndicator size="large" color="white" />
-              <Text style={{ color: '#fff' }}>Carregando...</Text>
-            </>
-          )}
+      
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <Wrapper>
+            {isHaveUserAuthenticated && (
+              <>
+                <Loading size={"large"}   />
+                <Text style={{ color: '#fff' }}>Carregando...</Text>
+              </>
+            )}
 
-          {!isHaveUserAuthenticated && showLoginForm && (
-            <FormWrapper>
-              <Logo 
-                style={{ resizeMode: 'contain' }} 
-                source={logo} 
-              />
+            {!isHaveUserAuthenticated && showLoginForm && (
+              <FormWrapper>
+                <Logo 
+                  style={{ resizeMode: 'contain' }} 
+                  source={logo} 
+                />
 
-              <FormInputs>
+                <FormInputs>
 
-                <InputLabel>E-mail</InputLabel>
-                <FormInput >
-                  <InputIcon>
-                    <MaterialIcons name="email" size={24} color="#fff" />
-                  </InputIcon>
-                  <Input 
-                    autocomplete="off"
-                    keyboardType="email-address"
-                    placeholder={'Insira seu e-mail'} 
-                    placeholderTextColor="#767676"
-                    value={loginValues.email}
-                    onChangeText={value => handleInputChange('email', value)}
-                  />
-                </FormInput>
+                  <InputLabel>E-mail</InputLabel>
+                  <FormInput >
+                    <InputIcon>
+                      <MaterialIcons name="email" size={24} color="#fff" />
+                    </InputIcon>
+                    <Input 
+                      autocomplete="off"
+                      keyboardType="email-address"
+                      placeholder={'Insira seu e-mail'} 
+                      placeholderTextColor="#767676"
+                      value={loginValues.email}
+                      onChangeText={value => handleInputChange('email', value)}
+                    />
+                  </FormInput>
 
-                <InputLabel>Password</InputLabel>
-                <FormInput>
-                  <InputIcon>
-                    <MaterialIcons name="lock" size={24} color="#fff" />
-                  </InputIcon>
-                  <Input 
-                    placeholder={'Insira sua senha'} 
-                    placeholderTextColor="#767676"
-                    secureTextEntry={true}
-                    value={loginValues.password}
-                    onChangeText={value => handleInputChange('password', value)}
-                  />
-                </FormInput>
+                  <InputLabel>Password</InputLabel>
+                  <FormInput>
+                    <InputIcon>
+                      <MaterialIcons name="lock" size={24} color="#fff" />
+                    </InputIcon>
+                    <Input 
+                      placeholder={'Insira sua senha'} 
+                      placeholderTextColor="#767676"
+                      secureTextEntry={true}
+                      value={loginValues.password}
+                      onChangeText={value => handleInputChange('password', value)}
+                    />
+                  </FormInput>
 
-              </FormInputs>
+                </FormInputs>
 
-              <ActionButtons>
+                <ActionButtons>
 
-                <LoginButton onPress={handleLogin}>
-                  {isLogginIn && (
-                    <ActivityIndicator size="small" color="white" />
-                  )}
+                  <LoginButton onPress={handleLogin}>
+                    {isLogginIn && (
+                      <Loading size={"small"}   />
+                    )}
 
-                  {!isLogginIn && (
-                    <ButtonLabel>Login</ButtonLabel>
-                  )}
-                </LoginButton>
+                    {!isLogginIn && (
+                      <ButtonLabel>Login</ButtonLabel>
+                    )}
+                  </LoginButton>
 
-              </ActionButtons>
+                </ActionButtons>
 
-            </FormWrapper>
-          )}
-        </Wrapper>
-      </TouchableWithoutFeedback>
+              </FormWrapper>
+            )}
+          </Wrapper>
+        </TouchableWithoutFeedback>
+      
     </GestureHandlerRootView>
   )
 }

@@ -24,7 +24,6 @@ import { status } from '../../utils/status'
 
 import Loading from '../../components/Loading'
 import ConfettiCannon from 'react-native-confetti-cannon'
-import { ActivityIndicator } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Modalize } from 'react-native-modalize'
 
@@ -121,7 +120,7 @@ export default function({ handleAlterItem }) {
   return(
     <>
       <Wrapper>
-        {isLoading && ( <Loading /> )}
+        {isLoading && ( <Loading size={'large'} /> )}
 
         {!isLoading && (
           <>
@@ -164,7 +163,7 @@ export default function({ handleAlterItem }) {
             <Footer>
               <SaveButton onPress={save}>
                 {isSaving && (
-                  <ActivityIndicator size="small" color="white" />
+                  <Loading size={"small"}   />
                 )}
 
                 {!isSaving && (
@@ -174,7 +173,7 @@ export default function({ handleAlterItem }) {
               
               <CancelButton onPress={() => load(true)}>
                 {isLoadingButton && (
-                  <ActivityIndicator size="small" color="white" />
+                  <Loading size={"small"}   />
                 )}
 
                 {!isLoadingButton && (
@@ -193,7 +192,11 @@ export default function({ handleAlterItem }) {
           <ModalWrapper>
           <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
           {status.map((item) => (
-            <ModalItemWrapper onPress={() => handleSelectStatus(item)} key={String(Math.random())}>
+            <ModalItemWrapper 
+              onPress={() => 
+              handleSelectStatus(item)} 
+              key={String(Math.random())}
+            >
               <ModalItemIcon>
                 <item.icon />
               </ModalItemIcon>

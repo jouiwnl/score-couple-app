@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ActivityIndicator } from 'react-native'
 import { Container, Avatar, OnlineStatus, RightSide, Button, Username, UserInfo } from './styles'
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -9,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth'
 import { auth } from '../../../firebase';
 import createToast from '../../utils/createToast';
+import Loading from '../Loading';
 
 export default function({ user }) {
 
@@ -43,7 +43,7 @@ export default function({ user }) {
       <RightSide>
         <Button onPress={handleSignOut}>
 
-          {isLogOut && ( <ActivityIndicator size="small" color="white" /> )}
+          {isLogOut && ( <Loading size={"small"}   /> )}
 
           {!isLogOut && (
             <Entypo 

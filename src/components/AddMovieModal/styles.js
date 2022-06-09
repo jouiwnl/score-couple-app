@@ -24,15 +24,6 @@ export const Footer = styled.View`
   margin-top: 40px;
 `
 
-export const MovieTitle = styled.Text`
-  font-size: 24px;
-  color: #fff;
-  font-weight: 500;
-  text-align: center;
-
-  margin-top: 40px;
-`
-
 export const MovieDescription = styled.Text`
   font-size: 14px;
   color: #464646;
@@ -50,6 +41,8 @@ export const SaveButton = styled.TouchableOpacity`
   text-align: center;
   justify-content: center;
   align-items: center;
+
+  opacity: ${props => props.isDisabled ? 0.3 : 1};
 `
 
 export const CancelButton = styled.TouchableOpacity`
@@ -67,4 +60,31 @@ export const ButtonLabel = styled.Text`
   font-size: 15px;
   font-weight: 400;
   color: #fff;
+
+  text-align: center;
+`
+
+export const MovieExistIndicatorWrapper = styled.View`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const MovieExistIndicator = styled.View`
+  margin-top: 20px;
+  border: 1px solid #464646;
+  border-radius: 10px;
+  width: 75px;
+  height: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const MovieExistIndicatorLabel = styled.Text`
+  color: #464646;
+  font-size: 10px;
+  padding: 2px;
 `

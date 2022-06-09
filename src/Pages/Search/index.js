@@ -48,7 +48,7 @@ export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId,
         placeholderTextColor="#767676" 
       />
 
-      {isLoading && ( <Loading /> )}
+      {isLoading && ( <Loading size={'large'} /> )}
 
       {movies.length > 0 && !isLoading && (
         <ListMovies>
@@ -64,7 +64,7 @@ export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId,
         </ListMovies>
       )}
 
-      {movies.length == 0 && !_.isEmpty(inputValue) && (
+      {movies.length == 0 && !_.isEmpty(inputValue) && !isLoading && (
         <AlertWrapper>
           <Message>
             Nenhum resultado encontrado para a pesquisa: { inputValue }

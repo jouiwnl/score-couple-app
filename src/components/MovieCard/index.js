@@ -24,15 +24,12 @@ export default function({ movie, openModalMovie, handleSelectedMovie }) {
           <MovieTitle numberOfLines={1}>{movie.name}</MovieTitle>
 
           <MovieRating>
-            {movie.score && 
-            movie.score > 0 && 
-            movie.status != 'NOTSTARTED' && 
-            movie.status != 'DOING' && (
+            {movie.status != 'NOTSTARTED' && movie.status != 'DOING' && (
               <AirbnbRating 
                 isDisabled={true} 
                 reviews={[""]}
                 ratingContainerStyle={{ marginTop: Platform.OS === 'android' ? -40 : -20 }} 
-                defaultRating={movie.score} 
+                defaultRating={movie.score ? movie.score : 0} 
                 size={12}
               />
             )}

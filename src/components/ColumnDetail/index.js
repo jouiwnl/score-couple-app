@@ -14,7 +14,7 @@ export default function({ column, handleCloseColumn }) {
 
   React.useEffect(() => {
     if (column) {
-      setSelectedColumn({...column, workspace: { id: 10 }})
+      setSelectedColumn({...column, workspace: workspace})
     }
   }, [column])
 
@@ -57,7 +57,11 @@ export default function({ column, handleCloseColumn }) {
       </Form>
       
       <Footer>
-          <ModalColumnFooter cleanColumn={cleanColumn} column={selectedColumn} handleCloseColumn={handleCloseColumn} />
+          <ModalColumnFooter 
+            cleanColumn={cleanColumn} 
+            column={selectedColumn} 
+            handleCloseColumn={handleCloseColumn} 
+          />
       </Footer>
     </Wrapper>
   )
