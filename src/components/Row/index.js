@@ -28,7 +28,7 @@ export default function({
           <Entypo 
             name="dots-three-horizontal" 
             size={24} 
-              
+            color='white'
           />
         </RowButton>
       </RowHeader>

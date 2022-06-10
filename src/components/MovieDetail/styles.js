@@ -3,14 +3,15 @@ import styled from 'styled-components/native'
 export const Main = styled.View`
 `
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.ScrollView`
   height: 680px;
   display: flex;
 `
 
 export const MovieTitle = styled.Text`
   color: #fff;
-  font-size: 35px;
+  padding: 15px;
+  font-size: 23px;
   font-weight: 500;
   text-align: center;
 `

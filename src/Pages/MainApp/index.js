@@ -14,11 +14,14 @@ import { Modalize } from 'react-native-modalize';
 import AddMovieModal from '../../components/AddMovieModal';
 import PrizeDraw from '../PrizeDraw';
 
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
+import Configs from '../Configs';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function() {
+  const windowHeight = Dimensions.get('window').height;
+
   const movieRef = React.useRef(null);
   const columnRef = React.useRef(null);
   const movieToAddRef = React.useRef(null);
@@ -192,7 +195,7 @@ export default function() {
         <Screen
           name="Configs"
           children={() => (
-            <CommingSoon />
+            <Configs />
           )}
           options={{
             tabBarIcon: ({ size, focused }) => {
@@ -234,8 +237,8 @@ export default function() {
       </Navigator>
 
       <Modalize 
-        snapPoint={680} 
-        modalHeight={680}
+        snapPoint={(windowHeight/100) * 80} 
+        modalHeight={(windowHeight/100) * 80}
         modalStyle={{ backgroundColor: '#000014' }}
         ref={movieRef}
         >
@@ -243,8 +246,8 @@ export default function() {
       </Modalize>
 
       <Modalize 
-        snapPoint={600} 
-        modalHeight={600}
+        snapPoint={(windowHeight/100) * 75} 
+        modalHeight={(windowHeight/100) * 75}
         modalStyle={{ backgroundColor: '#000014' }}
         ref={columnRef}
         keyboardAvoidingBehavior="height"

@@ -74,7 +74,7 @@ export default function({ movie, handleCloseMovie }) {
             </SetStatusButton>
           </SetStatusButtonWrapper>
           
-          {selectedMovie.status == 'CANCELED' || selectedMovie.status == 'COMPLETED' && (
+          {(selectedMovie.status == 'CANCELED' || selectedMovie.status == 'COMPLETED') && (
              <MovieRating>
                 <AirbnbRating
                   defaultRating={!selectedMovie.score ? 0 : selectedMovie.score} 

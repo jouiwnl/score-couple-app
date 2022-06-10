@@ -1,6 +1,15 @@
 import React from 'react';
 
-import { Container, Avatar, OnlineStatus, RightSide, Button, Username, UserInfo } from './styles'
+import { 
+  Container, 
+  Avatar, 
+  OnlineStatus, 
+  RightSide,
+  Button, 
+  Username, 
+  UserInfo,
+  AvatarImage 
+} from './styles'
 import { Entypo } from '@expo/vector-icons'; 
 
 import { useNavigation } from '@react-navigation/native';
@@ -16,7 +25,6 @@ export default function({ user }) {
   const [isLogOut, setIsLogOut] = React.useState(false)
 
   function handleSignOut() {
-
     setIsLogOut(true)
 
     setTimeout(() => {
@@ -34,7 +42,8 @@ export default function({ user }) {
   return (
     <Container>
       <UserInfo>
-        <Avatar>
+        <Avatar onPress={() => navigate.navigate('Configs')}>
+          <AvatarImage source={{ uri: user.avatarUrl }} />
           <OnlineStatus />
         </Avatar>
         <Username>{ user.username }</Username>

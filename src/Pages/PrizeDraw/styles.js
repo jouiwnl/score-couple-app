@@ -13,7 +13,7 @@ export const Wrapper = styled.SafeAreaView`
 
 export const MovieImage = styled.ImageBackground`
   width: 100%;
-  height: 300px;
+  height: 250px;
   z-index: -999;
 `
 export const Main = styled.View`
