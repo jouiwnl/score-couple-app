@@ -20,15 +20,24 @@ import {
   ModalStatusHeader,
   ModalItemWrapper,
   ModalItemIcon,
-  ModalItemDescription
+  ModalItemDescription,
+  ProvidersWrapper,
+  ProviderLogo
 } from './styles';
 
 import { Modalize } from 'react-native-modalize';
+import axios from 'axios';
+import { API_BASE_MOVIE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
 
 
 export default function({ movie, handleCloseMovie }) {
   const movieRef = React.useRef(null);
   const [selectedMovie, setSelectedMovie] = React.useState(movie);
+  const [providers, setProviders] = React.useState([]);
+
+  React.useEffect(() => {
+    getProviders();
+  }, [])
 
   function handleScore(value) {
     setSelectedMovie({ ...selectedMovie, score: value })
@@ -52,6 +61,17 @@ export default function({ movie, handleCloseMovie }) {
     return finalStatus;
   }
 
+  function getProviders() {
+    if (movie.originalId) {
+      axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
+      .then(response => {
+        if (response.data.results.BR) {
+          setProviders(response.data.results.BR.flatrate)
+        }
+      })
+    }
+  }
+
   return (
     <>
       <Wrapper>
@@ -66,6 +86,17 @@ export default function({ movie, handleCloseMovie }) {
             {selectedMovie.movieDescription}
           </MovieDescription>
 
+          {providers && providers.length > 0 && (
+            <ProvidersWrapper>
+              {providers.map(provider => (
+                <ProviderLogo 
+                  key={String(Math.random())} 
+                  source={{ uri: `${API_LOGO_IMAGE}${provider.logo_path}` }} 
+                />
+              ))}
+            </ProvidersWrapper>
+          )}
+
           <SetStatusButtonWrapper>
             <SetStatusButton color={defineStatus().color} onPress={openModalMovie}>
               <ButtonLabel color={defineStatus().color}>
@@ -78,6 +109,10 @@ export default function({ movie, handleCloseMovie }) {
              <MovieRating>
                 <AirbnbRating
                   defaultRating={!selectedMovie.score ? 0 : selectedMovie.score} 
+                  ratingContainerStyle={{ 
+                    marginTop: Platform.OS === 'android' ? -33 : -20,
+                    marginBottom: Platform.OS === 'android' ? -25 : 0
+                  }} 
                   size={25} 
                   reviews={[""]}
                   onFinishRating={handleScore}
@@ -91,8 +126,9 @@ export default function({ movie, handleCloseMovie }) {
       </Wrapper>
 
       <Modalize 
-        snapPoint={Platform.OS === 'android' ? 375 : 650} 
-        modalStyle={{ backgroundColor: '#000014', flex: 1 }}
+        snapPoint={Platform.OS === 'android' ? 400 : 650} 
+        modalHeight={Platform.OS === 'android' ? 400 : 650}
+        modalStyle={{ backgroundColor: '#000014' }}
         ref={movieRef}
       >
         <ModalWrapper>

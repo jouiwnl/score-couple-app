@@ -1,5 +1,12 @@
 import React from 'react'
-import { WorkSpaceRows, WorkSpaceTitle, WorkSpaceWrapper, HeaderWrapper, AddColumnButton, ButtonLabel } from './styles'
+import { 
+  WorkSpaceRows, 
+  WorkSpaceTitle, 
+  WorkSpaceWrapper, 
+  HeaderWrapper, 
+  AddColumnButton, 
+  ButtonLabel 
+} from './styles'
 import Row from '../Row'
 
 import { RefreshControl } from 'react-native'

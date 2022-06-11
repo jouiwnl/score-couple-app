@@ -12,7 +12,8 @@ export default function({
   handleSelectedMovie, 
   handleSelectedColumn,
   navigation, 
-  navigate }) {
+  navigate 
+}) {
 
   function handleEdit() {
     openModalColumn();

@@ -4,9 +4,10 @@ import { AirbnbRating } from 'react-native-ratings';
 
 import { Platform } from 'react-native'
 
-export default function({ movie, openModalMovie, handleSelectedMovie }) {
+import { apiMovieURL, apiURL, API_IMAGE } from '../../utils/api';
+import axios from 'axios';
 
-  const API_IMAGE = `https://image.tmdb.org/t/p/w400`;
+export default function({ movie, openModalMovie, handleSelectedMovie }) {
 
   function handleOnPress() {
     handleSelectedMovie(movie);

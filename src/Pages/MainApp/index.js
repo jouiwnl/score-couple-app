@@ -110,7 +110,8 @@ export default function() {
           style: {
             height: Platform.OS === 'android' ? 70 : 90,
             backgroundColor: '#000014',
-            borderTopColor: '#464646'
+            borderTopColor: '#464646',
+            borderTopWidth: 1
           },
           tabStyle: {
             alignItems: 'center',

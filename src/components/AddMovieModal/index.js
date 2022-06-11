@@ -11,11 +11,13 @@ import {
   MovieDescription, 
   SaveButton, 
   CancelButton, 
-  ButtonLabel 
+  ButtonLabel,
+  ProvidersWrapper,
+  ProviderLogo
 } from './styles'
 
 import axios from 'axios';
-import { API_KEY, apiURL } from '../../utils/api'
+import { API_KEY, apiURL, API_BASE_MOVIE, API_LOGO_IMAGE } from '../../utils/api'
 
 import { auth } from '../../../firebase';
 
@@ -31,6 +33,7 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
   const [selectedMovie, setSelectedMovie] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [user, setUser] = React.useState(auth.currentUser.email);
+  const [providers, setProviders] = React.useState([]);
 
   React.useEffect(() => {
     getUser();
@@ -39,17 +42,16 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
   React.useEffect(() => {
     setIsLoading(true)
     if (movie) {
-      const API_URL_MOVIE_ID = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&query=`;
       apiURL.get(`/users/${user}`).then(({ data }) => {
         setUser(data)
         return data.workspace.colunas;
       }).then((colunas) => {
         hasAnyMovie(colunas);
         
-        axios.get(API_URL_MOVIE_ID).then(async (response) => {
-          setSelectedMovie(response.data)
-          return false
-        }).finally(setIsLoading);
+        axios.get(`${API_BASE_MOVIE}${movie.id}?api_key=${API_KEY}`)
+        .then(response => setSelectedMovie(response.data))
+        .then(getProviders)
+        .finally(() => setIsLoading(false));
       })
     }
   }, [movie])
@@ -58,6 +60,15 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
     await apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
       setUser(response.data)
     });
+  }
+
+  function getProviders() {
+    axios.get(`${API_BASE_MOVIE}${movie.id}/watch/providers?api_key=${API_KEY}`)
+    .then(response => {
+      if (response.data.results.BR) {
+        setProviders(response.data.results.BR.flatrate)
+      }
+    })
   }
 
   function hasAnyMovie(colunas) {
@@ -79,12 +90,13 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
 
   function mountMovie() {
     const finalMovie = {
+      originalId: selectedMovie.id,
       name: selectedMovie.title,
       posterUrl: selectedMovie.poster_path,
       releaseDate: selectedMovie.release_date,
       runtime: selectedMovie.runtime,
       genre: (selectedMovie.genres.length ? selectedMovie.genres[0].name : ''),
-      movieDescription: selectedMovie.overview.split('.')[0]
+      movieDescription: selectedMovie.overview.split('.')[0],
     }
 
     return finalMovie;
@@ -109,10 +121,21 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
               </MovieExistIndicator>
             </MovieExistIndicatorWrapper>
           )}
-
+        
           <MovieInformation>
             <MovieDescription>{movie.overview}</MovieDescription>
           </MovieInformation>
+
+          {providers && providers.length > 0 && (
+            <ProvidersWrapper>
+              {providers.map(provider => (
+                <ProviderLogo 
+                  key={String(Math.random())} 
+                  source={{ uri: `${API_LOGO_IMAGE}${provider.logo_path}` }} 
+                />
+              ))}
+            </ProvidersWrapper>
+          )}
     
           <Footer>
             <SaveButton disabled={hasMovie} isDisabled={hasMovie} onPress={save}>

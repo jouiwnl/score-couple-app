@@ -3,15 +3,13 @@ import styled from 'styled-components/native'
 export const Main = styled.View`
 `
 
-export const Wrapper = styled.ScrollView`
-  height: 680px;
+export const Wrapper = styled.View`
   display: flex;
 `
 
 export const MovieTitle = styled.Text`
   color: #fff;
-  padding: 15px;
-  font-size: 23px;
+  font-size: 35px;
   font-weight: 500;
   text-align: center;
 `
@@ -25,7 +23,7 @@ export const MovieDescription = styled.Text`
 `
 
 export const MovieRating = styled.View`
-  margin-bottom: 20px;
+  
 `
 
 export const ButtonLabel = styled.Text`
@@ -91,4 +89,22 @@ export const ModalItemDescription = styled.Text`
   font-weight: 400;
   margin-top: -25px;
   margin-left: 10px;
+`
+
+export const ProvidersWrapper = styled.View`
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
+export const ProviderLogo = styled.Image`
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
 `

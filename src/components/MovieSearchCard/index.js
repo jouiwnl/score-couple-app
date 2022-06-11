@@ -2,9 +2,9 @@ import React from 'react'
 
 import { MovieCardWrapper, MovieImage } from './styles'
 
-export default function({ movie, openModalAddMovie, handleSelectedMovieToAdd, navigation }) {
+import { API_IMAGE } from '../../utils/api';
 
-  const API_IMAGE = `https://image.tmdb.org/t/p/w400`;
+export default function({ movie, openModalAddMovie, handleSelectedMovieToAdd, navigation }) {
 
   function handleSelectedMovie() {
     handleSelectedMovieToAdd(movie);

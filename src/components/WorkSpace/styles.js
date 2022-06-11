@@ -2,6 +2,7 @@ import styled from 'styled-components/native'
 
 export const WorkSpaceWrapper = styled.View`
   margin-top: 20px;
+  height: 88%;
 `
 
 export const WorkSpaceTitle = styled.Text`
@@ -10,8 +11,7 @@ export const WorkSpaceTitle = styled.Text`
 `
 
 export const WorkSpaceRows = styled.FlatList`
-  margin-top: 30px;
-  height: 82%;
+  margin-top: 10px;
 `
 
 export const HeaderWrapper = styled.View`

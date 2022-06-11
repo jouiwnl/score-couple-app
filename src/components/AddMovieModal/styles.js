@@ -1,8 +1,7 @@
 import styled from 'styled-components/native'
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.ScrollView`
   width: 100%;
-  height: 450px;
   padding: 20px;
 `
 
@@ -13,7 +12,7 @@ export const ModalHeader = styled.Text`
 
   text-align: center;
 `
-export const MovieInformation = styled.View`
+export const MovieInformation = styled.ScrollView`
 
 `
 export const Footer = styled.View`
@@ -28,7 +27,6 @@ export const MovieDescription = styled.Text`
   font-size: 14px;
   color: #464646;
   font-weight: 300;
-  margin-top: 10px;
   text-align: center;
   padding: 10px;
 `
@@ -87,4 +85,21 @@ export const MovieExistIndicatorLabel = styled.Text`
   color: #464646;
   font-size: 10px;
   padding: 2px;
+`
+
+export const ProvidersWrapper = styled.View`
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
+export const ProviderLogo = styled.Image`
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
 `

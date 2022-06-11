@@ -28,10 +28,10 @@ export const FormInput = styled.View`
   border: 2px solid #9D2208;
   border-radius: 10px;
   color: #fff;
-  height: 60px;
+  height: 55px;
   font-size: 15px;
   padding-left: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 17px;
 
   display: flex;
   flex-direction: row;
