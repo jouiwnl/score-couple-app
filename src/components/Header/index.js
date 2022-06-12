@@ -25,13 +25,14 @@ export default function({}) {
   const navigate = useNavigation();
   const [isLogOut, setIsLogOut] = React.useState(false)
 
-  const { user } = React.useContext(AuthContext)
+  const { user, setUser } = React.useContext(AuthContext)
 
   function handleSignOut() {
     setIsLogOut(true)
 
     setTimeout(() => {
       signOut(auth).then(() => {
+        setUser({});
         navigate.navigate('Login')
       }).catch(error => {
         createToast('error', 'Erro!', 'Houve um erro ao deslogar...')

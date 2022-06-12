@@ -16,7 +16,7 @@ import PrizeDraw from '../PrizeDraw';
 
 import { Platform, Dimensions } from 'react-native';
 import Configs from '../Configs';
-import GenericProvider from '../../contexts/generic';
+import GenericProvider, { GenericContext } from '../../contexts/generic';
 import NavigationProvider from '../../contexts/navigation';
 import { AuthContext } from '../../contexts/auth';
 
@@ -37,7 +37,7 @@ export default function() {
     movieRef.current?.open();
   }
 
-  function openModalColumn() {
+  function openModalColumn(clean) {
     columnRef.current?.open();
   }
 
@@ -208,11 +208,6 @@ export default function() {
           modalStyle={{ backgroundColor: '#000014' }}
           ref={columnRef}
           keyboardAvoidingBehavior="height"
-          onClose={() => {
-            setTimeout(() => {
-              setSelectedColumn({})
-            }, 250)
-          }}
           >
             <ColumnDetail handleCloseColumn={handleCloseColumn}/>
         </Modalize>

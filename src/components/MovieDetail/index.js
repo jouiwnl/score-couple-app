@@ -64,17 +64,21 @@ export default function({ handleCloseMovie }) {
     return finalStatus;
   }
 
-  function getProviders() {
+  async function getProviders() {
     setIsLoading(true)
     if (movie.originalId) {
-      axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
-      .then(response => {
-        if (response.data.results.BR) {
-          setProviders(response.data.results.BR.flatrate)
-        }
-        return false;
-      }).finally(setIsLoading)
+      let promise = axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
+      if (promise) {
+        promise.then(response => {
+          if (response.data.results.BR) {
+            setProviders(response.data.results.BR.flatrate)
+          }
+        })
+      } 
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 750)
   }
 
   return (
@@ -91,11 +95,11 @@ export default function({ handleCloseMovie }) {
             {movie.movieDescription}
           </MovieDescription>
 
-          {(isLoading && providers && providers.length > 0) && (
+          {isLoading && (
             <Loading size={'small'} />
           )}
 
-          {(providers && providers.length > 0 && !isLoading) && (
+          {!isLoading && (
             <ProvidersWrapper>
               {providers.map(provider => (
                 <ProviderLogo 

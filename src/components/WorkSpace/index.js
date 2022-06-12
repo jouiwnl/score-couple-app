@@ -11,6 +11,7 @@ import Row from '../Row'
 
 import { RefreshControl } from 'react-native'
 import { AuthContext } from '../../contexts/auth'
+import { GenericContext } from '../../contexts/generic'
 
 export default function({ 
   openModalMovie, 
@@ -18,6 +19,7 @@ export default function({
 }) {
 
   const { user, getUser } = React.useContext(AuthContext);
+  const { setColumn } = React.useContext(GenericContext);
 
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -29,12 +31,17 @@ export default function({
     getUser(user.email, true);
   }
 
+  function handleOpenModalColumn() {
+    setColumn({});
+    openModalColumn();
+  }
+
   return (
     <WorkSpaceWrapper>
       <HeaderWrapper>
         <WorkSpaceTitle>{user.username}'s WorkSpace</WorkSpaceTitle>
 
-        <AddColumnButton onPress={openModalColumn}>
+        <AddColumnButton onPress={handleOpenModalColumn}>
           <ButtonLabel>+</ButtonLabel>
         </AddColumnButton>
       </HeaderWrapper>
