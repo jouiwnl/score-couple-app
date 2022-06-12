@@ -7,44 +7,25 @@ import { auth } from '../../../firebase';
 
 import { apiURL } from '../../utils/api';
 
-export default function({ column, handleCloseColumn }) {
+import { GenericContext } from '../../contexts/generic'
+import { AuthContext } from '../../contexts/auth'
 
-  const [selectedColumn, setSelectedColumn] = React.useState({ title: "" });
-  const [workspace, setWorkspace] = React.useState(null);
-
-  React.useEffect(() => {
-    if (column) {
-      setSelectedColumn({...column, workspace: workspace})
-    }
-  }, [column])
-
-  React.useEffect(() => {
-    getWorkSpace();
-  }, [])
-
-  function getWorkSpace() {
-    let promise = apiURL.get(`/users/${auth.currentUser.email}`);
-    promise.then(response => {
-      setWorkspace(response.data.workspace)
-    });
-  }
+export default function({ handleCloseColumn }) {
+  const { column, setColumn } = React.useContext(GenericContext);
+  const { user } = React.useContext(AuthContext);
 
   function handleInputChange(value) {
-    setSelectedColumn({
-      ...selectedColumn, 
+    setColumn({
+      ...column, 
       title: value,
-      workspace: { id: workspace.id }
+      workspace: { id: user.workspace.id }
     });
-  }
-
-  function cleanColumn() {
-    setSelectedColumn({})
   }
 
   return (
     <Wrapper>
       <Header>
-        <TitleColumn>{selectedColumn.id ? 'Editando' : 'Adicionando'} coluna</TitleColumn>
+        <TitleColumn>{column.id ? 'Editando' : 'Adicionando'} coluna</TitleColumn>
       </Header>
 
       <Form>
@@ -52,14 +33,12 @@ export default function({ column, handleCloseColumn }) {
           placeholder="Nome da coluna"
           placeholderTextColor="#767676"
           onChangeText={(value) => handleInputChange(value)}
-          value={selectedColumn.title || ''}
+          value={column.title || ''}
         />
       </Form>
       
       <Footer>
-          <ModalColumnFooter 
-            cleanColumn={cleanColumn} 
-            column={selectedColumn} 
+          <ModalColumnFooter   
             handleCloseColumn={handleCloseColumn} 
           />
       </Footer>

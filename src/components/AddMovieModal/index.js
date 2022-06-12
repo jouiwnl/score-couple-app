@@ -19,48 +19,34 @@ import {
 import axios from 'axios';
 import { API_KEY, apiURL, API_BASE_MOVIE, API_LOGO_IMAGE } from '../../utils/api'
 
-import { auth } from '../../../firebase';
-
-import { useNavigation } from '@react-navigation/native';
 import Loading from '../Loading';
 import { View } from 'react-native';
+import { NavigationContext } from '../../contexts/navigation';
+import { AuthContext } from '../../contexts/auth';
+import { GenericContext } from '../../contexts/generic';
 
-export default function({ movie, handleCloseModalAdd, columnid }) {
+export default function({ handleCloseModalAdd, columnid }) {
 
-  const navigate = useNavigation();
+  const navigate = React.useContext(NavigationContext);
+  const { movie, setMovie } = React.useContext(GenericContext);
+  const { user } = React.useContext(AuthContext);
+
   const [isSaving, setIsSaving] = React.useState(false);
   const [hasMovie, setHasMovie] = React.useState(false);
-  const [selectedMovie, setSelectedMovie] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [user, setUser] = React.useState(auth.currentUser.email);
   const [providers, setProviders] = React.useState([]);
-
-  React.useEffect(() => {
-    getUser();
-  }, [])
 
   React.useEffect(() => {
     setIsLoading(true)
     if (movie) {
-      apiURL.get(`/users/${user}`).then(({ data }) => {
-        setUser(data)
-        return data.workspace.colunas;
-      }).then((colunas) => {
-        hasAnyMovie(colunas);
+      hasAnyMovie(user.workspace.colunas);
         
-        axios.get(`${API_BASE_MOVIE}${movie.id}?api_key=${API_KEY}`)
-        .then(response => setSelectedMovie(response.data))
+      axios.get(`${API_BASE_MOVIE}${movie.id}?api_key=${API_KEY}`)
+        .then(response => setMovie(response.data))
         .then(getProviders)
         .finally(() => setIsLoading(false));
-      })
     }
-  }, [movie])
-
-  async function getUser() {
-    await apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
-      setUser(response.data)
-    });
-  }
+  }, [])
 
   function getProviders() {
     axios.get(`${API_BASE_MOVIE}${movie.id}/watch/providers?api_key=${API_KEY}`)
@@ -81,22 +67,22 @@ export default function({ movie, handleCloseModalAdd, columnid }) {
     setIsSaving(true);
     const movie = mountMovie();
     let promise = apiURL.post(`/movies?columnid=${columnid}`, movie);
-    promise.then((response) => {
+    promise.then(() => {
       handleCloseModalAdd(movie);
       navigate.navigate('Workspace');
       return false;
-    }).finally(setIsSaving);
+    });
   }
 
   function mountMovie() {
     const finalMovie = {
-      originalId: selectedMovie.id,
-      name: selectedMovie.title,
-      posterUrl: selectedMovie.poster_path,
-      releaseDate: selectedMovie.release_date,
-      runtime: selectedMovie.runtime,
-      genre: (selectedMovie.genres.length ? selectedMovie.genres[0].name : ''),
-      movieDescription: selectedMovie.overview.split('.')[0],
+      originalId: movie.id,
+      name: movie.title,
+      posterUrl: movie.poster_path,
+      releaseDate: movie.release_date,
+      runtime: movie.runtime,
+      genre: (movie.genres.length ? movie.genres[0].name : ''),
+      movieDescription: movie.overview.split('.')[0],
     }
 
     return finalMovie;

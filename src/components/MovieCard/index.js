@@ -4,13 +4,15 @@ import { AirbnbRating } from 'react-native-ratings';
 
 import { Platform } from 'react-native'
 
-import { apiMovieURL, apiURL, API_IMAGE } from '../../utils/api';
-import axios from 'axios';
+import { API_IMAGE } from '../../utils/api';
+import { GenericContext } from '../../contexts/generic';
 
-export default function({ movie, openModalMovie, handleSelectedMovie }) {
+export default function({ movie, openModalMovie }) {
+
+  const { setMovie } = React.useContext(GenericContext)
 
   function handleOnPress() {
-    handleSelectedMovie(movie);
+    setMovie(movie);
     openModalMovie();
   }
 

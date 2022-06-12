@@ -29,26 +29,21 @@ import { Modalize } from 'react-native-modalize'
 
 import { useNavigation } from '@react-navigation/native'
 
-import { auth } from '../../../firebase'
 import { apiURL, API_IMAGE } from '../../utils/api' 
+import { AuthContext } from '../../contexts/auth'
+import { GenericContext } from '../../contexts/generic'
 
-export default function({ handleAlterItem }) {
+export default function() {
 
   const navigate = useNavigation();
-
-  let movie = {
-    posterUrl: "",
-    name: "",
-    movieDescription: "",
-    score: ""
-  }
+  const {user, getUser} = React.useContext(AuthContext);
+  const { movie, setMovie } = React.useContext(GenericContext);
 
   let insideStatus = { color: "", description: "" };
 
   const movieRef = React.useRef(null)
   const explosionRef = React.useRef(null)
 
-  const [selectedMovie, setSelectedMovie] = React.useState(movie)
   const [isLoading, setIsLoading] = React.useState(false)
   const [isSaving, setIsSaving] = React.useState(false)
   const [thisStatus, setThisStatus] = React.useState(insideStatus)
@@ -59,18 +54,12 @@ export default function({ handleAlterItem }) {
     load();
   }, [])
 
-  async function getUser() {
-    return apiURL.get(`/users/${auth.currentUser.email}`).then(response => {
-      return response.data;
-    })
-  }
-
   async function save() {
     setIsSaving(true);
-    let promise = apiURL.put(`/movies/${selectedMovie.id}`, selectedMovie);
+    let promise = apiURL.put(`/movies/${movie.id}`, movie);
     promise.then((response) => {
       navigate.navigate('Workspace');
-      handleAlterItem(response.data);
+      getUser(user.email, true)
       return false;
     }).finally(setIsSaving);
   }
@@ -82,10 +71,8 @@ export default function({ handleAlterItem }) {
       setIsLoading(true)
     }
     
-    const usuario = await getUser();
-    
-    apiURL.get(`/workspaces/${usuario.workspace.id}/shuffle`).then(response => {
-			setSelectedMovie(response.data)
+    apiURL.get(`/workspaces/${user.workspace.id}/shuffle`).then(response => {
+			setMovie(response.data)
       setThisStatus(status.find(e => e.value === response.data.status));
 			return false;
 		}).finally((value) => {
@@ -98,7 +85,7 @@ export default function({ handleAlterItem }) {
   }
 
   function handleSelectStatus(item) {
-    setSelectedMovie({ ...selectedMovie, status: item.value });
+    setMovie({ ...movie, status: item.value });
     setThisStatus(item);
     handleCloseInsideModal();
   }
@@ -120,9 +107,9 @@ export default function({ handleAlterItem }) {
   return(
     <>
       <Wrapper>
-        {isLoading && ( <Loading size={'large'} fullwidth={true} /> )}
+        {isLoading && !movie && ( <Loading size={'large'} fullwidth={true} /> )}
 
-        {!isLoading && (
+        {movie && !isLoading && (
           <>
             {showConffeti && (
               <ConfettiCannon
@@ -137,17 +124,17 @@ export default function({ handleAlterItem }) {
             )}
             
 
-            <MovieImage source={{ uri: `${API_IMAGE.concat(selectedMovie.posterUrl)}` }}>
+            <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
               <LinearGradient colors={['#00000000', '#000014']} style={{ flex: 1 }} />
             </MovieImage>
 
             <Main>
               <MovieTitle>
-                {selectedMovie.name}
+                {movie.name}
               </MovieTitle>
 
               <MovieDescription>
-                {selectedMovie.movieDescription}
+                {movie.movieDescription}
               </MovieDescription>
               
               <SetStatusButtonWrapper>

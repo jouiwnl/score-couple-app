@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   Wrapper,
   FormWrapper,
@@ -27,6 +27,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useFocusEffect } from '@react-navigation/native';
 import Loading from '../../components/Loading';
+import { AuthContext } from '../../contexts/auth';
 
 export default function() {
   const navigate = useNavigation();
@@ -36,6 +37,8 @@ export default function() {
   const [currentUser, setCurrentUser] = React.useState(null);
   const [showLoginForm, setShowLoginForm] = React.useState(false);
 
+  const { signIn } = useContext(AuthContext);
+
   setInterval(() => {
     setCurrentUser(auth.currentUser)
   }, 500)
@@ -43,7 +46,6 @@ export default function() {
   React.useEffect(() => {
     if (currentUser) {
       setIsHaveUserAuthenticated(true)
-      setShowLoginForm(true)
       setTimeout(() => {
         navigate.navigate('Home')
       }, 3000)
@@ -63,7 +65,7 @@ export default function() {
 
   function handleLogin() {
     setIsLogginIn(true);
-    signInWithEmailAndPassword(auth, loginValues.email, loginValues.password).then(() => {
+    signIn(loginValues.email, loginValues.password).then(() => {
       navigate.navigate('Home')
       setLoginValues({})
       createToast('success', 'Bem-vindo!', `Logado como ${loginValues.email}`)

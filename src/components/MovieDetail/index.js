@@ -2,6 +2,7 @@ import React from 'react'
 import { AirbnbRating } from 'react-native-ratings';
 import ModalFooter from '../ModalMovieFooter';
 import ModalHeader from '../ModalMovieHeader';
+import Loading from '../Loading';
 
 import { status } from '../../utils/status';
 
@@ -28,23 +29,25 @@ import {
 import { Modalize } from 'react-native-modalize';
 import axios from 'axios';
 import { API_BASE_MOVIE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
+import { GenericContext } from '../../contexts/generic';
 
-
-export default function({ movie, handleCloseMovie }) {
+export default function({ handleCloseMovie }) {
+  const { movie, setMovie } = React.useContext(GenericContext);
   const movieRef = React.useRef(null);
-  const [selectedMovie, setSelectedMovie] = React.useState(movie);
+
   const [providers, setProviders] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     getProviders();
   }, [])
 
   function handleScore(value) {
-    setSelectedMovie({ ...selectedMovie, score: value })
+    setMovie({ ...movie, score: value })
   }
 
   function handleSelectStatus(item) {
-    setSelectedMovie({ ...selectedMovie, status: item.value });
+    setMovie({ ...movie, status: item.value });
     handleCloseInsideModal();
   }
 
@@ -57,36 +60,42 @@ export default function({ movie, handleCloseMovie }) {
   }
 
   function defineStatus() {
-    const finalStatus = status.find(e => e.value === selectedMovie.status);
+    const finalStatus = status.find(e => e.value === movie.status);
     return finalStatus;
   }
 
   function getProviders() {
+    setIsLoading(true)
     if (movie.originalId) {
       axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
       .then(response => {
         if (response.data.results.BR) {
           setProviders(response.data.results.BR.flatrate)
         }
-      })
+        return false;
+      }).finally(setIsLoading)
     }
   }
 
   return (
     <>
       <Wrapper>
-        <ModalHeader movie={selectedMovie} />
+        <ModalHeader />
 
         <Main>
           <MovieTitle>
-            {selectedMovie.name}
+            {movie.name}
           </MovieTitle>
 
           <MovieDescription>
-            {selectedMovie.movieDescription}
+            {movie.movieDescription}
           </MovieDescription>
 
-          {providers && providers.length > 0 && (
+          {(isLoading && providers && providers.length > 0) && (
+            <Loading size={'small'} />
+          )}
+
+          {(providers && providers.length > 0 && !isLoading) && (
             <ProvidersWrapper>
               {providers.map(provider => (
                 <ProviderLogo 
@@ -105,10 +114,10 @@ export default function({ movie, handleCloseMovie }) {
             </SetStatusButton>
           </SetStatusButtonWrapper>
           
-          {(selectedMovie.status == 'CANCELED' || selectedMovie.status == 'COMPLETED') && (
+          {(movie.status == 'CANCELED' || movie.status == 'COMPLETED') && (
              <MovieRating>
                 <AirbnbRating
-                  defaultRating={!selectedMovie.score ? 0 : selectedMovie.score} 
+                  defaultRating={!movie.score ? 0 : movie.score} 
                   ratingContainerStyle={{ 
                     marginTop: Platform.OS === 'android' ? -33 : -20,
                     marginBottom: Platform.OS === 'android' ? -25 : 0
@@ -122,7 +131,7 @@ export default function({ movie, handleCloseMovie }) {
          
         </Main>
 
-        <ModalFooter handleCloseMovie={handleCloseMovie} movie={selectedMovie} />
+        <ModalFooter handleCloseMovie={handleCloseMovie} />
       </Wrapper>
 
       <Modalize 

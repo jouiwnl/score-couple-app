@@ -3,8 +3,11 @@ import { FooterWrapper, SaveButton, DeleteButton, ButtonLabel } from './styles'
 
 import { apiURL } from '../../utils/api';
 import Loading from '../Loading';
+import { GenericContext } from '../../contexts/generic';
 
-export default function({ movie, handleCloseMovie }) {
+export default function({ handleCloseMovie }) {
+
+  const { movie } = React.useContext(GenericContext)
 
   const [isSaving, setIsSaving] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);

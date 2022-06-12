@@ -2,21 +2,17 @@ import React from "react";
 
 import { Card, WrapperButton, ButtonLabel } from './styles'
 import { useNavigation } from '@react-navigation/native';
+import { NavigationContext } from "../../contexts/navigation";
 
-export default function({ columnId, navigate }) {
+export default function({ columnId }) {
 
-  const navigation = useNavigation();
-
-  React.useEffect(() => {
-    if (!navigate) return;
-    navigation.navigate(String(navigate))
-  }, [navigate])
+  const { navigate } = React.useContext(NavigationContext)
 
   return (
     <Card>
       <WrapperButton
         onPress={() => {
-          navigation.navigate('Search', { columnId: columnId })
+          navigate('Search', { columnId: columnId })
         }}
       >
         <ButtonLabel>+ Card</ButtonLabel>

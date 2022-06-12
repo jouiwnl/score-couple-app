@@ -10,7 +10,10 @@ import _ from 'lodash';
 
 import axios from 'axios'
 
-export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId, navigation }) {
+export default function({ 
+  openModalAddMovie,  
+  columnId
+}) {
 
   const route = useRoute();
 
@@ -55,10 +58,8 @@ export default function({ openModalAddMovie, handleSelectedMovieToAdd, columnId,
           {movies.map(movie => (
             <MovieSearchCard 
               openModalAddMovie={openModalAddMovie} 
-              handleSelectedMovieToAdd={handleSelectedMovieToAdd} 
               movie={movie} 
               key={movie.id}
-              navigation={navigation}
             />
           ))}
         </ListMovies>

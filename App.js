@@ -8,32 +8,36 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Login from './src/Pages/Login';
 
+import AuthProvider from './src/contexts/auth';
+
 const { Navigator, Screen } = createStackNavigator();
 
 export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Navigator initialRouteName='Login'>
-          <Screen 
-            name='Login'
-            options={{
-              headerShown: false,
-              
-            }}
-            component={Login}
-          />
+        <AuthProvider>
+          <Navigator initialRouteName='Login'>
+            <Screen 
+              name='Login'
+              options={{
+                headerShown: false,
+                
+              }}
+              component={Login}
+            />
 
-          <Screen 
-            name='Home'
-            options={{
-              headerShown: false,
-              unmountOnBlur: true,
-              gestureEnabled: false
-            }}
-            component={MainApp}
-          />
-        </Navigator>
+            <Screen 
+              name='Home'
+              options={{
+                headerShown: false,
+                unmountOnBlur: true,
+                gestureEnabled: false
+              }}
+              component={MainApp}
+            />
+          </Navigator>
+        </AuthProvider>
       </NavigationContainer>
       
       <StatusBar style="light" />

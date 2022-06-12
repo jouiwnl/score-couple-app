@@ -10,18 +10,14 @@ import {
 import Row from '../Row'
 
 import { RefreshControl } from 'react-native'
+import { AuthContext } from '../../contexts/auth'
 
 export default function({ 
-  rows, 
   openModalMovie, 
-  openModalColumn, 
-  handleSelectedMovie, 
-  handleSelectedColumn, 
-  onRefresh, 
-  navigation, 
-  navigate, 
-  user 
+  openModalColumn
 }) {
+
+  const { user, getUser } = React.useContext(AuthContext);
 
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -30,7 +26,7 @@ export default function({
     setTimeout(() => {
       setIsRefreshing(false)
     }, 1000)
-    onRefresh();
+    getUser(user.email, true);
   }
 
   return (
@@ -44,18 +40,14 @@ export default function({
       </HeaderWrapper>
 
       <WorkSpaceRows 
-        data={rows}
+        data={user.workspace.colunas}
         renderItem={(row) => (
           <Row 
-            handleSelectedMovie={handleSelectedMovie}
-            handleSelectedColumn={handleSelectedColumn}
             openModalMovie={openModalMovie} 
             openModalColumn={openModalColumn}
             row={row.item} 
             key={row.item.id} 
             movies={row.item.movies}
-            navigation={navigation}
-            navigate={navigate}
           />
         )}
         keyExtractor={() => String(Math.random())}

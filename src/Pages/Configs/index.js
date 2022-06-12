@@ -8,23 +8,9 @@ import {
   ConfigItem,
 } from './styles'
 
-import { apiURL } from '../../utils/api'
-import { auth } from '../../../firebase'
-import ConfigAvatar from '../../components/ConfigAvatar'
+import ConfigAvatar from '../../components/ConfigAvatar';
 
 export default function() {
-
-  const [user, setUser] = React.useState({});
-
-  React.useEffect(() => {
-    getUser();
-  }, [])
-
-  async function getUser() {
-    return apiURL.get(`/users/findBy/${auth.currentUser.email}`).then(response => {
-      setUser(response.data)
-    });
-  }
 
   return (
     
@@ -34,7 +20,7 @@ export default function() {
           <HeaderTitle>Configurações</HeaderTitle>
         </HeaderWrapper>
 
-        <ConfigAvatar userCame={user} reload={getUser}/>
+        <ConfigAvatar />
         
       </Wrapper>
   )

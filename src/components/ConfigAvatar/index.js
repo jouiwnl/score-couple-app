@@ -17,25 +17,27 @@ import createToast from '../../utils/createToast'
 
 import _ from 'lodash'
 import { Keyboard } from 'react-native'
+import { AuthContext } from '../../contexts/auth'
 
-export default function({ userCame, reload }) {
+export default function() {
+  const { user, getUser } = React.useContext(AuthContext);
 
-  const [user, setUser] = React.useState(userCame)
   const [imageUrl, setImageUrl] = React.useState(undefined);
   const [cursorSelection, setCursorSelection] = React.useState({ start: 0, end: 0 })
   const [buttonLoading, setButtonLoading] = React.useState(false);
   const [imageLoading, setImageLoading] = React.useState(false); 
 
+  const [formValues, setFormValues] = React.useState(user);
+
   React.useEffect(() => {
     setImageLoading(true)
-    if (!_.isEmpty(userCame)) {
-      setUser(userCame)
-      setImageUrl(userCame.avatarUrl)
+    if (!_.isEmpty(user)) {
+      setImageUrl(user.avatarUrl)
     }
     setTimeout(() => {
       setImageLoading(false)
     }, 750)
-  }, [userCame])
+  }, [user])
 
   async function save() {
     if (!isValidImage()) {
@@ -43,8 +45,8 @@ export default function({ userCame, reload }) {
     }
 
     setButtonLoading(true)
-    apiURL.put(`/users/${user.id}`, user).then(() => {
-      reload();
+    apiURL.put(`/users/${user.id}`, formValues).then(() => {
+      getUser(user.email, true);
     }).finally(() => {
       setButtonLoading(false);
       Keyboard.dismiss()
@@ -52,7 +54,7 @@ export default function({ userCame, reload }) {
   }
 
   function handleInputChange(name, value) {
-    setUser({...user, [name]: value})
+    setFormValues({...user, [name]: value})
   }
 
   function handleFocus() {
@@ -96,7 +98,7 @@ export default function({ userCame, reload }) {
         <AvatarInput 
           placeholder={'Url da foto'} 
           placeholderTextColor="#767676"
-          value={!_.isEmpty(user) ? user.avatarUrl : userCame.avatarUrl}
+          value={formValues.avatarUrl ?? user.avatarUrl}
           onFocus={handleFocus}
           selection={cursorSelection}
           onChangeText={(text) => handleInputChange('avatarUrl', text)}

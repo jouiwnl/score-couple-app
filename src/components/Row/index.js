@@ -3,21 +3,19 @@ import MovieCard from '../MovieCard'
 import { RowItems, RowTitle, RowWrapper, RowHeader, RowButton } from './styles'
 import { Entypo } from '@expo/vector-icons'; 
 import AddMovieButton from '../AddMovieButton';
+import { GenericContext } from '../../contexts/generic';
 
 export default function({ 
-  movies, 
   row, 
   openModalMovie, 
-  openModalColumn,
-  handleSelectedMovie, 
-  handleSelectedColumn,
-  navigation, 
-  navigate 
+  openModalColumn
 }) {
+
+  const { setColumn } = React.useContext(GenericContext)
 
   function handleEdit() {
     openModalColumn();
-    handleSelectedColumn(row);
+    setColumn(row);
   }
 
   return (
@@ -35,15 +33,14 @@ export default function({
       </RowHeader>
       
       <RowItems>
-        {movies && movies.map(movie => (
+        {row.movies && row.movies.map(movie => (
           <MovieCard 
-            handleSelectedMovie={handleSelectedMovie} 
             openModalMovie={openModalMovie} 
             key={movie.id} 
             movie={movie} 
           />
         ))}
-        <AddMovieButton navigate={navigate} columnId={row.id} navigation={navigation}/>
+        <AddMovieButton columnId={row.id}/>
       </RowItems>
     </RowWrapper>
   )

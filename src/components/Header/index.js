@@ -18,11 +18,14 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../../../firebase';
 import createToast from '../../utils/createToast';
 import Loading from '../Loading';
+import { AuthContext } from '../../contexts/auth';
 
-export default function({ user }) {
+export default function({}) {
 
   const navigate = useNavigation();
   const [isLogOut, setIsLogOut] = React.useState(false)
+
+  const { user } = React.useContext(AuthContext)
 
   function handleSignOut() {
     setIsLogOut(true)

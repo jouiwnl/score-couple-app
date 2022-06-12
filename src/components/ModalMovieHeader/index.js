@@ -3,8 +3,12 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { API_IMAGE } from '../../utils/api'
 
 import { MovieImage } from './styles'
+import { GenericContext } from '../../contexts/generic'
 
-export default function({ movie }) {
+export default function() {
+
+  const { movie } = React.useContext(GenericContext)
+
   return (
     <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
       <LinearGradient 
