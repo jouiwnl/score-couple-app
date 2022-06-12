@@ -99,7 +99,7 @@ export default function({ handleCloseMovie }) {
             <Loading size={'small'} />
           )}
 
-          {!isLoading && (
+          {!isLoading && providers && (
             <ProvidersWrapper>
               {providers.map(provider => (
                 <ProviderLogo 
