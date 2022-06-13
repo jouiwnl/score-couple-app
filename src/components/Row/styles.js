@@ -4,8 +4,8 @@ export const RowWrapper = styled.View``
 
 export const RowTitle = styled.Text`
   font-size: 20px;
-  color: ${({ screenTheme, theme }) => {
-  if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+  if (theme.screenTheme === 'dark') {
     return theme.COLORS.FONT_COLOR_DARK
   }
 

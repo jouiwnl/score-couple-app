@@ -128,7 +128,7 @@ export default function() {
 
   return(
     <>
-      <Wrapper screenTheme={screenTheme}>
+      <Wrapper>
         {isLoading && !movie && ( <Loading size={'large'} fullwidth={true} /> )}
 
         {movie && !isLoading && (
@@ -153,7 +153,7 @@ export default function() {
               />
             </MovieImage>
 
-            <MovieTitle screenTheme={screenTheme} numberOfLines={2}>
+            <MovieTitle numberOfLines={2}>
               {movie.name}
             </MovieTitle>
 
@@ -190,17 +190,17 @@ export default function() {
                 )}
 
                 {!isSaving && (
-                  <ButtonLabel screenTheme={screenTheme}>Salvar</ButtonLabel>
+                  <ButtonLabel>Salvar</ButtonLabel>
                 )}
               </SaveButton>
               
               <CancelButton onPress={() => load(true)}>
                 {isLoadingButton && (
-                  <Loading size={"small"}   />
+                  <Loading size={"small"} />
                 )}
 
                 {!isLoadingButton && (
-                  <ButtonLabel screenTheme={screenTheme}>Tente novamente!</ButtonLabel>
+                  <ButtonLabel>Tente novamente!</ButtonLabel>
                 )}
               </CancelButton>
             </Footer>
@@ -215,7 +215,7 @@ export default function() {
           ref={movieRef}
         >
           <ModalWrapper>
-          <ModalStatusHeader screenTheme={screenTheme}>{thisStatus.description}</ModalStatusHeader>
+          <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
           {status.map((item) => (
             <ModalItemWrapper 
               onPress={() => 
@@ -226,7 +226,7 @@ export default function() {
                 <item.icon />
               </ModalItemIcon>
               
-              <ModalItemDescription screenTheme={screenTheme}>{item.description}</ModalItemDescription>
+              <ModalItemDescription>{item.description}</ModalItemDescription>
             </ModalItemWrapper>
           ))}
           </ModalWrapper>

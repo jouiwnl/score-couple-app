@@ -91,7 +91,7 @@ export default function({ handleCloseMovie }) {
         <ModalHeader />
 
         <Main>
-          <MovieTitle screenTheme={screenTheme}>
+          <MovieTitle>
             {movie.name}
           </MovieTitle>
 

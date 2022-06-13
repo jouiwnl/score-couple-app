@@ -6,8 +6,8 @@ const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
 
 export const Wrapper = styled.SafeAreaView`
-  background: ${({ theme, screenTheme }) => {
-    if (screenTheme === 'dark') {
+  background: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.BACKGROUND_DARK
     }
 
@@ -21,16 +21,16 @@ export const Input = styled.TextInput`
   left: 0px;
   z-index: 999;
   border: none;
-  background: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  background: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return 'rgb(75, 78, 90)';
     }
 
     return 'rgb(199, 199, 199)';
   }};
 
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

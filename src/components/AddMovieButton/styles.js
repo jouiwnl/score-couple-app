@@ -7,8 +7,8 @@ export const Card = styled.View`
   align-items: center;
   justify-content: center;
   margin-right: 15px;
-  border: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  border: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return `1px dashed ${theme.COLORS.FONT_COLOR_DARK}`
     }
 
@@ -27,8 +27,8 @@ export const WrapperButton = styled.TouchableOpacity`
 `
 
 export const ButtonLabel = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

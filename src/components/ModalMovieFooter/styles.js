@@ -33,8 +33,8 @@ export const DeleteButton = styled.TouchableOpacity`
 export const ButtonLabel = styled.Text`
   font-size: 15px;
   font-weight: 400;
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

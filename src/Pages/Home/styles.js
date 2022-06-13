@@ -6,8 +6,8 @@ const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
 
 export const Wrapper = styled.SafeAreaView`
-  background: ${({ theme, screenTheme }) => {
-    if (screenTheme === 'dark') {
+  background: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.BACKGROUND_DARK
     }
 

@@ -6,8 +6,8 @@ export const WorkSpaceWrapper = styled.View`
 `
 
 export const WorkSpaceTitle = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -37,8 +37,8 @@ export const AddColumnButton = styled.TouchableOpacity`
 `
 
 export const ButtonLabel = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

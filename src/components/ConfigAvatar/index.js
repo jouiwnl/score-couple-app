@@ -18,11 +18,9 @@ import createToast from '../../utils/createToast'
 import _ from 'lodash'
 import { Keyboard } from 'react-native'
 import { AuthContext } from '../../contexts/auth'
-import { ScreenThemeContext } from '../../contexts/theme'
 
 export default function() {
   const { user, getUser } = React.useContext(AuthContext);
-  const { screenTheme } = React.useContext(ScreenThemeContext);
 
   const [imageUrl, setImageUrl] = React.useState(undefined);
   const [cursorSelection, setCursorSelection] = React.useState({ start: 0, end: 0 })

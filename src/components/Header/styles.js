@@ -16,8 +16,8 @@ export const UserInfo = styled.View`
 `
 
 export const Username = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -47,8 +47,8 @@ export const OnlineStatus = styled.View`
   width: 13px;
   height: 13px;
   border-radius: 10px;
-  border: ${({ theme, screenTheme }) => {
-    if (screenTheme === 'dark') {
+  border: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return `2px solid ${theme.COLORS.BACKGROUND_DARK}`
     }
 

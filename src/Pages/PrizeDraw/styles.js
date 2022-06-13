@@ -9,8 +9,8 @@ const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
 
 export const Wrapper = styled.SafeAreaView`
-  background: ${({ theme, screenTheme }) => {
-    if (screenTheme === 'dark') {
+  background: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.BACKGROUND_DARK
     }
 
@@ -38,8 +38,8 @@ export const Main = styled.ScrollView`
 export const MovieTitle = styled.Text`
   font-size: 35px;
   font-weight: 600;
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -84,8 +84,8 @@ export const CancelButton = styled.TouchableOpacity`
 export const ButtonLabel = styled.Text`
   font-size: 15px;
   font-weight: 400;
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -129,8 +129,8 @@ export const ModalWrapper = styled.ScrollView`
 `
 
 export const ModalStatusHeader = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -160,8 +160,8 @@ export const ModalItemIcon = styled.View`
   margin-right: 15px;
 `
 export const ModalItemDescription = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

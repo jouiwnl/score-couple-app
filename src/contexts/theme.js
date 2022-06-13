@@ -1,32 +1,39 @@
 import _ from 'lodash';
 import React from 'react'
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemeProvider } from 'styled-components';
+
+import { theme } from '../design/theme'
 
 export const ScreenThemeContext = React.createContext({});
 
 export default function ScreenThemeProvider({ children }) {
   const [screenTheme, setScreenTheme] = React.useState(null);
+  const [finalTheme, setFinalTheme] = React.useState(theme);
 
   React.useEffect(() => {
     AsyncStorage.getItem('screenTheme').then(value => {
-      console.log(value)
       if (value) {
         setScreenTheme(value)
+        setFinalTheme({...theme, screenTheme: value})
       } else {
         setScreenTheme('dark')
+        setFinalTheme({...theme, screenTheme: 'dark'})
       }
-    })
+    });
   }, [])
 
   React.useEffect(() => {
     AsyncStorage.setItem('screenTheme', screenTheme);
   }, [screenTheme])
 
-  function handleScreenTheme() {
-    if (screenTheme === 'dark') {
+  function handleScreenTheme(value) {
+    if (!value) {
       setScreenTheme('light')
+      setFinalTheme({...theme, screenTheme: 'light'})
     } else {
       setScreenTheme('dark')
+      setFinalTheme({...theme, screenTheme: 'dark'})
     }
   }
 
@@ -34,7 +41,9 @@ export default function ScreenThemeProvider({ children }) {
     <ScreenThemeContext.Provider value={{ 
       screenTheme, setScreenTheme, handleScreenTheme
     }}>
-      {children}
+      <ThemeProvider theme={finalTheme}>
+        {children}
+      </ThemeProvider>
     </ScreenThemeContext.Provider>
   )
 }

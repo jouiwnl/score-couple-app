@@ -112,7 +112,7 @@ export default function() {
                   <MaterialIcons 
                     name="workspaces-filled" 
                     size={24} 
-                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')}
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#FF5B38' : '#464646')}
                   />
                 );
               },
@@ -128,7 +128,7 @@ export default function() {
                   <Octicons 
                     name="gift" 
                     size={24} 
-                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')} 
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#FF5B38' : '#464646')} 
                   />
                 );
               },
@@ -145,7 +145,7 @@ export default function() {
                   <MaterialCommunityIcons 
                     name="compass-outline" 
                     size={25} 
-                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')} 
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#FF5B38' : '#464646')} 
                   />
                 );
               },
@@ -162,7 +162,7 @@ export default function() {
                   <MaterialIcons 
                     name="settings" 
                     size={24} 
-                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')} 
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#FF5B38' : '#464646')} 
                   />
                 );
               },

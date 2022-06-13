@@ -10,10 +10,6 @@ export const AvatarConfigWrapper = styled.View`
   justify-content: center;
 
   padding: 15px;
-  border-top-color: #464646;
-  border-top-width: 1px;
-  border-bottom-color: #464646;
-  border-bottom-width: 1px;
 `
 export const ImageWrapper = styled.View`
   width: 60px;
@@ -57,8 +53,8 @@ export const AvatarInputWrapper = styled.View`
 
 export const AvatarInput = styled.TextInput` 
   padding-right: 10px;
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

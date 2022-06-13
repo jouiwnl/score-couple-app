@@ -9,8 +9,8 @@ export const Wrapper = styled.View`
 `
 
 export const MovieTitle = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -76,8 +76,8 @@ export const ModalWrapper = styled.ScrollView`
 `
 
 export const ModalStatusHeader = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -107,8 +107,8 @@ export const ModalItemIcon = styled.View`
   margin-right: 15px;
 `
 export const ModalItemDescription = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

@@ -23,7 +23,7 @@ export default function({
   return (
     <RowWrapper>
       <RowHeader>
-        <RowTitle screenTheme={screenTheme}>{row.title}</RowTitle>
+        <RowTitle>{row.title}</RowTitle>
 
         <RowButton onPress={handleEdit}>
           <Entypo 

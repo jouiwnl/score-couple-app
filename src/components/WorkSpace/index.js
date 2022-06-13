@@ -41,10 +41,10 @@ export default function({
   return (
     <WorkSpaceWrapper>
       <HeaderWrapper>
-        <WorkSpaceTitle screenTheme={screenTheme}>{user.username}'s WorkSpace</WorkSpaceTitle>
+        <WorkSpaceTitle>{user.username}'s WorkSpace</WorkSpaceTitle>
 
         <AddColumnButton onPress={handleOpenModalColumn}>
-          <ButtonLabel screenTheme={screenTheme}>+</ButtonLabel>
+          <ButtonLabel>+</ButtonLabel>
         </AddColumnButton>
       </HeaderWrapper>
 

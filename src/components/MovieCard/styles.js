@@ -6,8 +6,8 @@ export const MovieWrapper = styled.TouchableOpacity`
 
 export const MovieTitle = styled.Text`
   font-size: 13px;
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

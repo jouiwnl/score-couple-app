@@ -5,8 +5,8 @@ export const Wrapper = styled.View`
 `
 
 export const TitleColumn = styled.Text`
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 
@@ -24,8 +24,8 @@ export const Header = styled.View`
 export const Input = styled.TextInput`
   border: ${({ theme }) => `2px solid ${theme.COLORS.INPUT_COLOR}`};
   border-radius: 10px;
-  color: ${({ screenTheme, theme }) => {
-    if (screenTheme === 'dark') {
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
     }
 

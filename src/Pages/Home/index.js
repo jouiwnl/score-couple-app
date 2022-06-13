@@ -6,7 +6,6 @@ import Loading from '../../components/Loading';
 
 import { Container, Wrapper } from './styles'
 import { AuthContext } from '../../contexts/auth';
-import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ 
   openModalMovie, 
@@ -14,10 +13,9 @@ export default function({
 }) {
 
   const { user } = React.useContext(AuthContext)
-  const { screenTheme, handleScreenTheme } = React.useContext(ScreenThemeContext);
 
   return (
-    <Wrapper screenTheme={screenTheme}>
+    <Wrapper>
       <Container>
         <Header user={user}/>
 

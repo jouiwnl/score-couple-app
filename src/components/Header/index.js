@@ -11,26 +11,22 @@ import {
   AvatarImage 
 } from './styles'
 import { Entypo } from '@expo/vector-icons'; 
-
 import { useNavigation } from '@react-navigation/native';
-
 import { signOut } from 'firebase/auth'
 import { auth } from '../../../firebase';
 import createToast from '../../utils/createToast';
 import Loading from '../Loading';
-import { AuthContext } from '../../contexts/auth';
-
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { AuthContext } from '../../contexts/auth'; 
 import { ScreenThemeContext } from '../../contexts/theme';
+
 import _ from 'lodash';
 
-export default function({}) {
+export default function() {
   const navigate = useNavigation();
-  const { screenTheme, handleScreenTheme } = React.useContext(ScreenThemeContext);
-
-  const [isLogOut, setIsLogOut] = React.useState(false)
-
+  const { screenTheme } = React.useContext(ScreenThemeContext);
   const { user, setUser } = React.useContext(AuthContext)
+  
+  const [isLogOut, setIsLogOut] = React.useState(false) 
 
   function handleSignOut() {
     setIsLogOut(true)
@@ -52,20 +48,12 @@ export default function({}) {
       <UserInfo>
         <Avatar onPress={() => navigate.navigate('Configs')}>
           <AvatarImage source={{ uri: user.avatarUrl }} />
-          <OnlineStatus screenTheme={screenTheme} />
+          <OnlineStatus />
         </Avatar>
-        <Username screenTheme={screenTheme} >{ user.username }</Username>
+        <Username>{ user.username }</Username>
       </UserInfo>
       
       <RightSide>
-        <Button onPress={handleScreenTheme}>
-          <MaterialCommunityIcons 
-            name={screenTheme === 'dark' ? "lightbulb-on-outline" : "lightbulb-on"} 
-            size={24} 
-            color={screenTheme === 'dark' ? "white" : "black"} 
-          />
-        </Button> 
-
         <Button onPress={handleSignOut}>
 
           {isLogOut && ( <Loading size={"small"}   /> )}

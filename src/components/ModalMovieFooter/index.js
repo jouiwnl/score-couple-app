@@ -4,12 +4,9 @@ import { FooterWrapper, SaveButton, DeleteButton, ButtonLabel } from './styles'
 import { apiURL } from '../../utils/api';
 import Loading from '../Loading';
 import { GenericContext } from '../../contexts/generic';
-import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ handleCloseMovie }) {
-
   const { movie } = React.useContext(GenericContext)
-  const { screenTheme } = React.useContext(ScreenThemeContext);
 
   const [isSaving, setIsSaving] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -42,7 +39,7 @@ export default function({ handleCloseMovie }) {
         )}
 
         {!isSaving && (
-          <ButtonLabel screenTheme={screenTheme}>Salvar</ButtonLabel>
+          <ButtonLabel>Salvar</ButtonLabel>
         )}
       </SaveButton>
 
@@ -52,7 +49,7 @@ export default function({ handleCloseMovie }) {
         )}
 
         {!isDeleting && (
-          <ButtonLabel screenTheme={screenTheme}>Apagar</ButtonLabel>
+          <ButtonLabel>Apagar</ButtonLabel>
         )}
       </DeleteButton>
     </FooterWrapper>

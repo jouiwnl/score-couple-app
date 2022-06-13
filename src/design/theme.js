@@ -15,7 +15,7 @@ export const theme = {
 
     TAB_COLOR_LIGHT: '#FFF',
     TAB_COLOR_ICON_LIGHT: '#464646',
-    TAB_COLOR_ICON_LIGHT_FOCUSED: '#000014'
+    TAB_COLOR_ICON_LIGHT_FOCUSED: '#FF5B38'
   },
   FONTS: {
     
