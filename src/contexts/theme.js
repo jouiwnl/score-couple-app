@@ -39,7 +39,9 @@ export default function ScreenThemeProvider({ children }) {
 
   return (
     <ScreenThemeContext.Provider value={{ 
-      screenTheme, setScreenTheme, handleScreenTheme
+      screenTheme, 
+      setScreenTheme, 
+      handleScreenTheme
     }}>
       <ThemeProvider theme={finalTheme}>
         {children}

@@ -17,10 +17,14 @@ export const Wrapper = styled.SafeAreaView`
   padding-top: ${statusBarHeight + 'px'};
 `;
 
-export const Input = styled.TextInput`
+export const InputWrapper = styled.View`
   left: 0px;
   z-index: 999;
   border: none;
+  height: 60px;
+  padding-left: 20px;
+  width: 100%;
+  font-size: 15px;
   background: ${({ theme }) => {
     if (theme.screenTheme === 'dark') {
       return 'rgb(75, 78, 90)';
@@ -28,7 +32,12 @@ export const Input = styled.TextInput`
 
     return 'rgb(199, 199, 199)';
   }};
+  flex-direction: row;
+  align-items: center;
+`
 
+export const Input = styled.TextInput`
+  margin-left: 10px;
   color: ${({ theme }) => {
     if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
@@ -36,11 +45,6 @@ export const Input = styled.TextInput`
 
     return theme.COLORS.FONT_COLOR_LIGHT
   }};
-
-  height: 60px;
-  padding-left: 24px;
-  width: 100%;
-  font-size: 15px;
 `
 export const AlertWrapper = styled.View`
   padding: 25px;

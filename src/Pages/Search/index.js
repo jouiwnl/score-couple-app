@@ -1,7 +1,17 @@
 import React from 'react';
 import { apiMovieURL } from '../../utils/api'
 
-import { Input, Wrapper, ListMovies, AlertWrapper, Message } from './styles'
+import { 
+  InputWrapper,
+  Input, 
+  Wrapper, 
+  ListMovies, 
+  AlertWrapper, 
+  Message 
+} from './styles'
+
+import { AntDesign } from '@expo/vector-icons';
+
 import MovieSearchCard from '../../components/MovieSearchCard';
 import Loading from '../../components/Loading'
 
@@ -9,6 +19,7 @@ import { useRoute } from '@react-navigation/native';
 import _ from 'lodash';
 
 import axios from 'axios'
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ 
   openModalAddMovie,  
@@ -16,6 +27,8 @@ export default function({
 }) {
 
   const route = useRoute();
+
+  const { screenTheme } = React.useContext(ScreenThemeContext);
 
   const [inputValue, setInputValue] = React.useState("");
   const [movies, setMovies] = React.useState([]);
@@ -45,11 +58,19 @@ export default function({
 
   return (
     <Wrapper>
-      <Input
-        onChangeText={handleSearch} 
-        placeholder="Título, personagem ou gênero"
-        placeholderTextColor="#767676" 
-      />
+      <InputWrapper>
+        <AntDesign 
+          name="search1" 
+          size={24}
+          color={screenTheme === 'dark' ? "white" : "black"} 
+        />
+
+        <Input
+          onChangeText={handleSearch} 
+          placeholder="Título, personagem ou gênero"
+          placeholderTextColor="#767676" 
+        />
+      </InputWrapper>
 
       {isLoading && ( <Loading size={'large'} fullwidth={true} /> )}
 
