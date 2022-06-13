@@ -2,11 +2,17 @@ import styled from 'styled-components/native'
 
 export const WorkSpaceWrapper = styled.View`
   margin-top: 20px;
-  height: 90%;
+  height: 91%;
 `
 
 export const WorkSpaceTitle = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   font-size: 23px;
 `
 
@@ -31,7 +37,14 @@ export const AddColumnButton = styled.TouchableOpacity`
 `
 
 export const ButtonLabel = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
+  
   font-size: 30px;
   font-weight: 600;
 `

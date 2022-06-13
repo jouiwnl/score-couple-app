@@ -9,6 +9,7 @@ import { useRoute } from '@react-navigation/native';
 import _ from 'lodash';
 
 import axios from 'axios'
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ 
   openModalAddMovie,  
@@ -16,6 +17,8 @@ export default function({
 }) {
 
   const route = useRoute();
+
+  const { screenTheme } = React.useContext(ScreenThemeContext);
 
   const [inputValue, setInputValue] = React.useState("");
   const [movies, setMovies] = React.useState([]);
@@ -44,8 +47,9 @@ export default function({
   }
 
   return (
-    <Wrapper>
-      <Input 
+    <Wrapper screenTheme={screenTheme}>
+      <Input
+        screenTheme={screenTheme}
         onChangeText={handleSearch} 
         placeholder="Título, personagem ou gênero"
         placeholderTextColor="#767676" 
@@ -67,7 +71,7 @@ export default function({
 
       {movies.length == 0 && !_.isEmpty(inputValue) && !isLoading && (
         <AlertWrapper>
-          <Message>
+          <Message screenTheme={screenTheme}>
             Nenhum resultado encontrado para a pesquisa: { inputValue }
           </Message>
         </AlertWrapper>

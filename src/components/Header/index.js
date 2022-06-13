@@ -20,9 +20,14 @@ import createToast from '../../utils/createToast';
 import Loading from '../Loading';
 import { AuthContext } from '../../contexts/auth';
 
-export default function({}) {
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { ScreenThemeContext } from '../../contexts/theme';
+import _ from 'lodash';
 
+export default function({}) {
   const navigate = useNavigation();
+  const { screenTheme, handleScreenTheme } = React.useContext(ScreenThemeContext);
+
   const [isLogOut, setIsLogOut] = React.useState(false)
 
   const { user, setUser } = React.useContext(AuthContext)
@@ -39,8 +44,7 @@ export default function({}) {
       }).finally(() => {
         setIsLogOut(false)
       })
-    }, 750)
-    
+    }, 750) 
   }
 
   return (
@@ -48,12 +52,20 @@ export default function({}) {
       <UserInfo>
         <Avatar onPress={() => navigate.navigate('Configs')}>
           <AvatarImage source={{ uri: user.avatarUrl }} />
-          <OnlineStatus />
+          <OnlineStatus screenTheme={screenTheme} />
         </Avatar>
-        <Username>{ user.username }</Username>
+        <Username screenTheme={screenTheme} >{ user.username }</Username>
       </UserInfo>
       
       <RightSide>
+        <Button onPress={handleScreenTheme}>
+          <MaterialCommunityIcons 
+            name={screenTheme === 'dark' ? "lightbulb-on-outline" : "lightbulb-on"} 
+            size={24} 
+            color={screenTheme === 'dark' ? "white" : "black"} 
+          />
+        </Button> 
+
         <Button onPress={handleSignOut}>
 
           {isLogOut && ( <Loading size={"small"}   /> )}
@@ -62,7 +74,7 @@ export default function({}) {
             <Entypo 
               name="log-out" 
               size={23} 
-              color="#FFF" 
+              color={screenTheme === 'dark' ? "white" : "black"} 
             />
           )}
           

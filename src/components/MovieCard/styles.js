@@ -6,7 +6,14 @@ export const MovieWrapper = styled.TouchableOpacity`
 
 export const MovieTitle = styled.Text`
   font-size: 13px;
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
+  
   margin-top: 5px;
   max-width: 100px;
 `

@@ -6,7 +6,14 @@ const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
 
 export const Wrapper = styled.SafeAreaView`
-  background: #000014;
+  background: ${({ theme, screenTheme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.BACKGROUND_DARK
+    }
+
+    return theme.COLORS.BACKGROUND_LIGHT
+  }};
+  
   flex: 1;
   padding-top: ${statusBarHeight + 'px'};
 `;

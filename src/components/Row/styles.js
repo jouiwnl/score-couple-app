@@ -4,7 +4,13 @@ export const RowWrapper = styled.View``
 
 export const RowTitle = styled.Text`
   font-size: 20px;
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+  if (screenTheme === 'dark') {
+    return theme.COLORS.FONT_COLOR_DARK
+  }
+
+  return theme.COLORS.FONT_COLOR_LIGHT
+}};
 `
 
 export const RowItems = styled.ScrollView.attrs({

@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 export const Wrapper = styled.View`
   width: 100%;
   height: 100%;
-  background: #000014;
+  background: ${({ theme }) => theme.COLORS.BACKGROUND_DARK};
 
   display: flex;
   flex: 1;
@@ -25,7 +25,7 @@ export const FormInputs = styled.View`
 `
 
 export const FormInput = styled.View`
-  border: 2px solid #9D2208;
+  border: ${({ theme }) => `2px solid ${theme.COLORS.INPUT_COLOR}`};
   border-radius: 10px;
   color: #fff;
   height: 55px;
@@ -67,7 +67,7 @@ export const ActionButtons = styled.View`
 export const LoginButton = styled.TouchableOpacity`
   padding: 15px;
   border-radius: 10px;
-  background-color: #9D2208;
+  background-color: ${({ theme }) => theme.COLORS.INPUT_COLOR};
   width: 90%;
   text-align: center;
   justify-content: center;

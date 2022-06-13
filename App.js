@@ -9,40 +9,48 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Login from './src/Pages/Login';
 
 import AuthProvider from './src/contexts/auth';
+import { ThemeProvider } from 'styled-components';
+import ScreenThemeProvider, { ScreenThemeContext } from './src/contexts/theme'
+
+import AppLoading from 'expo-app-loading';
+
+import { theme } from './src/design/theme'
 
 const { Navigator, Screen } = createStackNavigator();
 
 export default function App() {
   return (
     <>
-      <NavigationContainer>
-        <AuthProvider>
-          <Navigator initialRouteName='Login'>
-            <Screen 
-              name='Login'
-              options={{
-                headerShown: false,
-                
-              }}
-              component={Login}
-            />
+      <ThemeProvider theme={theme}>
+        <ScreenThemeProvider>
+          <NavigationContainer>
+            <AuthProvider>
+              <Navigator initialRouteName='Login'>
+                <Screen 
+                  name='Login'
+                  options={{
+                    headerShown: false,
+                    
+                  }}
+                  component={Login}
+                />
 
-            <Screen 
-              name='Home'
-              options={{
-                headerShown: false,
-                unmountOnBlur: true,
-                gestureEnabled: false
-              }}
-              component={MainApp}
-            />
-          </Navigator>
-        </AuthProvider>
-      </NavigationContainer>
-      
-      <StatusBar style="light" />
+                <Screen 
+                  name='Home'
+                  options={{
+                    headerShown: false,
+                    unmountOnBlur: true,
+                    gestureEnabled: false
+                  }}
+                  component={MainApp}
+                />
+              </Navigator>
+            </AuthProvider>
+          </NavigationContainer>
 
-      <Toast />
+          <Toast />
+        </ScreenThemeProvider>
+      </ThemeProvider>
     </>
   );
 }

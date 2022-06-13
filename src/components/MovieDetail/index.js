@@ -30,9 +30,12 @@ import axios from 'axios';
 import { API_BASE_MOVIE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
 import { GenericContext } from '../../contexts/generic';
 import StarRating from 'react-native-star-rating-widget';
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ handleCloseMovie }) {
   const { movie, setMovie } = React.useContext(GenericContext);
+  const { screenTheme } = React.useContext(ScreenThemeContext);
+
   const movieRef = React.useRef(null);
 
   const [providers, setProviders] = React.useState([]);
@@ -44,7 +47,6 @@ export default function({ handleCloseMovie }) {
 
   function handleScore(value) {
     if (value == movie.score) return;
-    console.log(value)
     setMovie({ ...movie, score: value })
   }
 
@@ -89,7 +91,7 @@ export default function({ handleCloseMovie }) {
         <ModalHeader />
 
         <Main>
-          <MovieTitle>
+          <MovieTitle screenTheme={screenTheme}>
             {movie.name}
           </MovieTitle>
 
@@ -144,7 +146,9 @@ export default function({ handleCloseMovie }) {
       <Modalize 
         snapPoint={400} 
         modalHeight={400}
-        modalStyle={{ backgroundColor: '#000014' }}
+        modalStyle={{ 
+          backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff' 
+        }}
         ref={movieRef}
       >
         <ModalWrapper>

@@ -9,7 +9,13 @@ const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
 
 export const Wrapper = styled.SafeAreaView`
-  background: #000014;
+  background: ${({ theme, screenTheme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.BACKGROUND_DARK
+    }
+
+    return theme.COLORS.BACKGROUND_LIGHT
+  }};
   flex: 1;
   padding-top: ${statusBarHeight + 'px'};
 `;
@@ -23,7 +29,7 @@ export const MovieImage = styled.ImageBackground`
 
     return (windowHeight/100) * 20 + 'px';  
   }};
-  z-index: -999;
+  z-index: -10;
 `
 export const Main = styled.ScrollView`
   width: 100%;
@@ -32,9 +38,15 @@ export const Main = styled.ScrollView`
 export const MovieTitle = styled.Text`
   font-size: 35px;
   font-weight: 600;
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
+  
   text-align: center;
-  margin-top: 20px;
   padding-left: 10px;
   padding-right: 10px;
 `
@@ -51,7 +63,7 @@ export const MovieDescription = styled.Text`
 export const SaveButton = styled.TouchableOpacity`
   padding: 15px;
   border-radius: 10px;
-  background-color: #9D2208;
+  background-color: ${({ theme }) => theme.COLORS.INPUT_COLOR};
   width: 170px;
   text-align: center;
   justify-content: center;
@@ -61,7 +73,7 @@ export const SaveButton = styled.TouchableOpacity`
 export const CancelButton = styled.TouchableOpacity`
   padding: 15px;
   border-radius: 10px;
-  border: 2px solid #9D2208;
+  border: ${({ theme }) => `2px solid ${theme.COLORS.INPUT_COLOR}`};
   background-color: transparent;
   width: 170px;
   text-align: center;
@@ -72,7 +84,13 @@ export const CancelButton = styled.TouchableOpacity`
 export const ButtonLabel = styled.Text`
   font-size: 15px;
   font-weight: 400;
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
 `
 
 export const Footer = styled.View`
@@ -111,7 +129,13 @@ export const ModalWrapper = styled.ScrollView`
 `
 
 export const ModalStatusHeader = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   font-weight: 600;
   font-size: 25px;
   padding: 10px;
@@ -136,7 +160,13 @@ export const ModalItemIcon = styled.View`
   margin-right: 15px;
 `
 export const ModalItemDescription = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   font-size: 17px;
   font-weight: 400;
   margin-top: -25px;

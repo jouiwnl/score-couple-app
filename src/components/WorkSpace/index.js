@@ -12,6 +12,7 @@ import Row from '../Row'
 import { RefreshControl } from 'react-native'
 import { AuthContext } from '../../contexts/auth'
 import { GenericContext } from '../../contexts/generic'
+import { ScreenThemeContext } from '../../contexts/theme'
 
 export default function({ 
   openModalMovie, 
@@ -19,6 +20,7 @@ export default function({
 }) {
 
   const { user, getUser } = React.useContext(AuthContext);
+  const { screenTheme } = React.useContext(ScreenThemeContext);
   const { setColumn } = React.useContext(GenericContext);
 
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -39,10 +41,10 @@ export default function({
   return (
     <WorkSpaceWrapper>
       <HeaderWrapper>
-        <WorkSpaceTitle>{user.username}'s WorkSpace</WorkSpaceTitle>
+        <WorkSpaceTitle screenTheme={screenTheme}>{user.username}'s WorkSpace</WorkSpaceTitle>
 
         <AddColumnButton onPress={handleOpenModalColumn}>
-          <ButtonLabel>+</ButtonLabel>
+          <ButtonLabel screenTheme={screenTheme}>+</ButtonLabel>
         </AddColumnButton>
       </HeaderWrapper>
 
@@ -62,7 +64,7 @@ export default function({
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={handleRefresh}
-            tintColor="#fff"
+            tintColor={screenTheme === 'dark' ? "#fff" : '#000'}
             progressViewOffset={1}
           />
         }

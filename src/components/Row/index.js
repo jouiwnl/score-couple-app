@@ -4,6 +4,7 @@ import { RowItems, RowTitle, RowWrapper, RowHeader, RowButton } from './styles'
 import { Entypo } from '@expo/vector-icons'; 
 import AddMovieButton from '../AddMovieButton';
 import { GenericContext } from '../../contexts/generic';
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ 
   row, 
@@ -12,6 +13,7 @@ export default function({
 }) {
 
   const { setColumn } = React.useContext(GenericContext)
+  const { screenTheme } = React.useContext(ScreenThemeContext)
 
   function handleEdit() {
     openModalColumn();
@@ -21,13 +23,13 @@ export default function({
   return (
     <RowWrapper>
       <RowHeader>
-        <RowTitle>{row.title}</RowTitle>
+        <RowTitle screenTheme={screenTheme}>{row.title}</RowTitle>
 
         <RowButton onPress={handleEdit}>
           <Entypo 
             name="dots-three-horizontal" 
             size={24} 
-            color='white'
+            color={screenTheme === 'dark' ? 'white' : 'black'}
           />
         </RowButton>
       </RowHeader>

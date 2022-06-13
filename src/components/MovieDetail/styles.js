@@ -9,7 +9,13 @@ export const Wrapper = styled.View`
 `
 
 export const MovieTitle = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   font-size: 35px;
   font-weight: 500;
   text-align: center;
@@ -70,7 +76,13 @@ export const ModalWrapper = styled.ScrollView`
 `
 
 export const ModalStatusHeader = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   font-weight: 600;
   font-size: 25px;
   padding: 10px;
@@ -95,7 +107,13 @@ export const ModalItemIcon = styled.View`
   margin-right: 15px;
 `
 export const ModalItemDescription = styled.Text`
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   font-size: 17px;
   font-weight: 400;
   margin-top: -25px;

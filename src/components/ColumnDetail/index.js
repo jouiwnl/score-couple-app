@@ -3,16 +3,14 @@ import React from 'react'
 import { Wrapper, Header, Form, Footer, TitleColumn, Input } from './styles';
 import ModalColumnFooter from '../ModalColumnFooter'
 
-import { auth } from '../../../firebase';
-
-import { apiURL } from '../../utils/api';
-
 import { GenericContext } from '../../contexts/generic'
 import { AuthContext } from '../../contexts/auth'
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function({ handleCloseColumn }) {
   const { column, setColumn } = React.useContext(GenericContext);
   const { user } = React.useContext(AuthContext);
+  const { screenTheme } = React.useContext(ScreenThemeContext);
 
   function handleInputChange(value) {
     setColumn({
@@ -25,11 +23,12 @@ export default function({ handleCloseColumn }) {
   return (
     <Wrapper>
       <Header>
-        <TitleColumn>{column.id ? 'Editando' : 'Adicionando'} coluna</TitleColumn>
+        <TitleColumn screenTheme={screenTheme}>{column.id ? 'Editando' : 'Adicionando'} seção</TitleColumn>
       </Header>
 
       <Form>
         <Input 
+          screenTheme={screenTheme}
           placeholder="Nome da coluna"
           placeholderTextColor="#767676"
           onChangeText={(value) => handleInputChange(value)}

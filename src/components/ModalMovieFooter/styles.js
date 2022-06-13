@@ -12,7 +12,7 @@ export const FooterWrapper = styled.View`
 export const SaveButton = styled.TouchableOpacity`
   padding: 15px;
   border-radius: 10px;
-  background-color: #9D2208;
+  background-color: ${({ theme }) => theme.COLORS.INPUT_COLOR};
   width: 130px;
   text-align: center;
   justify-content: center;
@@ -22,7 +22,7 @@ export const SaveButton = styled.TouchableOpacity`
 export const DeleteButton = styled.TouchableOpacity`
   padding: 15px;
   border-radius: 10px;
-  border: 2px solid #9D2208;
+  border: ${({ theme }) => `2px solid ${theme.COLORS.INPUT_COLOR}`};
   background-color: transparent;
   width: 130px;
   text-align: center;
@@ -33,5 +33,11 @@ export const DeleteButton = styled.TouchableOpacity`
 export const ButtonLabel = styled.Text`
   font-size: 15px;
   font-weight: 400;
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
 `

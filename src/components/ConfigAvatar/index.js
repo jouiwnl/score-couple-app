@@ -18,9 +18,11 @@ import createToast from '../../utils/createToast'
 import _ from 'lodash'
 import { Keyboard } from 'react-native'
 import { AuthContext } from '../../contexts/auth'
+import { ScreenThemeContext } from '../../contexts/theme'
 
 export default function() {
   const { user, getUser } = React.useContext(AuthContext);
+  const { screenTheme } = React.useContext(ScreenThemeContext);
 
   const [imageUrl, setImageUrl] = React.useState(undefined);
   const [cursorSelection, setCursorSelection] = React.useState({ start: 0, end: 0 })
@@ -62,7 +64,11 @@ export default function() {
   }
 
   function isValidImage() {
-    let imageUrl = user.avatarUrl ?? userCame.avatarUrl;
+    if (!user.avatarUrl) {
+      return;
+    }
+
+    let imageUrl = user.avatarUrl;
     let regex = new RegExp('(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})');
     let regexExtension = new RegExp(/\.(jpeg|jpg|gif|png)$/);
 

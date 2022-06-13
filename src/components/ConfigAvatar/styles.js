@@ -40,7 +40,7 @@ export const AvatarPlaceholder = styled.View`
 `
 
 export const AvatarInputWrapper = styled.View`
-  border: 2px solid #9D2208;
+  border: ${({ theme }) => `2px solid ${theme.COLORS.INPUT_COLOR}`};
   border-radius: 10px;
   color: #fff;
   height: 50px;
@@ -57,7 +57,13 @@ export const AvatarInputWrapper = styled.View`
 
 export const AvatarInput = styled.TextInput` 
   padding-right: 10px;
-  color: #fff;
+  color: ${({ screenTheme, theme }) => {
+    if (screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
   flex: 1;
 `
 
@@ -66,7 +72,7 @@ export const AvatarInputButton = styled.TouchableOpacity`
 `
 
 export const AvatarButtonLabel = styled.Text`
-  color: #9D2208;
+  color: ${({ theme }) => theme.COLORS.INPUT_COLOR};
   font-weight: 600;
   font-size: 12px;
 `

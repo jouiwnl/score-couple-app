@@ -35,10 +35,12 @@ import { apiURL, API_BASE_MOVIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../.
 import { AuthContext } from '../../contexts/auth'
 import { GenericContext } from '../../contexts/generic'
 import axios from 'axios'
+import { ScreenThemeContext } from '../../contexts/theme'
 
 export default function() {
 
   const navigate = useNavigation();
+  const { screenTheme } = React.useContext(ScreenThemeContext);
   const {user, getUser} = React.useContext(AuthContext);
   const { movie, setMovie } = React.useContext(GenericContext);
 
@@ -126,7 +128,7 @@ export default function() {
 
   return(
     <>
-      <Wrapper>
+      <Wrapper screenTheme={screenTheme}>
         {isLoading && !movie && ( <Loading size={'large'} fullwidth={true} /> )}
 
         {movie && !isLoading && (
@@ -145,10 +147,13 @@ export default function() {
             
 
             <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
-              <LinearGradient colors={['#00000000', '#000014']} style={{ flex: 1 }} />
+              <LinearGradient 
+                colors={['#00000000', screenTheme === 'dark' ? '#000014' : '#fff']} 
+                style={{ flex: 1 }} 
+              />
             </MovieImage>
 
-            <MovieTitle numberOfLines={2}>
+            <MovieTitle screenTheme={screenTheme} numberOfLines={2}>
               {movie.name}
             </MovieTitle>
 
@@ -185,7 +190,7 @@ export default function() {
                 )}
 
                 {!isSaving && (
-                  <ButtonLabel>Salvar</ButtonLabel>
+                  <ButtonLabel screenTheme={screenTheme}>Salvar</ButtonLabel>
                 )}
               </SaveButton>
               
@@ -195,7 +200,7 @@ export default function() {
                 )}
 
                 {!isLoadingButton && (
-                  <ButtonLabel>Tente novamente!</ButtonLabel>
+                  <ButtonLabel screenTheme={screenTheme}>Tente novamente!</ButtonLabel>
                 )}
               </CancelButton>
             </Footer>
@@ -204,11 +209,13 @@ export default function() {
         </Wrapper>
         <Modalize 
           snapPoint={400} 
-          modalStyle={{ backgroundColor: '#000014', flex: 1 }}
+          modalStyle={{ 
+            backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff', flex: 1 
+          }}
           ref={movieRef}
         >
           <ModalWrapper>
-          <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
+          <ModalStatusHeader screenTheme={screenTheme}>{thisStatus.description}</ModalStatusHeader>
           {status.map((item) => (
             <ModalItemWrapper 
               onPress={() => 
@@ -219,7 +226,7 @@ export default function() {
                 <item.icon />
               </ModalItemIcon>
               
-              <ModalItemDescription>{item.description}</ModalItemDescription>
+              <ModalItemDescription screenTheme={screenTheme}>{item.description}</ModalItemDescription>
             </ModalItemWrapper>
           ))}
           </ModalWrapper>

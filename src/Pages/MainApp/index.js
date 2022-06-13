@@ -19,11 +19,13 @@ import Configs from '../Configs';
 import GenericProvider, { GenericContext } from '../../contexts/generic';
 import NavigationProvider from '../../contexts/navigation';
 import { AuthContext } from '../../contexts/auth';
+import { ScreenThemeContext } from '../../contexts/theme';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function() {
   const { user, getUser } = React.useContext(AuthContext);
+  const { screenTheme } = React.useContext(ScreenThemeContext)
   const windowHeight = Dimensions.get('window').height;
 
   const movieRef = React.useRef(null);
@@ -75,9 +77,9 @@ export default function() {
           tabBarOptions={{
             style: {
               height: Platform.OS === 'android' ? 70 : 90,
-              backgroundColor: '#000014',
+              backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff',
               borderTopColor: '#464646',
-              borderTopWidth: 1
+              borderTopWidth: 0.5
             },
             tabStyle: {
               alignItems: 'center',
@@ -93,7 +95,7 @@ export default function() {
               marginTop: 5,
             },
             inactiveTintColor: '#464646',
-            activeTintColor: '#FFF',
+            activeTintColor: screenTheme === 'dark' ? '#fff' : '#000014',
           }}
         >
           <Screen
@@ -110,7 +112,7 @@ export default function() {
                   <MaterialIcons 
                     name="workspaces-filled" 
                     size={24} 
-                    color={focused ? '#FFF' : '#464646'}
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')}
                   />
                 );
               },
@@ -126,7 +128,7 @@ export default function() {
                   <Octicons 
                     name="gift" 
                     size={24} 
-                    color={focused ? '#FFF' : '#464646'} 
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')} 
                   />
                 );
               },
@@ -143,7 +145,7 @@ export default function() {
                   <MaterialCommunityIcons 
                     name="compass-outline" 
                     size={25} 
-                    color={focused ? '#FFF' : '#464646'} 
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')} 
                   />
                 );
               },
@@ -160,7 +162,7 @@ export default function() {
                   <MaterialIcons 
                     name="settings" 
                     size={24} 
-                    color={focused ? '#fff' : '#464646'} 
+                    color={focused && screenTheme === 'dark' ? '#FFF' : (focused && screenTheme !== 'dark' ? '#000014' : '#464646')} 
                   />
                 );
               },
@@ -196,7 +198,9 @@ export default function() {
         <Modalize 
           snapPoint={(windowHeight/100) * 80} 
           modalHeight={(windowHeight/100) * 80}
-          modalStyle={{ backgroundColor: '#000014' }}
+          modalStyle={{ 
+            backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff'
+          }}
           ref={movieRef}
           >
             <MovieDetail handleCloseMovie={handleCloseMovie} />
@@ -205,7 +209,9 @@ export default function() {
         <Modalize 
           snapPoint={(windowHeight/100) * 75} 
           modalHeight={(windowHeight/100) * 75}
-          modalStyle={{ backgroundColor: '#000014' }}
+          modalStyle={{ 
+            backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff' 
+          }}
           ref={columnRef}
           keyboardAvoidingBehavior="height"
           >
@@ -215,7 +221,9 @@ export default function() {
         <Modalize 
           snapPoint={450} 
           modalHeight={450}
-          modalStyle={{ backgroundColor: '#000014' }}
+          modalStyle={{ 
+            backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff'
+          }}
           ref={movieToAddRef}
           >
             <AddMovieModal columnid={columnId} handleCloseModalAdd={handleCloseModalAdd}/>

@@ -9,15 +9,18 @@ import {
 } from './styles'
 
 import ConfigAvatar from '../../components/ConfigAvatar';
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function() {
+
+  const { screenTheme } = React.useContext(ScreenThemeContext) 
 
   return (
     
       <Wrapper>
         
         <HeaderWrapper>
-          <HeaderTitle>Configurações</HeaderTitle>
+          <HeaderTitle screenTheme={screenTheme}>Configurações</HeaderTitle>
         </HeaderWrapper>
 
         <ConfigAvatar />
