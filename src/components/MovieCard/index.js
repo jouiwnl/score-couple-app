@@ -1,11 +1,10 @@
 import React from 'react'
 import { MovieImage, MovieRating, MovieTitle, MovieWrapper, MovieStatus } from './styles'
-import { AirbnbRating } from 'react-native-ratings';
-
-import { Platform } from 'react-native'
 
 import { API_IMAGE } from '../../utils/api';
 import { GenericContext } from '../../contexts/generic';
+
+import StarRatingDisplay from 'react-native-star-rating-widget';
 
 export default function({ movie, openModalMovie }) {
 
@@ -28,12 +27,15 @@ export default function({ movie, openModalMovie }) {
 
           <MovieRating>
             {movie.status != 'NOTSTARTED' && movie.status != 'DOING' && (
-              <AirbnbRating 
-                isDisabled={true} 
-                reviews={[""]}
-                ratingContainerStyle={{ marginTop: Platform.OS === 'android' ? -40 : -20 }} 
-                defaultRating={movie.score ? movie.score : 0} 
-                size={12}
+              <StarRatingDisplay
+                rating={!movie.score ? 0 : movie.score}
+                maxStars={5}
+                minRating={0.5} 
+                starSize={11}
+                color="#fdd835"
+                style={{
+                  padding: 0
+                }}
               />
             )}
             

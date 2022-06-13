@@ -1,6 +1,9 @@
 import styled from 'styled-components/native'
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
+import { Dimensions } from 'react-native'
+
+const windowHeight = Dimensions.get('window').height;
 
 const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
@@ -13,12 +16,18 @@ export const Wrapper = styled.SafeAreaView`
 
 export const MovieImage = styled.ImageBackground`
   width: 100%;
-  height: 250px;
+  height: ${() => {
+    if (windowHeight > 800) {
+      return (windowHeight/100) * 30 + 'px';
+    }
+
+    return (windowHeight/100) * 20 + 'px';  
+  }};
   z-index: -999;
 `
-export const Main = styled.View`
+export const Main = styled.ScrollView`
   width: 100%;
-  height: 40%;
+  flex: 1;
 `
 export const MovieTitle = styled.Text`
   font-size: 35px;
@@ -26,6 +35,8 @@ export const MovieTitle = styled.Text`
   color: #fff;
   text-align: center;
   margin-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 `
 export const MovieDescription = styled.Text`
   font-size: 12px;
@@ -35,9 +46,6 @@ export const MovieDescription = styled.Text`
   color: #464646;
   text-align: center;
   margin-top: 15px;
-`
-export const MovieRating = styled.View`
-  margin-top: -15px;
 `
 
 export const SaveButton = styled.TouchableOpacity`
@@ -69,8 +77,8 @@ export const ButtonLabel = styled.Text`
 
 export const Footer = styled.View`
   width: 100%;
-  height: 20%;
   display: flex;
+  flex: 0.5;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
@@ -139,4 +147,22 @@ export const StatusLabel = styled.Text`
   color: ${props => props.color};
   font-size: 20px;
   font-weight: 700;
+`
+
+export const ProvidersWrapper = styled.View`
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
+export const ProviderLogo = styled.Image`
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
 `

@@ -1,5 +1,4 @@
 import React from 'react'
-import { AirbnbRating } from 'react-native-ratings';
 import ModalFooter from '../ModalMovieFooter';
 import ModalHeader from '../ModalMovieHeader';
 import Loading from '../Loading';
@@ -30,6 +29,7 @@ import { Modalize } from 'react-native-modalize';
 import axios from 'axios';
 import { API_BASE_MOVIE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
 import { GenericContext } from '../../contexts/generic';
+import StarRating from 'react-native-star-rating-widget';
 
 export default function({ handleCloseMovie }) {
   const { movie, setMovie } = React.useContext(GenericContext);
@@ -43,6 +43,8 @@ export default function({ handleCloseMovie }) {
   }, [])
 
   function handleScore(value) {
+    if (value == movie.score) return;
+    console.log(value)
     setMovie({ ...movie, score: value })
   }
 
@@ -119,18 +121,19 @@ export default function({ handleCloseMovie }) {
           </SetStatusButtonWrapper>
           
           {(movie.status == 'CANCELED' || movie.status == 'COMPLETED') && (
-             <MovieRating>
-                <AirbnbRating
-                  defaultRating={!movie.score ? 0 : movie.score} 
-                  ratingContainerStyle={{ 
-                    marginTop: Platform.OS === 'android' ? -33 : -20,
-                    marginBottom: Platform.OS === 'android' ? -25 : 0
-                  }} 
-                  size={25} 
-                  reviews={[""]}
-                  onFinishRating={handleScore}
-                />
-              </MovieRating>
+            <MovieRating>
+              <StarRating
+                rating={!movie.score ? 0 : movie.score}
+                onChange={handleScore}
+                maxStars={5}
+                minRating={0.5} 
+                starSize={30}
+                color="#fdd835"
+                animationConfig={{
+                  delay: 0
+                }}
+              />
+            </MovieRating>
           )}
          
         </Main>
@@ -139,8 +142,8 @@ export default function({ handleCloseMovie }) {
       </Wrapper>
 
       <Modalize 
-        snapPoint={Platform.OS === 'android' ? 400 : 650} 
-        modalHeight={Platform.OS === 'android' ? 400 : 650}
+        snapPoint={400} 
+        modalHeight={400}
         modalStyle={{ backgroundColor: '#000014' }}
         ref={movieRef}
       >
@@ -148,8 +151,7 @@ export default function({ handleCloseMovie }) {
           <ModalStatusHeader>{defineStatus().description}</ModalStatusHeader>
           {status.map((item) => (
             <ModalItemWrapper 
-              onPress={() => 
-              handleSelectStatus(item)} 
+              onPress={() => handleSelectStatus(item)} 
               key={String(Math.random())}
             >
               <ModalItemIcon>

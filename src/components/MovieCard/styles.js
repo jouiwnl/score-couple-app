@@ -17,7 +17,9 @@ export const MovieImage = styled.Image`
 `
 
 export const MovieRating = styled.View`
+  margin-top: 10px;
   max-width: 100px;
+  margin-left: -3px;
 `
 
 export const MovieStatus = styled.View`

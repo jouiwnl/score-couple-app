@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 
 export const Main = styled.View`
@@ -23,7 +24,16 @@ export const MovieDescription = styled.Text`
 `
 
 export const MovieRating = styled.View`
-  
+  margin-top: 15px;
+  width: ${() => {
+    const windowWidth = Dimensions.get('screen').width;
+    return windowWidth + 'px'
+  }};
+
+  margin-left: ${() => {
+    const windowWidth = Dimensions.get('screen').width;
+    return (windowWidth/4) + 'px'
+  }}
 `
 
 export const ButtonLabel = styled.Text`
@@ -54,6 +64,7 @@ export const SetStatusButton = styled.TouchableOpacity`
 
 export const ModalWrapper = styled.ScrollView`
   width: 100%;
+  height: 60%;
   display: flex;
   flex-direction: column;
 `

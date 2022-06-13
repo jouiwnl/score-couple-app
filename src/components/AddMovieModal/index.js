@@ -41,7 +41,7 @@ export default function({ handleCloseModalAdd, columnid }) {
     if (movie) {
       hasAnyMovie(user.workspace.colunas);
         
-      axios.get(`${API_BASE_MOVIE}${movie.id}?api_key=${API_KEY}`)
+      axios.get(`${API_BASE_MOVIE}${movie.id}?api_key=${API_KEY}&language=pt-BR`)
         .then(response => setMovie(response.data))
         .then(getProviders)
         .finally(() => setIsLoading(false));
@@ -82,7 +82,7 @@ export default function({ handleCloseModalAdd, columnid }) {
       releaseDate: movie.release_date,
       runtime: movie.runtime,
       genre: (movie.genres.length ? movie.genres[0].name : ''),
-      movieDescription: movie.overview.split('.')[0],
+      movieDescription: movie.overview,
     }
 
     return finalMovie;

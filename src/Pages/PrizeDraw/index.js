@@ -17,7 +17,9 @@ import {
   ModalItemWrapper,
   ModalItemIcon,
   ModalItemDescription,
-  StatusLabel
+  StatusLabel,
+  ProvidersWrapper,
+  ProviderLogo
 } from './styles'
 
 import { status } from '../../utils/status'
@@ -29,9 +31,10 @@ import { Modalize } from 'react-native-modalize'
 
 import { useNavigation } from '@react-navigation/native'
 
-import { apiURL, API_IMAGE } from '../../utils/api' 
+import { apiURL, API_BASE_MOVIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../../utils/api' 
 import { AuthContext } from '../../contexts/auth'
 import { GenericContext } from '../../contexts/generic'
+import axios from 'axios'
 
 export default function() {
 
@@ -49,6 +52,7 @@ export default function() {
   const [thisStatus, setThisStatus] = React.useState(insideStatus)
   const [isLoadingButton, setIsLoadingButton] = React.useState(false)
   const [showConffeti, setShowConffeti] = React.useState(true)
+  const [providers, setProviders] = React.useState([]);
   
   React.useEffect(() => {
     load();
@@ -74,14 +78,30 @@ export default function() {
     apiURL.get(`/workspaces/${user.workspace.id}/shuffle`).then(response => {
 			setMovie(response.data)
       setThisStatus(status.find(e => e.value === response.data.status));
-			return false;
-		}).finally((value) => {
+      return response.data;
+		}).then((movie) => {
+      getProviders(movie);
+      return false;
+    }).finally((value) => {
       if (tryAgain) {
         setIsLoadingButton(value)
       } else {
         setIsLoading(value)
       }
     });
+  }
+
+  async function getProviders(movie) {
+    if (movie.originalId) {
+      let promise = axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
+      if (promise) {
+        promise.then(response => {
+          if (response.data.results.BR) {
+            setProviders(response.data.results.BR.flatrate)
+          }
+        })
+      } 
+    }
   }
 
   function handleSelectStatus(item) {
@@ -128,14 +148,25 @@ export default function() {
               <LinearGradient colors={['#00000000', '#000014']} style={{ flex: 1 }} />
             </MovieImage>
 
-            <Main>
-              <MovieTitle>
-                {movie.name}
-              </MovieTitle>
+            <MovieTitle numberOfLines={2}>
+              {movie.name}
+            </MovieTitle>
 
+            <Main>
               <MovieDescription>
                 {movie.movieDescription}
               </MovieDescription>
+
+              {providers && (
+                <ProvidersWrapper>
+                  {providers.map(provider => (
+                    <ProviderLogo 
+                      key={String(Math.random())} 
+                      source={{ uri: `${API_LOGO_IMAGE}${provider.logo_path}` }} 
+                    />
+                  ))}
+                </ProvidersWrapper>
+              )}
               
               <SetStatusButtonWrapper>
                 <SetStatusButton color={thisStatus.color} onPress={openModalMovie}>
