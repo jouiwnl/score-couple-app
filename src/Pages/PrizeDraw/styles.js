@@ -196,3 +196,24 @@ export const ProviderLogo = styled.Image`
   margin-left: 10px;
   margin-right: 10px;
 `
+
+export const NotFoundWrapper = styled.View`
+  flex: 1;
+  padding: 20px;
+
+  align-items: center;
+  justify-content: center;
+`
+
+export const NotFoundDescription= styled.Text`
+  font-size: 23px;
+  font-weight: 600;
+  text-align: center;
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }}; 
+`

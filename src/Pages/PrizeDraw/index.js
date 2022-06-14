@@ -19,7 +19,9 @@ import {
   ModalItemDescription,
   StatusLabel,
   ProvidersWrapper,
-  ProviderLogo
+  ProviderLogo,
+  NotFoundWrapper, 
+  NotFoundDescription
 } from './styles'
 
 import { status } from '../../utils/status'
@@ -44,14 +46,12 @@ export default function() {
   const {user, getUser} = React.useContext(AuthContext);
   const { movie, setMovie } = React.useContext(GenericContext);
 
-  let insideStatus = { color: "", description: "" };
-
   const movieRef = React.useRef(null)
   const explosionRef = React.useRef(null)
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [isSaving, setIsSaving] = React.useState(false)
-  const [thisStatus, setThisStatus] = React.useState(insideStatus)
+  const [thisStatus, setThisStatus] = React.useState({ color: "", description: "" })
   const [isLoadingButton, setIsLoadingButton] = React.useState(false)
   const [showConffeti, setShowConffeti] = React.useState(true)
   const [providers, setProviders] = React.useState([]);
@@ -133,7 +133,7 @@ export default function() {
           <Loading size={'large'} fullwidth={true} />
         )}
 
-        {movie && !isLoading && (
+        {movie.id && !isLoading && (
           <>
             {showConffeti && (
               <ConfettiCannon
@@ -176,7 +176,7 @@ export default function() {
               )}
               
               <SetStatusButtonWrapper>
-                <SetStatusButton color={thisStatus.color} onPress={openModalMovie}>
+                <SetStatusButton color={String(thisStatus.color)} onPress={openModalMovie}>
                   <StatusLabel color={String(thisStatus.color)}>
                     {thisStatus.description}
                   </StatusLabel>
@@ -206,34 +206,41 @@ export default function() {
                 )}
               </CancelButton>
             </Footer>
+
+            <Modalize 
+              snapPoint={400} 
+              modalStyle={{ 
+                backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff', flex: 1 
+              }}
+              ref={movieRef}
+            >
+              <ModalWrapper>
+              <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
+              {status.map((item) => (
+                <ModalItemWrapper 
+                  onPress={() => 
+                  handleSelectStatus(item)} 
+                  key={String(Math.random())}
+                >
+                  <ModalItemIcon>
+                    <item.icon />
+                  </ModalItemIcon>
+                  
+                  <ModalItemDescription>{item.description}</ModalItemDescription>
+                </ModalItemWrapper>
+              ))}
+              </ModalWrapper>
+            </Modalize>
           </>
         )}
-        </Wrapper>
-        <Modalize 
-          snapPoint={400} 
-          modalStyle={{ 
-            backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff', flex: 1 
-          }}
-          ref={movieRef}
-        >
-          <ModalWrapper>
-          <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
-          {status.map((item) => (
-            <ModalItemWrapper 
-              onPress={() => 
-              handleSelectStatus(item)} 
-              key={String(Math.random())}
-            >
-              <ModalItemIcon>
-                <item.icon />
-              </ModalItemIcon>
-              
-              <ModalItemDescription>{item.description}</ModalItemDescription>
-            </ModalItemWrapper>
-          ))}
-          </ModalWrapper>
-        </Modalize>
+
+        {!movie.id && !isLoading && (
+          <NotFoundWrapper>
+            <NotFoundDescription>Não foi encontrado nenhum filme apto para sortear!</NotFoundDescription>
+          </NotFoundWrapper>
+        )}
+
+      </Wrapper>
     </>
-    
   )
 }
