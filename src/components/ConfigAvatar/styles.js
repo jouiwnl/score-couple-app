@@ -2,14 +2,12 @@ import styled from 'styled-components/native'
 
 export const AvatarConfigWrapper = styled.View`
   width: 100%;
-  margin-top: 15px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  padding: 15px;
+  padding: 9px;
 `
 export const ImageWrapper = styled.View`
   width: 60px;

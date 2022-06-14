@@ -20,6 +20,7 @@ import _ from 'lodash';
 
 import axios from 'axios'
 import { ScreenThemeContext } from '../../contexts/theme';
+import { TextInput } from 'react-native';
 
 export default function({ 
   openModalAddMovie,  
@@ -27,7 +28,6 @@ export default function({
 }) {
 
   const route = useRoute();
-
   const { screenTheme } = React.useContext(ScreenThemeContext);
 
   const [inputValue, setInputValue] = React.useState("");
@@ -40,20 +40,26 @@ export default function({
     }
   }, [])
 
-  async function handleSearch(text) {
+  React.useEffect(() => {
     setIsLoading(true);
-    setInputValue(text);
 
-    if (text && text != "") {
-      await axios.get(apiMovieURL.concat(text)).then(response => {
+    if (!inputValue && inputValue == "") {
+      setMovies([]);
+      setIsLoading(false);
+    }
+    const delayDebounceFn = setTimeout(() => {
+      axios.get(apiMovieURL.concat(inputValue)).then(response => {
         setMovies(response.data.results);
       }).finally(() => {
         setIsLoading(false);
       })
-    } else {
-      setMovies([]);
-      setIsLoading(false);
-    }
+    }, 2000)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [inputValue])
+
+  async function handleSearch(text) {
+    setInputValue(text);
   }
 
   return (

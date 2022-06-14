@@ -129,7 +129,9 @@ export default function() {
   return(
     <>
       <Wrapper>
-        {isLoading && !movie && ( <Loading size={'large'} fullwidth={true} /> )}
+        {isLoading && (
+          <Loading size={'large'} fullwidth={true} />
+        )}
 
         {movie && !isLoading && (
           <>

@@ -62,11 +62,12 @@ export default function() {
   }
 
   function isValidImage() {
-    if (!user.avatarUrl) {
+    if (!formValues.avatarUrl) {
+      console.log('passou aqui')
       return;
     }
 
-    let imageUrl = user.avatarUrl;
+    let imageUrl = formValues.avatarUrl;
     let regex = new RegExp('(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})');
     let regexExtension = new RegExp(/\.(jpeg|jpg|gif|png)$/);
 

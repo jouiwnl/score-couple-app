@@ -38,6 +38,8 @@ export const InputWrapper = styled.View`
 
 export const Input = styled.TextInput`
   margin-left: 10px;
+  flex: 1;
+  padding-right: 10px;
   color: ${({ theme }) => {
     if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
@@ -57,7 +59,13 @@ export const Message = styled.Text`
   line-height: 20.4px;
   font-size: 17px;
   text-align: center;
-  color: #fff;
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
 `
 
 export const ListMovies = styled.ScrollView.attrs(() => ({

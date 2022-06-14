@@ -26,9 +26,14 @@ export default function() {
           <HeaderTitle>Configurações</HeaderTitle>
         </HeaderWrapper>
 
-        <ConfigAvatar />
-
         <ConfigsWrapper>
+
+          <ConfigSection>
+            <SectionTitle>Avatar</SectionTitle>
+
+            <ConfigAvatar />
+          </ConfigSection>
+          
           <ConfigSection>
             <SectionTitle>Aparência</SectionTitle>
 
