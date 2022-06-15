@@ -24,10 +24,10 @@ export const MovieImage = styled.ImageBackground`
   width: 100%;
   height: ${() => {
     if (windowHeight > 800) {
-      return (windowHeight/100) * 30 + 'px';
+      return (windowHeight/100) * 40 + 'px';
     }
 
-    return (windowHeight/100) * 20 + 'px';  
+    return (windowHeight/100) * 30 + 'px';  
   }};
   z-index: -10;
 `

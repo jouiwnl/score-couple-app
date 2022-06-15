@@ -1,11 +1,8 @@
 import React from 'react'
 import ModalFooter from '../ModalMovieFooter';
-import ModalHeader from '../ModalMovieHeader';
 import Loading from '../Loading';
 
 import { status } from '../../utils/status';
-
-import { Platform } from 'react-native'; 
 
 import { 
   Wrapper, 
@@ -13,7 +10,7 @@ import {
   MovieTitle, 
   MovieDescription,
   MovieRating, 
-  ButtonLabel, 
+  ButtonStatusLabel, 
   SetStatusButtonWrapper, 
   SetStatusButton,
   ModalWrapper,
@@ -22,24 +19,33 @@ import {
   ModalItemIcon,
   ModalItemDescription,
   ProvidersWrapper,
-  ProviderLogo
+  ProviderLogo,
+  MovieImage,
+  ButtonLabel,
+  DeleteButton,
+  FooterWrapper,
+  SaveButton
 } from './styles';
 
 import { Modalize } from 'react-native-modalize';
 import axios from 'axios';
-import { API_BASE_MOVIE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
+import { apiURL, API_BASE_MOVIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
 import { GenericContext } from '../../contexts/generic';
 import StarRating from 'react-native-star-rating-widget';
 import { ScreenThemeContext } from '../../contexts/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Alert } from 'react-native';
 
 export default function({ handleCloseMovie }) {
+  const movieRef = React.useRef(null);
+
   const { movie, setMovie } = React.useContext(GenericContext);
   const { screenTheme } = React.useContext(ScreenThemeContext);
 
-  const movieRef = React.useRef(null);
-
   const [providers, setProviders] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   React.useEffect(() => {
     getProviders();
@@ -85,10 +91,50 @@ export default function({ handleCloseMovie }) {
     }, 750)
   }
 
+  async function save() {
+    setIsSaving(true);
+
+    let promise = apiURL.put(`/movies/${movie.id}`, movie);
+    promise.then((response) => {
+      handleCloseMovie(movie);
+      return false;
+    }).finally(setIsSaving);
+  }
+
+  async function remove() {
+    setIsDeleting(true);
+
+    Alert.alert(
+      "Confirmação",
+      `Tem certeza que deseja excluir o filme ${movie.name}?`,
+      [
+        {
+          text: "Sim",
+          onPress: () => {
+            let promise = apiURL.delete(`/movies/${movie.id}`);
+            promise.then(() => {
+              handleCloseMovie(movie);
+              return false;
+            }).finally(setIsDeleting)
+          }
+        },
+        {
+          text: "Não",
+          onPress: () => setIsDeleting(false)
+        }
+      ]
+    )
+  }
+
   return (
     <>
       <Wrapper>
-        <ModalHeader />
+        <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
+          <LinearGradient
+            colors={['#00000000', screenTheme === 'dark' ? '#000014' : '#fff']} 
+            style={{ flex: 1 }} 
+          />
+        </MovieImage>
 
         <Main>
           <MovieTitle>
@@ -116,9 +162,9 @@ export default function({ handleCloseMovie }) {
 
           <SetStatusButtonWrapper>
             <SetStatusButton color={defineStatus().color} onPress={openModalMovie}>
-              <ButtonLabel color={defineStatus().color}>
+              <ButtonStatusLabel color={defineStatus().color}>
                 {defineStatus().description}
-              </ButtonLabel>
+              </ButtonStatusLabel>
             </SetStatusButton>
           </SetStatusButtonWrapper>
           
@@ -140,33 +186,54 @@ export default function({ handleCloseMovie }) {
          
         </Main>
 
-        <ModalFooter handleCloseMovie={handleCloseMovie} />
-      </Wrapper>
+        <FooterWrapper>
+          <SaveButton onPress={save}>
+            {isSaving && (
+              <Loading size={"small"}   />
+            )}
 
-      <Modalize 
-        snapPoint={400} 
-        modalHeight={400}
-        modalStyle={{ 
-          backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff' 
-        }}
-        ref={movieRef}
-      >
-        <ModalWrapper>
-          <ModalStatusHeader>{defineStatus().description}</ModalStatusHeader>
-          {status.map((item) => (
-            <ModalItemWrapper 
-              onPress={() => handleSelectStatus(item)} 
-              key={String(Math.random())}
-            >
-              <ModalItemIcon>
-                <item.icon />
-              </ModalItemIcon>
-              
-              <ModalItemDescription>{item.description}</ModalItemDescription>
-            </ModalItemWrapper>
-          ))}
-        </ModalWrapper>
-      </Modalize>
+            {!isSaving && (
+              <ButtonLabel>Salvar</ButtonLabel>
+            )}
+          </SaveButton>
+
+          <DeleteButton onPress={remove}>
+            {isDeleting && (
+              <Loading size={"small"}   />
+            )}
+
+            {!isDeleting && (
+              <ButtonLabel>Apagar</ButtonLabel>
+            )}
+          </DeleteButton>
+        </FooterWrapper>
+
+        <Modalize 
+          snapPoint={300} 
+          modalHeight={300}
+          modalStyle={{ 
+            backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff',
+            flex: 0.7
+          }}
+          ref={movieRef}
+        >
+          <ModalWrapper>
+            <ModalStatusHeader>{defineStatus().description}</ModalStatusHeader>
+            {status.map((item) => (
+              <ModalItemWrapper 
+                onPress={() => handleSelectStatus(item)} 
+                key={String(Math.random())}
+              >
+                <ModalItemIcon>
+                  <item.icon />
+                </ModalItemIcon>
+                
+                <ModalItemDescription>{item.description}</ModalItemDescription>
+              </ModalItemWrapper>
+            ))}
+          </ModalWrapper>
+        </Modalize>
+      </Wrapper>
     </>
     
   )

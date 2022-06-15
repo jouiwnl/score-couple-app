@@ -4,8 +4,25 @@ import styled from 'styled-components/native'
 export const Main = styled.View`
 `
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.ScrollView`
   display: flex;
+  flex: 1;
+`
+
+const windowHeight = Dimensions.get('window').height;
+
+export const MovieImage = styled.ImageBackground`
+  width: 100%;
+  height: ${() => {
+    if (windowHeight > 800) {
+      return (windowHeight/100) * 30 + 'px';
+    }
+
+    return (windowHeight/100) * 20 + 'px';  
+  }};
+  z-index: -10;
+  border-radius: 10px;
+  
 `
 
 export const MovieTitle = styled.Text`
@@ -42,7 +59,7 @@ export const MovieRating = styled.View`
   }}
 `
 
-export const ButtonLabel = styled.Text`
+export const ButtonStatusLabel = styled.Text`
   color: ${props => props.color};
   font-size: 20px;
   font-weight: 700;
@@ -70,9 +87,8 @@ export const SetStatusButton = styled.TouchableOpacity`
 
 export const ModalWrapper = styled.ScrollView`
   width: 100%;
-  height: 60%;
-  display: flex;
   flex-direction: column;
+  height: 300px;
 `
 
 export const ModalStatusHeader = styled.Text`
@@ -94,7 +110,7 @@ export const ModalItemWrapper = styled.TouchableOpacity`
   margin: auto;
   height: 30px;
   border-bottom-color: #464646;
-  border-bottom-width: 1px;
+  border-bottom-width: 0.5px;
   margin-top: 30px;
   padding: 10px;
 
@@ -136,4 +152,46 @@ export const ProviderLogo = styled.Image`
   border-radius: 8px;
   margin-left: 10px;
   margin-right: 10px;
+`
+
+export const FooterWrapper = styled.View`
+  padding: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const SaveButton = styled.TouchableOpacity`
+  padding: 15px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.COLORS.INPUT_COLOR};
+  width: 130px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`
+
+export const DeleteButton = styled.TouchableOpacity`
+  padding: 15px;
+  border-radius: 10px;
+  border: ${({ theme }) => `2px solid ${theme.COLORS.INPUT_COLOR}`};
+  background-color: transparent;
+  width: 130px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`
+
+export const ButtonLabel = styled.Text`
+  font-size: 15px;
+  font-weight: 400;
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
 `

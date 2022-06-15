@@ -24,7 +24,9 @@ export default function ScreenThemeProvider({ children }) {
   }, [])
 
   React.useEffect(() => {
-    AsyncStorage.setItem('screenTheme', screenTheme);
+    if (!_.isEmpty(screenTheme)) {
+      AsyncStorage.setItem('screenTheme', screenTheme);
+    }
   }, [screenTheme])
 
   function handleScreenTheme(value) {

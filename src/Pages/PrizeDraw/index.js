@@ -150,6 +150,10 @@ export default function() {
 
             <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
               <LinearGradient 
+                colors={[screenTheme === 'dark' ? '#000014' : '#fff', '#00000000' ]} 
+                style={{ flex: 1 }}
+              />
+              <LinearGradient 
                 colors={['#00000000', screenTheme === 'dark' ? '#000014' : '#fff']} 
                 style={{ flex: 1 }} 
               />

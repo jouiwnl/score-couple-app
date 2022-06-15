@@ -22,46 +22,30 @@ import createToast from '../../utils/createToast';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../../firebase';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useFocusEffect } from '@react-navigation/native';
 import Loading from '../../components/Loading';
 import { AuthContext } from '../../contexts/auth';
+import { StatusBar } from 'expo-status-bar';
+import { ScreenThemeContext } from '../../contexts/theme';
 
 export default function() {
+  const Route = useRoute();
+
+  const { screenTheme } = React.useContext(ScreenThemeContext)
+
   const navigate = useNavigation();
   const [isLogginIn, setIsLogginIn] = React.useState(false);
-  const [isHaveUserAuthenticated, setIsHaveUserAuthenticated] = React.useState(null);
   const [loginValues, setLoginValues] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState(null);
-  const [showLoginForm, setShowLoginForm] = React.useState(false);
 
   const { signIn } = useContext(AuthContext);
 
   setInterval(() => {
     setCurrentUser(auth.currentUser)
   }, 500)
-
-  React.useEffect(() => {
-    if (currentUser) {
-      setIsHaveUserAuthenticated(true)
-      setTimeout(() => {
-        navigate.navigate('Home')
-      }, 3000)
-    } else {
-      setIsHaveUserAuthenticated(false)
-      setTimeout(() => {
-        setShowLoginForm(true)
-      }, 1000)
-    }
-  }, [currentUser])
-
-  useFocusEffect(() => {
-    if (auth.currentUser) {
-      navigate.navigate('Home');
-    }
-  })
 
   function handleLogin() {
     setIsLogginIn(true);
@@ -85,14 +69,7 @@ export default function() {
       
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <Wrapper>
-            {isHaveUserAuthenticated && (
-              <>
-                <Loading size={"large"}   />
-                <Text style={{ color: '#fff' }}>Carregando...</Text>
-              </>
-            )}
-
-            {!isHaveUserAuthenticated && showLoginForm && (
+            
               <FormWrapper>
                 <Logo 
                   style={{ resizeMode: 'contain' }} 
@@ -147,10 +124,14 @@ export default function() {
                 </ActionButtons>
 
               </FormWrapper>
-            )}
+
           </Wrapper>
         </TouchableWithoutFeedback>
-      
+
+        <StatusBar style={
+          screenTheme === 'light' && Route.name === 'Login' ? 'light' : (screenTheme === 'dark' ? 'light' : 'dark')
+        } />
+        
     </GestureHandlerRootView>
   )
 }

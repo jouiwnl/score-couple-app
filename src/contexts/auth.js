@@ -4,16 +4,13 @@ import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { apiURL } from "../utils/api";
 
-import { StatusBar } from 'expo-status-bar';
-
 import _ from "lodash";
-import { ScreenThemeContext } from "./theme";
 
 export const AuthContext = React.createContext({});
 
 export default function AuthProvider({ children }) {
+
   const [user, setUser] = React.useState({});
-  const { screenTheme } = React.useContext(ScreenThemeContext)
 
   auth.onAuthStateChanged(() => {
     if (auth.currentUser) {
@@ -41,8 +38,6 @@ export default function AuthProvider({ children }) {
       setUser
     }}>
       {children}
-
-      <StatusBar style={'dark' === screenTheme ? "light" : "dark"} />
     </AuthContext.Provider>
   )
 }

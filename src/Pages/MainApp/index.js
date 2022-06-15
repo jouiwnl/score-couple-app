@@ -20,6 +20,7 @@ import GenericProvider, { GenericContext } from '../../contexts/generic';
 import NavigationProvider from '../../contexts/navigation';
 import { AuthContext } from '../../contexts/auth';
 import { ScreenThemeContext } from '../../contexts/theme';
+import { StatusBar } from 'expo-status-bar';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -229,6 +230,7 @@ export default function() {
             <AddMovieModal columnid={columnId} handleCloseModalAdd={handleCloseModalAdd}/>
         </Modalize>
       </GenericProvider>
+      <StatusBar style={screenTheme === 'dark' ? 'light' : 'dark'} />
     </NavigationProvider>
   );
 }
