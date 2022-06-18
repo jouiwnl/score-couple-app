@@ -5,6 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import AddMovieButton from '../AddMovieButton';
 import { GenericContext } from '../../contexts/generic';
 import { ScreenThemeContext } from '../../contexts/theme';
+import { apiURL } from '../../utils/api';
 
 export default function({ 
   row, 
@@ -35,7 +36,7 @@ export default function({
       </RowHeader>
       
       <RowItems>
-        {row.movies && row.movies.map(movie => (
+        {row.movies.length > 0 && row.movies.map(movie => (
           <MovieCard 
             openModalMovie={openModalMovie} 
             key={movie.id} 

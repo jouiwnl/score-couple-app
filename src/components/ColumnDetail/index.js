@@ -21,7 +21,7 @@ import { Alert } from 'react-native';
 
 export default function({ handleCloseColumn }) {
   const { column, setColumn } = React.useContext(GenericContext);
-  const { user } = React.useContext(AuthContext);
+  const { user, workspace } = React.useContext(AuthContext);
 
   const [isSaving, setIsSaving] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -30,20 +30,22 @@ export default function({ handleCloseColumn }) {
     setColumn({
       ...column, 
       title: value,
-      workspace: { id: user.workspace.id }
+      workspace: { id: workspace.id }
     });
   }
 
   async function save() {
     setIsSaving(true);
+    delete column.movies;
+    
     if (column.id) {
-      let promise = apiURL.put(`/columns/${column.id}`, column);
+      let promise = apiURL.put(`/colunas/${column.id}`, column);
       promise.then(() => {
         handleCloseColumn(column);
         return false;
       }).finally(setIsSaving);
     } else {
-      let promise = apiURL.post(`/columns`, column);
+      let promise = apiURL.post(`/colunas`, column);
       promise.then(() => {
         handleCloseColumn(column);
         return false;
@@ -60,7 +62,7 @@ export default function({ handleCloseColumn }) {
         {
           text: "Sim",
           onPress: () => {
-            let promise = apiURL.delete(`/columns/${column.id}`);
+            let promise = apiURL.delete(`/colunas/${column.id}`);
             promise.then(() => {
               handleCloseColumn(column);
               return false;

@@ -29,7 +29,7 @@ export default function({ handleCloseModalAdd, columnid }) {
 
   const navigate = React.useContext(NavigationContext);
   const { movie, setMovie } = React.useContext(GenericContext);
-  const { user } = React.useContext(AuthContext);
+  const { user, workspace } = React.useContext(AuthContext);
 
   const [isSaving, setIsSaving] = React.useState(false);
   const [hasMovie, setHasMovie] = React.useState(false);
@@ -39,7 +39,7 @@ export default function({ handleCloseModalAdd, columnid }) {
   React.useEffect(() => {
     setIsLoading(true)
     if (movie) {
-      hasAnyMovie(user.workspace.colunas);
+      hasAnyMovie(workspace.colunas);
         
       axios.get(`${API_BASE_MOVIE}${movie.id}?api_key=${API_KEY}&language=pt-BR`)
         .then(response => setMovie(response.data))
@@ -66,7 +66,7 @@ export default function({ handleCloseModalAdd, columnid }) {
   async function save() {
     setIsSaving(true);
     const movie = mountMovie();
-    let promise = apiURL.post(`/movies?columnid=${columnid}`, movie);
+    let promise = apiURL.post(`/movies/column/${columnid}`, movie);
     promise.then(() => {
       handleCloseModalAdd(movie);
       navigate.navigate('Workspace');

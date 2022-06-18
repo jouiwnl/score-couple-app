@@ -11,6 +11,7 @@ export const AuthContext = React.createContext({});
 export default function AuthProvider({ children }) {
 
   const [user, setUser] = React.useState({});
+  const [workspace, setWorkspace] = React.useState({});
 
   auth.onAuthStateChanged(() => {
     if (auth.currentUser) {
@@ -27,6 +28,11 @@ export default function AuthProvider({ children }) {
 
     apiURL.get(`/users/${email}`).then(response => {
       setUser(response.data);
+      return response.data;
+    }).then(user => {
+      apiURL.get(`/workspaces/user/${user.id}`).then(response => {
+        setWorkspace(response.data)
+      })
     })
   }
 
@@ -35,7 +41,8 @@ export default function AuthProvider({ children }) {
       signIn, 
       user, 
       getUser,
-      setUser
+      setUser,
+      workspace
     }}>
       {children}
     </AuthContext.Provider>

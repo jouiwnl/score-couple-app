@@ -20,7 +20,6 @@ import _ from 'lodash';
 
 import axios from 'axios'
 import { ScreenThemeContext } from '../../contexts/theme';
-import { TextInput } from 'react-native';
 
 export default function({ 
   openModalAddMovie,  

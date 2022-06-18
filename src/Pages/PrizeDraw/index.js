@@ -43,7 +43,7 @@ export default function() {
 
   const navigate = useNavigation();
   const { screenTheme } = React.useContext(ScreenThemeContext);
-  const {user, getUser} = React.useContext(AuthContext);
+  const {user, getUser, workspace} = React.useContext(AuthContext);
   const { movie, setMovie } = React.useContext(GenericContext);
 
   const movieRef = React.useRef(null)
@@ -77,7 +77,7 @@ export default function() {
       setIsLoading(true)
     }
     
-    apiURL.get(`/workspaces/${user.workspace.id}/shuffle`).then(response => {
+    apiURL.get(`/workspaces/${workspace.id}/shuffle`).then(response => {
 			setMovie(response.data)
       setThisStatus(status.find(e => e.value === response.data.status));
       return response.data;
@@ -238,7 +238,7 @@ export default function() {
           </>
         )}
 
-        {!movie.id && !isLoading && (
+        {!isLoading && !movie.id && (
           <NotFoundWrapper>
             <NotFoundDescription>Não foi encontrado nenhum filme apto para sortear!</NotFoundDescription>
           </NotFoundWrapper>

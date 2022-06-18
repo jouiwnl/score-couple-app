@@ -1,5 +1,4 @@
 import React from 'react'
-import ModalFooter from '../ModalMovieFooter';
 import Loading from '../Loading';
 
 import { status } from '../../utils/status';

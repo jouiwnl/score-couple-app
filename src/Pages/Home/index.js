@@ -19,9 +19,9 @@ export default function({
       <Container>
         <Header user={user}/>
 
-        {!user.workspace && (<Loading size={'large'} fullwidth={true} />)}
+        {!user && (<Loading size={'large'} fullwidth={true} />)}
 
-        {user.workspace && (
+        {user && (
           <WorkSpace 
             openModalMovie={openModalMovie} 
             openModalColumn={openModalColumn}
