@@ -84,7 +84,7 @@ export const MediaTypeButton = styled.TouchableOpacity`
 export const MediaTypeButtonLabel = styled.Text`
   justify-content: space-between;
   margin-right: 5px;
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.7;
   color: ${({ theme }) => {
     if (theme.screenTheme === 'dark') {

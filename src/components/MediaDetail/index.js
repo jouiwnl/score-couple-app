@@ -82,7 +82,7 @@ export default function({ handleCloseMedia }) {
   async function getProviders() {
     setIsLoading(true)
     if (media.originalId) {
-      let promise = axios.get(`${media.mediaType === 'media' ? API_BASE_MOVIE : API_BASE_SERIE}${media.originalId}/watch/providers?api_key=${API_KEY}`)
+      let promise = axios.get(`${media.mediaType === 'MOVIE' ? API_BASE_MOVIE : API_BASE_SERIE}${media.originalId}/watch/providers?api_key=${API_KEY}`)
       if (promise) {
         promise.then(response => {
           if (response.data.results.BR) {
