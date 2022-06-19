@@ -7,8 +7,10 @@ import Loading from '../../components/Loading';
 import { Container, Wrapper } from './styles'
 import { AuthContext } from '../../contexts/auth';
 
+import MediaProvider from '../../contexts/media'
+
 export default function({ 
-  openModalMovie, 
+  openModalMedia, 
   openModalColumn
 }) {
 
@@ -23,13 +25,12 @@ export default function({
 
         {user && (
           <WorkSpace 
-            openModalMovie={openModalMovie} 
+            openModalMedia={openModalMedia} 
             openModalColumn={openModalColumn}
           />
         )}
         
       </Container>
     </Wrapper>
-    
   )
 }

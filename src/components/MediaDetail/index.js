@@ -6,9 +6,9 @@ import { status } from '../../utils/status';
 import { 
   Wrapper, 
   Main, 
-  MovieTitle, 
-  MovieDescription,
-  MovieRating, 
+  MediaTitle, 
+  MediaDescription,
+  MediaRating, 
   ButtonStatusLabel, 
   SetStatusButtonWrapper, 
   SetStatusButton,
@@ -19,7 +19,7 @@ import {
   ModalItemDescription,
   ProvidersWrapper,
   ProviderLogo,
-  MovieImage,
+  MediaImage,
   ButtonLabel,
   DeleteButton,
   FooterWrapper,
@@ -28,55 +28,61 @@ import {
 
 import { Modalize } from 'react-native-modalize';
 import axios from 'axios';
-import { apiURL, API_BASE_MOVIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
+import { apiURL, API_BASE_MOVIE, API_BASE_SERIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../../utils/api';
 import { GenericContext } from '../../contexts/generic';
 import StarRating from 'react-native-star-rating-widget';
 import { ScreenThemeContext } from '../../contexts/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Alert } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { MediaContext } from '../../contexts/media';
 
-export default function({ handleCloseMovie }) {
-  const movieRef = React.useRef(null);
+export default function({ handleCloseMedia }) {
+  const mediaRef = React.useRef(null);
 
-  const { movie, setMovie } = React.useContext(GenericContext);
+  const { media, setMedia } = React.useContext(GenericContext);
   const { screenTheme } = React.useContext(ScreenThemeContext);
+  const { mediaType } = React.useContext(MediaContext);
 
   const [providers, setProviders] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
 
+  const [date, setDate] = React.useState(new Date())
+  const [open, setOpen] = React.useState(false)
+
   React.useEffect(() => {
     getProviders();
   }, [])
 
   function handleScore(value) {
-    if (value == movie.score) return;
-    setMovie({ ...movie, score: value })
+    if (value == media.score) return;
+    setMedia({ ...media, score: value })
   }
 
   function handleSelectStatus(item) {
-    setMovie({ ...movie, status: item.value });
+    setMedia({ ...media, status: item.value });
     handleCloseInsideModal();
   }
 
-  function openModalMovie() {
-    movieRef.current?.open();
+  function openModalMedia() {
+    mediaRef.current?.open();
   }
 
   function handleCloseInsideModal(item) {
-    movieRef.current?.close();
+    mediaRef.current?.close();
   }
 
   function defineStatus() {
-    const finalStatus = status.find(e => e.value === movie.status);
+    const finalStatus = status.find(e => e.value === media.status);
     return finalStatus;
   }
 
   async function getProviders() {
     setIsLoading(true)
-    if (movie.originalId) {
-      let promise = axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
+    if (media.originalId) {
+      let promise = axios.get(`${media.mediaType === 'media' ? API_BASE_MOVIE : API_BASE_SERIE}${media.originalId}/watch/providers?api_key=${API_KEY}`)
       if (promise) {
         promise.then(response => {
           if (response.data.results.BR) {
@@ -93,9 +99,9 @@ export default function({ handleCloseMovie }) {
   async function save() {
     setIsSaving(true);
 
-    let promise = apiURL.put(`/movies/${movie.id}`, movie);
+    let promise = apiURL.put(`/medias/${media.id}`, media);
     promise.then((response) => {
-      handleCloseMovie(movie);
+      handleCloseMedia(media);
       return false;
     }).finally(setIsSaving);
   }
@@ -105,14 +111,14 @@ export default function({ handleCloseMovie }) {
 
     Alert.alert(
       "Confirmação",
-      `Tem certeza que deseja excluir o filme ${movie.name}?`,
+      `Tem certeza que deseja excluir ${media.name}?`,
       [
         {
           text: "Sim",
           onPress: () => {
-            let promise = apiURL.delete(`/movies/${movie.id}`);
+            let promise = apiURL.delete(`/medias/${media.id}`);
             promise.then(() => {
-              handleCloseMovie(movie);
+              handleCloseMedia(media);
               return false;
             }).finally(setIsDeleting)
           }
@@ -128,21 +134,21 @@ export default function({ handleCloseMovie }) {
   return (
     <>
       <Wrapper>
-        <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
+        <MediaImage source={{ uri: `${API_IMAGE.concat(media.posterUrl)}` }}>
           <LinearGradient
             colors={['#00000000', screenTheme === 'dark' ? '#000014' : '#fff']} 
             style={{ flex: 1 }} 
           />
-        </MovieImage>
+        </MediaImage>
 
         <Main>
-          <MovieTitle>
-            {movie.name}
-          </MovieTitle>
+          <MediaTitle>
+            {media.name}
+          </MediaTitle>
 
-          <MovieDescription>
-            {movie.movieDescription}
-          </MovieDescription>
+          <MediaDescription>
+            {media.mediaDescription}
+          </MediaDescription>
 
           {isLoading && (
             <Loading size={'small'} />
@@ -160,17 +166,17 @@ export default function({ handleCloseMovie }) {
           )}
 
           <SetStatusButtonWrapper>
-            <SetStatusButton color={defineStatus().color} onPress={openModalMovie}>
+            <SetStatusButton color={defineStatus().color} onPress={openModalMedia}>
               <ButtonStatusLabel color={defineStatus().color}>
                 {defineStatus().description}
               </ButtonStatusLabel>
             </SetStatusButton>
           </SetStatusButtonWrapper>
           
-          {(movie.status == 'CANCELED' || movie.status == 'COMPLETED') && (
-            <MovieRating>
+          {(media.status == 'CANCELED' || media.status == 'COMPLETED') && (
+            <MediaRating>
               <StarRating
-                rating={!movie.score ? 0 : movie.score}
+                rating={!media.score ? 0 : media.score}
                 onChange={handleScore}
                 maxStars={5}
                 minRating={0.5} 
@@ -180,7 +186,7 @@ export default function({ handleCloseMovie }) {
                   delay: 0
                 }}
               />
-            </MovieRating>
+            </MediaRating>
           )}
          
         </Main>
@@ -214,7 +220,7 @@ export default function({ handleCloseMovie }) {
             backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff',
             flex: 0.7
           }}
-          ref={movieRef}
+          ref={mediaRef}
         >
           <ModalWrapper>
             <ModalStatusHeader>{defineStatus().description}</ModalStatusHeader>

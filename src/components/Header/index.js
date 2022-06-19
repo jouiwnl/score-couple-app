@@ -24,7 +24,7 @@ import _ from 'lodash';
 export default function() {
   const navigate = useNavigation();
   const { screenTheme } = React.useContext(ScreenThemeContext);
-  const { user, setUser } = React.useContext(AuthContext)
+  const { user, signOutNow } = React.useContext(AuthContext)
   
   const [isLogOut, setIsLogOut] = React.useState(false) 
 
@@ -32,14 +32,13 @@ export default function() {
     setIsLogOut(true)
 
     setTimeout(() => {
-      signOut(auth).then(() => {
-        setUser({});
+      signOutNow().then(() => {
         navigate.navigate('Login')
       }).catch(error => {
         createToast('error', 'Erro!', 'Houve um erro ao deslogar...')
       }).finally(() => {
         setIsLogOut(false)
-      })
+      });
     }, 750) 
   }
 

@@ -11,7 +11,7 @@ export const Wrapper = styled.ScrollView`
 
 const windowHeight = Dimensions.get('window').height;
 
-export const MovieImage = styled.ImageBackground`
+export const MediaImage = styled.ImageBackground`
   width: 100%;
   height: ${() => {
     if (windowHeight > 800) {
@@ -25,7 +25,7 @@ export const MovieImage = styled.ImageBackground`
   
 `
 
-export const MovieTitle = styled.Text`
+export const MediaTitle = styled.Text`
   color: ${({ theme }) => {
     if (theme.screenTheme === 'dark') {
       return theme.COLORS.FONT_COLOR_DARK
@@ -38,7 +38,7 @@ export const MovieTitle = styled.Text`
   text-align: center;
 `
 
-export const MovieDescription = styled.Text`
+export const MediaDescription = styled.Text`
   color: #464646;
   font-size: 12px;
   margin-top: 5px;
@@ -46,7 +46,7 @@ export const MovieDescription = styled.Text`
   text-align: center;
 `
 
-export const MovieRating = styled.View`
+export const MediaRating = styled.View`
   margin-top: 15px;
   width: ${() => {
     const windowWidth = Dimensions.get('screen').width;

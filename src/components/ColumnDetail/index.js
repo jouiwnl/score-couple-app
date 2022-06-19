@@ -36,7 +36,7 @@ export default function({ handleCloseColumn }) {
 
   async function save() {
     setIsSaving(true);
-    delete column.movies;
+    delete column.medias;
     
     if (column.id) {
       let promise = apiURL.put(`/colunas/${column.id}`, column);

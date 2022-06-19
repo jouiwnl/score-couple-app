@@ -63,7 +63,6 @@ export default function() {
 
   function isValidImage() {
     if (!formValues.avatarUrl) {
-      console.log('passou aqui')
       return;
     }
 

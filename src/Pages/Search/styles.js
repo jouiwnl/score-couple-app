@@ -68,12 +68,31 @@ export const Message = styled.Text`
   }};
 `
 
-export const ListMovies = styled.ScrollView.attrs(() => ({
+export const ListMedias = styled.ScrollView.attrs(() => ({
   contentContainerStyle: {
     alignItems: 'center',
   }
 }))`
   padding: 15px;
+`
+
+export const MediaTypeButton = styled.TouchableOpacity`
+  width: 80px;
+  padding: 10px;
+`
+
+export const MediaTypeButtonLabel = styled.Text`
+  justify-content: space-between;
+  margin-right: 5px;
+  font-size: 12px;
+  opacity: 0.7;
+  color: ${({ theme }) => {
+    if (theme.screenTheme === 'dark') {
+      return theme.COLORS.FONT_COLOR_DARK
+    }
+
+    return theme.COLORS.FONT_COLOR_LIGHT
+  }};
 `
 
 

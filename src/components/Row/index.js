@@ -1,15 +1,15 @@
 import React from 'react'
-import MovieCard from '../MovieCard'
+import MediaCard from '../MediaCard'
 import { RowItems, RowTitle, RowWrapper, RowHeader, RowButton } from './styles'
 import { Entypo } from '@expo/vector-icons'; 
-import AddMovieButton from '../AddMovieButton';
+import AddMediaButton from '../AddMediaButton';
 import { GenericContext } from '../../contexts/generic';
 import { ScreenThemeContext } from '../../contexts/theme';
 import { apiURL } from '../../utils/api';
 
 export default function({ 
   row, 
-  openModalMovie, 
+  openModalMedia, 
   openModalColumn
 }) {
 
@@ -36,14 +36,14 @@ export default function({
       </RowHeader>
       
       <RowItems>
-        {row.movies.length > 0 && row.movies.map(movie => (
-          <MovieCard 
-            openModalMovie={openModalMovie} 
-            key={movie.id} 
-            movie={movie} 
+        {row.medias.length > 0 && row.medias.map(media => (
+          <MediaCard 
+            openModalMedia={openModalMedia} 
+            key={media.id} 
+            media={media} 
           />
         ))}
-        <AddMovieButton columnId={row.id}/>
+        <AddMediaButton columnId={row.id}/>
       </RowItems>
     </RowWrapper>
   )

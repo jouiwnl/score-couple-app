@@ -20,7 +20,7 @@ export const Wrapper = styled.SafeAreaView`
   padding-top: ${statusBarHeight + 'px'};
 `;
 
-export const MovieImage = styled.ImageBackground`
+export const MediaImage = styled.ImageBackground`
   width: 100%;
   height: ${() => {
     if (windowHeight > 800) {
@@ -35,7 +35,7 @@ export const Main = styled.ScrollView`
   width: 100%;
   flex: 1;
 `
-export const MovieTitle = styled.Text`
+export const MediaTitle = styled.Text`
   font-size: 35px;
   font-weight: 600;
   color: ${({ theme }) => {
@@ -50,7 +50,7 @@ export const MovieTitle = styled.Text`
   padding-left: 10px;
   padding-right: 10px;
 `
-export const MovieDescription = styled.Text`
+export const MediaDescription = styled.Text`
   font-size: 12px;
   margin-right: 10px;
   margin-left: 10px;

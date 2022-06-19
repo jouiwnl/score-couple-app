@@ -1,7 +1,7 @@
 import React from "react";
 
 import { auth } from '../../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { apiURL } from "../utils/api";
 
 import _ from "lodash";
@@ -36,13 +36,22 @@ export default function AuthProvider({ children }) {
     })
   }
 
+  async function signOutNow() {
+    return signOut(auth).then(() => {
+      setUser({});
+      setWorkspace({});
+    })
+  }
+
   return (
     <AuthContext.Provider value={{ 
       signIn, 
+      signOutNow,
       user, 
       getUser,
       setUser,
-      workspace
+      workspace,
+      setWorkspace
     }}>
       {children}
     </AuthContext.Provider>

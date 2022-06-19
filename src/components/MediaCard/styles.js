@@ -1,10 +1,10 @@
 import styled from 'styled-components/native'
 
-export const MovieWrapper = styled.TouchableOpacity`
+export const MediaWrapper = styled.TouchableOpacity`
   margin-right: 15px;
 `
 
-export const MovieTitle = styled.Text`
+export const MediaTitle = styled.Text`
   font-size: 13px;
   color: ${({ theme }) => {
     if (theme.screenTheme === 'dark') {
@@ -18,18 +18,18 @@ export const MovieTitle = styled.Text`
   max-width: 100px;
 `
 
-export const MovieImage = styled.Image`
+export const MediaImage = styled.Image`
   width: 98px;
   height: 148px;
 `
 
-export const MovieRating = styled.View`
+export const MediaRating = styled.View`
   margin-top: 10px;
   max-width: 100px;
   margin-left: -3px;
 `
 
-export const MovieStatus = styled.View`
+export const MediaStatus = styled.View`
   width: 98px;
   height: 5px;
 

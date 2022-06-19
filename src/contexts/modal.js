@@ -4,9 +4,9 @@ export const ModalContext = React.createContext({});
 
 export default function ModalProvider({ children }) {
 
-  const movieRef = React.useRef(null);
+  const mediaRef = React.useRef(null);
   const columnRef = React.useRef(null);
-  const movieToAddRef = React.useRef(null);
+  const mediaToAddRef = React.useRef(null);
 
   function openModal(ref) {
     ref.current?.open();
@@ -20,9 +20,9 @@ export default function ModalProvider({ children }) {
     <ModalContext.Provider value={{ 
       openModal, 
       closeModal ,
-      movieRef,
+      mediaRef,
       columnRef,
-      movieToAddRef
+      mediaToAddRef
     }}>
       {children}
     </ModalContext.Provider>

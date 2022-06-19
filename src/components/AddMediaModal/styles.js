@@ -18,7 +18,7 @@ export const ModalHeader = styled.Text`
 
   text-align: center;
 `
-export const MovieInformation = styled.ScrollView`
+export const MediaInformation = styled.ScrollView`
 
 `
 export const Footer = styled.View`
@@ -29,7 +29,7 @@ export const Footer = styled.View`
   margin-top: 40px;
 `
 
-export const MovieDescription = styled.Text`
+export const MediaDescription = styled.Text`
   font-size: 14px;
   color: #464646;
   font-weight: 300;
@@ -74,14 +74,14 @@ export const ButtonLabel = styled.Text`
   text-align: center;
 `
 
-export const MovieExistIndicatorWrapper = styled.View`
+export const MediaExistIndicatorWrapper = styled.View`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
-export const MovieExistIndicator = styled.View`
+export const MediaExistIndicator = styled.View`
   margin-top: 20px;
   border: 1px solid #464646;
   border-radius: 10px;
@@ -93,7 +93,7 @@ export const MovieExistIndicator = styled.View`
   align-items: center;
 `
 
-export const MovieExistIndicatorLabel = styled.Text`
+export const MediaExistIndicatorLabel = styled.Text`
   color: #464646;
   font-size: 10px;
   padding: 2px;

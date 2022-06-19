@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-export const MovieCardWrapper = styled.TouchableOpacity`
+export const MediaCardWrapper = styled.TouchableOpacity`
   width: 270px;
   height: 390px;
 
@@ -9,7 +9,7 @@ export const MovieCardWrapper = styled.TouchableOpacity`
   flex: 1;
 `
 
-export const MovieImage = styled.Image`
+export const MediaImage = styled.Image`
   width: 270px;
   height: 390px;
 `

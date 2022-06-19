@@ -2,10 +2,10 @@ import React from 'react'
 
 import { 
   Wrapper, 
-  MovieImage, 
+  MediaImage, 
   Main, 
-  MovieTitle, 
-  MovieDescription,
+  MediaTitle, 
+  MediaDescription,
   SaveButton, 
   ButtonLabel, 
   CancelButton, 
@@ -33,20 +33,22 @@ import { Modalize } from 'react-native-modalize'
 
 import { useNavigation } from '@react-navigation/native'
 
-import { apiURL, API_BASE_MOVIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../../utils/api' 
+import { apiURL, API_BASE_MOVIE, API_BASE_SERIE, API_IMAGE, API_KEY, API_LOGO_IMAGE } from '../../utils/api' 
 import { AuthContext } from '../../contexts/auth'
 import { GenericContext } from '../../contexts/generic'
 import axios from 'axios'
 import { ScreenThemeContext } from '../../contexts/theme'
+import MediaProvider, { MediaContext } from '../../contexts/media'
 
 export default function() {
 
   const navigate = useNavigation();
   const { screenTheme } = React.useContext(ScreenThemeContext);
   const {user, getUser, workspace} = React.useContext(AuthContext);
-  const { movie, setMovie } = React.useContext(GenericContext);
+  const { media, setMedia } = React.useContext(GenericContext);
+  const { mediaType } = React.useContext(MediaContext);
 
-  const movieRef = React.useRef(null)
+  const mediaRef = React.useRef(null)
   const explosionRef = React.useRef(null)
 
   const [isLoading, setIsLoading] = React.useState(false)
@@ -62,7 +64,7 @@ export default function() {
 
   async function save() {
     setIsSaving(true);
-    let promise = apiURL.put(`/movies/${movie.id}`, movie);
+    let promise = apiURL.put(`/medias/${media.id}`, media);
     promise.then((response) => {
       navigate.navigate('Workspace');
       getUser(user.email, true)
@@ -71,6 +73,7 @@ export default function() {
   }
 
   async function load(tryAgain) {
+    setMedia({})
     if (tryAgain) {
       setIsLoadingButton(true)
     } else {
@@ -78,12 +81,14 @@ export default function() {
     }
     
     apiURL.get(`/workspaces/${workspace.id}/shuffle`).then(response => {
-			setMovie(response.data)
+			setMedia(response.data)
       setThisStatus(status.find(e => e.value === response.data.status));
       return response.data;
-		}).then((movie) => {
-      getProviders(movie);
+		}).then((media) => {
+      getProviders(media);
       return false;
+    }).catch(error => {
+      console.log(error.response.data)
     }).finally((value) => {
       if (tryAgain) {
         setIsLoadingButton(value)
@@ -93,9 +98,9 @@ export default function() {
     });
   }
 
-  async function getProviders(movie) {
-    if (movie.originalId) {
-      let promise = axios.get(`${API_BASE_MOVIE}${movie.originalId}/watch/providers?api_key=${API_KEY}`)
+  async function getProviders(media) {
+    if (media.originalId) {
+      let promise = axios.get(`${media.mediaType === 'movies' ? API_BASE_MOVIE : API_BASE_SERIE}${media.originalId}/watch/providers?api_key=${API_KEY}`)
       if (promise) {
         promise.then(response => {
           if (response.data.results.BR) {
@@ -107,17 +112,17 @@ export default function() {
   }
 
   function handleSelectStatus(item) {
-    setMovie({ ...movie, status: item.value });
+    setMedia({ ...media, status: item.value });
     setThisStatus(item);
     handleCloseInsideModal();
   }
 
-  function openModalMovie() {
-    movieRef.current?.open();
+  function openModalMedia() {
+    mediaRef.current?.open();
   }
 
   function handleCloseInsideModal() {
-    movieRef.current?.close();
+    mediaRef.current?.close();
   }
 
   function stopExplosion() {
@@ -127,124 +132,122 @@ export default function() {
   }
 
   return(
-    <>
-      <Wrapper>
-        {isLoading && (
-          <Loading size={'large'} fullwidth={true} />
-        )}
+    <Wrapper>
+      {isLoading && (
+        <Loading size={'large'} fullwidth={true} />
+      )}
 
-        {movie.id && !isLoading && (
-          <>
-            {showConffeti && (
-              <ConfettiCannon
-                count={200}
-                origin={{x: -20, y: -10}}
-                autoStart={true}
-                fadeOut={true}
-                explosionSpeed={750}
-                ref={explosionRef}
-                onAnimationEnd={stopExplosion}
-              />
+      {media.id && !isLoading && (
+        <>
+          {showConffeti && (
+            <ConfettiCannon
+              count={200}
+              origin={{x: -20, y: -10}}
+              autoStart={true}
+              fadeOut={true}
+              explosionSpeed={750}
+              ref={explosionRef}
+              onAnimationEnd={stopExplosion}
+            />
+          )}
+          
+
+          <MediaImage source={{ uri: `${API_IMAGE.concat(media.posterUrl)}` }}>
+            <LinearGradient 
+              colors={[screenTheme === 'dark' ? '#000014' : '#fff', '#00000000' ]} 
+              style={{ flex: 1 }}
+            />
+            <LinearGradient 
+              colors={['#00000000', screenTheme === 'dark' ? '#000014' : '#fff']} 
+              style={{ flex: 1 }} 
+            />
+          </MediaImage>
+
+          <MediaTitle numberOfLines={2}>
+            {media.name}
+          </MediaTitle>
+
+          <Main>
+            <MediaDescription>
+              {media.mediaDescription}
+            </MediaDescription>
+
+            {providers && (
+              <ProvidersWrapper>
+                {providers.map(provider => (
+                  <ProviderLogo 
+                    key={String(Math.random())} 
+                    source={{ uri: `${API_LOGO_IMAGE}${provider.logo_path}` }} 
+                  />
+                ))}
+              </ProvidersWrapper>
             )}
             
+            <SetStatusButtonWrapper>
+              <SetStatusButton color={String(thisStatus.color)} onPress={openModalMedia}>
+                <StatusLabel color={String(thisStatus.color)}>
+                  {thisStatus.description}
+                </StatusLabel>
+              </SetStatusButton>
+            </SetStatusButtonWrapper>
+            
+          </Main>
 
-            <MovieImage source={{ uri: `${API_IMAGE.concat(movie.posterUrl)}` }}>
-              <LinearGradient 
-                colors={[screenTheme === 'dark' ? '#000014' : '#fff', '#00000000' ]} 
-                style={{ flex: 1 }}
-              />
-              <LinearGradient 
-                colors={['#00000000', screenTheme === 'dark' ? '#000014' : '#fff']} 
-                style={{ flex: 1 }} 
-              />
-            </MovieImage>
-
-            <MovieTitle numberOfLines={2}>
-              {movie.name}
-            </MovieTitle>
-
-            <Main>
-              <MovieDescription>
-                {movie.movieDescription}
-              </MovieDescription>
-
-              {providers && (
-                <ProvidersWrapper>
-                  {providers.map(provider => (
-                    <ProviderLogo 
-                      key={String(Math.random())} 
-                      source={{ uri: `${API_LOGO_IMAGE}${provider.logo_path}` }} 
-                    />
-                  ))}
-                </ProvidersWrapper>
+          <Footer>
+            <SaveButton onPress={save}>
+              {isSaving && (
+                <Loading size={"small"}   />
               )}
-              
-              <SetStatusButtonWrapper>
-                <SetStatusButton color={String(thisStatus.color)} onPress={openModalMovie}>
-                  <StatusLabel color={String(thisStatus.color)}>
-                    {thisStatus.description}
-                  </StatusLabel>
-                </SetStatusButton>
-              </SetStatusButtonWrapper>
-              
-            </Main>
 
-            <Footer>
-              <SaveButton onPress={save}>
-                {isSaving && (
-                  <Loading size={"small"}   />
-                )}
+              {!isSaving && (
+                <ButtonLabel>Salvar</ButtonLabel>
+              )}
+            </SaveButton>
+            
+            <CancelButton onPress={() => load(true)}>
+              {isLoadingButton && (
+                <Loading size={"small"} />
+              )}
 
-                {!isSaving && (
-                  <ButtonLabel>Salvar</ButtonLabel>
-                )}
-              </SaveButton>
-              
-              <CancelButton onPress={() => load(true)}>
-                {isLoadingButton && (
-                  <Loading size={"small"} />
-                )}
+              {!isLoadingButton && (
+                <ButtonLabel>Tente novamente!</ButtonLabel>
+              )}
+            </CancelButton>
+          </Footer>
 
-                {!isLoadingButton && (
-                  <ButtonLabel>Tente novamente!</ButtonLabel>
-                )}
-              </CancelButton>
-            </Footer>
+          <Modalize 
+            snapPoint={400} 
+            modalStyle={{ 
+              backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff', flex: 1 
+            }}
+            ref={mediaRef}
+          >
+            <ModalWrapper>
+            <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
+            {status.map((item) => (
+              <ModalItemWrapper 
+                onPress={() => 
+                handleSelectStatus(item)} 
+                key={String(Math.random())}
+              >
+                <ModalItemIcon>
+                  <item.icon />
+                </ModalItemIcon>
+                
+                <ModalItemDescription>{item.description}</ModalItemDescription>
+              </ModalItemWrapper>
+            ))}
+            </ModalWrapper>
+          </Modalize>
+        </>
+      )}
 
-            <Modalize 
-              snapPoint={400} 
-              modalStyle={{ 
-                backgroundColor: screenTheme === 'dark' ? '#000014' : '#fff', flex: 1 
-              }}
-              ref={movieRef}
-            >
-              <ModalWrapper>
-              <ModalStatusHeader>{thisStatus.description}</ModalStatusHeader>
-              {status.map((item) => (
-                <ModalItemWrapper 
-                  onPress={() => 
-                  handleSelectStatus(item)} 
-                  key={String(Math.random())}
-                >
-                  <ModalItemIcon>
-                    <item.icon />
-                  </ModalItemIcon>
-                  
-                  <ModalItemDescription>{item.description}</ModalItemDescription>
-                </ModalItemWrapper>
-              ))}
-              </ModalWrapper>
-            </Modalize>
-          </>
-        )}
+      {!isLoading && !media.id && (
+        <NotFoundWrapper>
+          <NotFoundDescription>Não foi encontrado nenhum filme apto para sortear!</NotFoundDescription>
+        </NotFoundWrapper>
+      )}
 
-        {!isLoading && !movie.id && (
-          <NotFoundWrapper>
-            <NotFoundDescription>Não foi encontrado nenhum filme apto para sortear!</NotFoundDescription>
-          </NotFoundWrapper>
-        )}
-
-      </Wrapper>
-    </>
+    </Wrapper>
   )
 }

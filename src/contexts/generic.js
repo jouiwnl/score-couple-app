@@ -4,14 +4,14 @@ export const GenericContext = React.createContext({});
 
 export default function GenericProvider({ children }) {
 
-  const [movie, setMovie] = React.useState({});  
+  const [media, setMedia] = React.useState({});  
   const [column, setColumn] = React.useState(null);
 
   return (
     <GenericContext.Provider value={{ 
-      setMovie,
+      setMedia,
       setColumn,
-      movie,
+      media,
       column,
     }}>
       {children}

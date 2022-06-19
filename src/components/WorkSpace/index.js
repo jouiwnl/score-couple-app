@@ -17,11 +17,11 @@ import { apiURL } from '../../utils/api'
 import Loading from '../Loading'
 
 export default function({ 
-  openModalMovie, 
+  openModalMedia, 
   openModalColumn
 }) {
 
-  const { user, getUser } = React.useContext(AuthContext);
+  const { user, getUser, workspace } = React.useContext(AuthContext);
   const { screenTheme } = React.useContext(ScreenThemeContext);
   const { setColumn } = React.useContext(GenericContext);
 
@@ -58,12 +58,16 @@ export default function({
     openModalColumn();
   }
 
+  function keyExtractor(item) {
+    return item.id;
+  }
+
   return (
     <WorkSpaceWrapper>
 
-      {!sections.length > 0 && (<Loading size={'large'} fullwidth={true} />)}
+      {!sections.length > 0 && !workspace.id && (<Loading size={'large'} fullwidth={true} />)}
 
-      {sections.length > 0 && (
+      {sections.length > 0 && workspace.id && (
         <>
           <HeaderWrapper>
             <WorkSpaceTitle>{user.username}'s WorkSpace</WorkSpaceTitle>
@@ -77,13 +81,13 @@ export default function({
             data={sections}
             renderItem={(row) => (
               <Row 
-                openModalMovie={openModalMovie} 
+                openModalMedia={openModalMedia} 
                 openModalColumn={openModalColumn}
                 row={row.item} 
                 key={row.item.id}
               />
             )}
-            keyExtractor={() => String(Math.random())}
+            keyExtractor={keyExtractor}
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}

@@ -20,10 +20,8 @@ export default function App() {
   const [user, setUser] = React.useState({email: ""});
   const [stateChaged, setStateChanged] = React.useState(false);
 
-  SplashScreen.preventAutoHideAsync()
-  .then(result => console.log(`${user.email}`))
-  .catch(console.warn);
-
+  SplashScreen.preventAutoHideAsync();
+  
   React.useEffect(() => {
     auth.onAuthStateChanged((response) => {
       setStateChanged(true);
