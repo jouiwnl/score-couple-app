@@ -87,7 +87,7 @@ export default function({ handleCloseModalAdd, columnid }) {
       runtime: media.runtime,
       genre: (media.genres.length ? media.genres[0].name : ''),
       mediaDescription: media.overview,
-      mediaType: mediaType === 'serie' ? 'SERIE' : 'MOVIE'
+      mediaType: mediaType === 'Series' ? 'SERIE' : 'MOVIE'
     }
 
     return finalMedia;

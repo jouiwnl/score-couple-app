@@ -12,8 +12,6 @@ import {
 } from './styles'
 import { Entypo } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
-import { signOut } from 'firebase/auth'
-import { auth } from '../../../firebase';
 import createToast from '../../utils/createToast';
 import Loading from '../Loading';
 import { AuthContext } from '../../contexts/auth'; 
@@ -46,10 +44,10 @@ export default function() {
     <Container>
       <UserInfo>
         <Avatar onPress={() => navigate.navigate('Configs')}>
-          <AvatarImage source={{ uri: user.avatarUrl }} />
+          <AvatarImage source={{ uri: user?.avatarUrl }} />
           <OnlineStatus />
         </Avatar>
-        <Username>{ user.username }</Username>
+        <Username>{ user?.username }</Username>
       </UserInfo>
       
       <RightSide>

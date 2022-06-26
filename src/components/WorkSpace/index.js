@@ -26,6 +26,7 @@ export default function({
   const { setColumn } = React.useContext(GenericContext);
 
   const [isRefreshing, setIsRefreshing] = React.useState(false)  
+  const [isLoading, setIsLoading] = React.useState(false);
   const [sections, setSections] = React.useState([]);
 
   React.useEffect(() => {
@@ -43,6 +44,7 @@ export default function({
   }
 
   function getData() {
+    setIsLoading(true);
     apiURL.get(`/workspaces/user/${user.id}`).then(response => {
       return response.data;
     }).then(workspace => {
@@ -50,6 +52,8 @@ export default function({
         setSections(response.data);
         return response.data;
       });
+    }).finally(() => {
+      setIsLoading(false);
     })
   }
 
@@ -65,9 +69,9 @@ export default function({
   return (
     <WorkSpaceWrapper>
 
-      {!sections.length > 0 && !workspace.id && (<Loading size={'large'} fullwidth={true} />)}
+      {!sections.length > 0 && (<Loading size={'large'} fullwidth={true} />)}
 
-      {sections.length > 0 && workspace.id && (
+      {sections.length > 0 && (
         <>
           <HeaderWrapper>
             <WorkSpaceTitle>{user.username}'s WorkSpace</WorkSpaceTitle>

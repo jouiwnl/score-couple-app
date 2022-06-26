@@ -38,8 +38,8 @@ export default function AuthProvider({ children }) {
 
   async function signOutNow() {
     return signOut(auth).then(() => {
-      setUser({});
-      setWorkspace({});
+      setUser(null);
+      setWorkspace(null);
     })
   }
 

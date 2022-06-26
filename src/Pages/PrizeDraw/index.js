@@ -73,7 +73,6 @@ export default function() {
   }
 
   async function load(tryAgain) {
-    setMedia({})
     if (tryAgain) {
       setIsLoadingButton(true)
     } else {
@@ -100,7 +99,7 @@ export default function() {
 
   async function getProviders(media) {
     if (media.originalId) {
-      let promise = axios.get(`${media.mediaType === 'movies' ? API_BASE_MOVIE : API_BASE_SERIE}${media.originalId}/watch/providers?api_key=${API_KEY}`)
+      let promise = axios.get(`${media.mediaType === 'MOVIE' ? API_BASE_MOVIE : API_BASE_SERIE}${media.originalId}/watch/providers?api_key=${API_KEY}`)
       if (promise) {
         promise.then(response => {
           if (response.data.results.BR) {
@@ -242,7 +241,7 @@ export default function() {
         </>
       )}
 
-      {!isLoading && !media.id && (
+      {!isLoading && !isLoadingButton && !media.id && (
         <NotFoundWrapper>
           <NotFoundDescription>Não foi encontrado nenhum filme apto para sortear!</NotFoundDescription>
         </NotFoundWrapper>
